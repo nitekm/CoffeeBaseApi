@@ -5,7 +5,6 @@ import coffeebase.api.coffeegroup.CoffeeGroup;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
