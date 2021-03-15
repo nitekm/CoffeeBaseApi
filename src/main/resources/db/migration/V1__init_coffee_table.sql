@@ -3,11 +3,11 @@ create table COFFEES
 (
 
     id         int primary key auto_increment not null,
-    name       varchar                        not null,
-    origin     varchar,
-    roaster    varchar,
+    name       varchar(255)                        not null,
+    origin     varchar(255),
+    roaster    varchar(255),
     rating     int,
-    imageUrl   varchar,
+    imageUrl   varchar(255),
     favourite  bit,
     created_on datetime                       not null,
     updated_on datetime

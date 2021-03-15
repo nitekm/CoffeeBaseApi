@@ -1,9 +1,12 @@
 package coffeebase.api.coffee;
 
 import coffeebase.api.audit.Audit;
+import coffeebase.api.coffeegroup.CoffeeGroup;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "coffees")
@@ -15,9 +18,16 @@ public class Coffee {
     private String name;
     private String origin;
     private String roaster;
-    private String rating;
+    private int rating;
     private String imageUrl;
     private boolean favourite;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "coffee_coffee_group",
+            joinColumns = { @JoinColumn(name = "coffee_id") },
+            inverseJoinColumns = { @JoinColumn(name = "coffee_group_id") }
+    )
+    private Set<CoffeeGroup> coffeeGroups;
     @Embedded
     Audit audit = new Audit();
 
@@ -56,11 +66,11 @@ public class Coffee {
         this.roaster = roaster;
     }
 
-    public String getRating() {
+    public int getRating() {
         return rating;
     }
 
-    void setRating(final String rating) {
+    void setRating(final int rating) {
         this.rating = rating;
     }
 
@@ -87,5 +97,13 @@ public class Coffee {
         rating = updatedCoffee.rating;
         imageUrl = updatedCoffee.imageUrl;
         favourite = updatedCoffee.favourite;
+    }
+
+    Set<CoffeeGroup> getCoffeeGroups() {
+        return coffeeGroups;
+    }
+
+    void setCoffeeGroups(final Set<CoffeeGroup> coffeeGroups) {
+        this.coffeeGroups = coffeeGroups;
     }
 }

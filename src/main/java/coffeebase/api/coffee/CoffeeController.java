@@ -64,4 +64,11 @@ public class CoffeeController {
         service.switchFavourite(id);
         return ResponseEntity.noContent().build();
     }
+
+    @Transactional
+    @PatchMapping("/{id}/{groupName}")
+    ResponseEntity<?> addToGroup(@PathVariable int id, @PathVariable String groupName) {
+        service.addToGroup(id, groupName);
+        return ResponseEntity.noContent().build();
+    }
 }
