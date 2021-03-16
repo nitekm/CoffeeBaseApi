@@ -33,6 +33,14 @@ public class Coffee {
     public Coffee() {
     }
 
+    Coffee(final String name, final String origin, final String roaster, final int rating, final String imageUrl) {
+        this.name = name;
+        this.origin = origin;
+        this.roaster = roaster;
+        this.rating = rating;
+        this.imageUrl = imageUrl;
+    }
+
     public int getId() {
         return id;
     }
@@ -89,20 +97,19 @@ public class Coffee {
         this.favourite = favourite;
     }
 
-    public void updateCoffee(Coffee updatedCoffee) {
-        name = updatedCoffee.name;
-        origin = updatedCoffee.origin;
-        roaster = updatedCoffee.roaster;
-        rating = updatedCoffee.rating;
-        imageUrl = updatedCoffee.imageUrl;
-        favourite = updatedCoffee.favourite;
-    }
-
     Set<CoffeeGroup> getCoffeeGroups() {
         return coffeeGroups;
     }
 
     void setCoffeeGroups(final Set<CoffeeGroup> coffeeGroups) {
         this.coffeeGroups = coffeeGroups;
+    }
+
+    public void updateCoffee(CoffeeDTO updatedCoffee) {
+        name = updatedCoffee.getName();
+        origin = updatedCoffee.getOrigin();
+        roaster = updatedCoffee.getRoaster();
+        rating = updatedCoffee.getRating();
+        imageUrl = updatedCoffee.getImageUrl();
     }
 }
