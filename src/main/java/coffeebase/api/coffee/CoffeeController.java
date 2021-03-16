@@ -21,31 +21,27 @@ public class CoffeeController {
     }
 
     @GetMapping
-    ResponseEntity<List<Coffee>> getAllCoffees() {
-        return ResponseEntity.ok(repository.findAll());
+    ResponseEntity<List<CoffeeDTO>> getAllCoffees() {
+        return ResponseEntity.ok(service.getAllCoffees());
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Coffee> getCoffee(@PathVariable int id) {
-        return repository.findById(id).map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    ResponseEntity<CoffeeDTO> getCoffeeById(@PathVariable int id) {
+        return ResponseEntity.ok(service.getCoffeeById(id));
     }
 
     @PostMapping
-    ResponseEntity<Coffee> addCoffee(@RequestBody @Valid Coffee coffee) {
-        var result = repository.save(coffee);
-        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
+    ResponseEntity<CoffeeDTO> addCoffee(@RequestBody @Valid CoffeeDTO coffee) {
+        var result = service.addCoffee(coffee);
+        return ResponseEntity.created(URI.create("/")).body(result);
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<?> updateCoffee(@PathVariable int id, @RequestBody @Valid Coffee toUpdate) {
+    ResponseEntity<?> updateCoffee(@PathVariable int id, @RequestBody @Valid CoffeeDTO toUpdate) {
         if (!repository.existsById(id)) {
             ResponseEntity.notFound().build();
         }
-        repository.findById(id).ifPresent(coffee -> {
-            coffee.updateCoffee(toUpdate);
-            repository.save(coffee);
-        });
+        service.updateCoffee(id, toUpdate);
         return ResponseEntity.noContent().build();
     }
 

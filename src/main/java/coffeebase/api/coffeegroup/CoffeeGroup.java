@@ -1,5 +1,6 @@
 package coffeebase.api.coffeegroup;
 
+import coffeebase.api.audit.Audit;
 import coffeebase.api.coffee.Coffee;
 
 import javax.persistence.*;
@@ -17,12 +18,19 @@ public class CoffeeGroup {
     private GroupType groupType;
     @ManyToMany(mappedBy = "coffeeGroups")
     private Set<Coffee> coffees;
+    @Embedded
+    Audit audit = new Audit();
 
     public enum GroupType {
         METHOD, ORIGIN, ROASTER
     }
 
     public CoffeeGroup() {
+    }
+
+    CoffeeGroup(final String name, final GroupType groupType) {
+        this.name = name;
+        this.groupType = groupType;
     }
 
     public int getId() {
