@@ -11,25 +11,35 @@ import java.util.List;
 @RequestMapping("/groups")
 public class CoffeeGroupController {
     private CoffeeGroupRepository repository;
+    private CoffeeGroupService service;
 
-    CoffeeGroupController(final CoffeeGroupRepository repository) {
+    CoffeeGroupController(final CoffeeGroupRepository repository, final CoffeeGroupService service) {
         this.repository = repository;
+        this.service = service;
     }
 
     @GetMapping
-    ResponseEntity<List<CoffeeGroup>> findAllGroups() {
-        return ResponseEntity.ok(repository.findAll());
+    ResponseEntity<List<CoffeeGroupDTO>> findAllGroups() {
+        return ResponseEntity.ok(service.getAllCoffeeGroups());
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<CoffeeGroup> findById(@PathVariable int id) {
-        return repository.findById(id).map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    ResponseEntity<CoffeeGroupDTO> findById(@PathVariable int id) {
+        return ResponseEntity.ok(service.getCoffeeGroupById(id));
     }
 
     @PostMapping
-    ResponseEntity<CoffeeGroup> createCoffeeGroup(@RequestBody @Valid CoffeeGroup coffeeGroup) {
-        var result = repository.save(coffeeGroup);
-        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
+    ResponseEntity<CoffeeGroupDTO> createCoffeeGroup(@RequestBody @Valid CoffeeGroupDTO coffeeGroup) {
+        var result = service.addCoffeeGroup(coffeeGroup);
+        return ResponseEntity.created(URI.create("/")).body(result);
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<Void> deleteCoffeeGroup(@PathVariable int id) {
+        if (!repository.existsById(id)) {
+            ResponseEntity.notFound().build();
+        }
+        repository.findById(id).ifPresent(group -> repository.deleteById(id));
+        return ResponseEntity.noContent().build();
     }
 }
