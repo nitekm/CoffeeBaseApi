@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "coffee.oneType.allowMultipleGroups",
+      "type": "java.lang.String",
+      "description": "Description for coffee.oneType.allowMultipleGroups."
+    }
+  ] }

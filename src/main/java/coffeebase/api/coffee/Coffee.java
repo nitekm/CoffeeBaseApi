@@ -20,7 +20,7 @@ public class Coffee {
     private int rating;
     private String imageUrl;
     private boolean favourite;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "coffee_coffee_group",
             joinColumns = { @JoinColumn(name = "coffee_id") },

@@ -26,6 +26,16 @@ public class CoffeeGroupService {
                 .orElseThrow(() -> new IllegalArgumentException("Coffee Group with given id not found"));
     }
 
+    void deleteCoffeeGroup(int id) {
+        groupRepository.findById(id)
+                .ifPresent(group -> {
+                    if(!group.getCoffees().isEmpty()) {
+                        throw new IllegalStateException("Coffee group is not empty");
+            }
+            groupRepository.deleteById(id);
+        });
+    }
+
     CoffeeGroupDTO addCoffeeGroup(CoffeeGroupDTO source) {
         var result = groupRepository.save(source.toGroup());
         return new CoffeeGroupDTO(result);

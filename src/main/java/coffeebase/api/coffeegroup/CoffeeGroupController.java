@@ -19,17 +19,17 @@ public class CoffeeGroupController {
     }
 
     @GetMapping
-    ResponseEntity<List<CoffeeGroupDTO>> findAllGroups() {
+    ResponseEntity<List<CoffeeGroupDTO>> getAllCoffeeGroups() {
         return ResponseEntity.ok(service.getAllCoffeeGroups());
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<CoffeeGroupDTO> findById(@PathVariable int id) {
+    ResponseEntity<CoffeeGroupDTO> getCoffeeGroupById(@PathVariable int id) {
         return ResponseEntity.ok(service.getCoffeeGroupById(id));
     }
 
     @PostMapping
-    ResponseEntity<CoffeeGroupDTO> createCoffeeGroup(@RequestBody @Valid CoffeeGroupDTO coffeeGroup) {
+    ResponseEntity<CoffeeGroupDTO> addCoffeeGroup(@RequestBody @Valid CoffeeGroupDTO coffeeGroup) {
         var result = service.addCoffeeGroup(coffeeGroup);
         return ResponseEntity.created(URI.create("/")).body(result);
     }
@@ -39,7 +39,7 @@ public class CoffeeGroupController {
         if (!repository.existsById(id)) {
             ResponseEntity.notFound().build();
         }
-        repository.findById(id).ifPresent(group -> repository.deleteById(id));
+        service.deleteCoffeeGroup(id);
         return ResponseEntity.noContent().build();
     }
 }

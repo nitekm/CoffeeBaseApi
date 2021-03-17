@@ -1,5 +1,6 @@
 package coffeebase.api.coffee;
 
+import coffeebase.api.coffeegroup.CoffeeGroup;
 import coffeebase.api.coffeegroup.CoffeeGroupRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,6 @@ public class CoffeeService {
         this.coffeeRepository = coffeeRepository;
         this.groupRepository = groupRepository;
     }
-
-    //TODO: add allowmultiplecoffestogroupofsametype property
 
     List<CoffeeDTO> getAllCoffees() {
         return coffeeRepository.findAll()
@@ -49,8 +48,30 @@ public class CoffeeService {
                     .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
             var coffeeGroup = groupRepository.findByName(groupName)
                     .orElseThrow(() -> new IllegalArgumentException("Given group does not exists"));
+
+            //Get all coffee groups types of given coffee
+            List<CoffeeGroup.GroupType> coffeeGroupTypes = coffee.getCoffeeGroups()
+                    .stream()
+                    .map(CoffeeGroup::getGroupType)
+                    .collect(Collectors.toList());
+
+            //Make sure coffee is not in given group type already
+            if (coffeeGroupTypes.contains(coffeeGroup.getGroupType())) {
+                throw new IllegalArgumentException("Coffee cannot be in 2 groups of the same type");
+        }
             coffee.getCoffeeGroups().add(coffeeGroup);
             coffeeRepository.save(coffee);
+
+        }
+
+    void deleteCoffee(int id) {
+        coffeeRepository.findById(id).ifPresent(coffee -> {
+           coffee.getCoffeeGroups().forEach(coffeeGroup -> getAllCoffees().remove(coffee));
+           coffeeRepository.deleteById(id);
+        });
+        coffeeRepository.findById(id)
+                .ifPresent(coffee -> coffeeRepository.deleteById(id));
+
         }
 
     void updateCoffee(int id, CoffeeDTO toUpdate) {

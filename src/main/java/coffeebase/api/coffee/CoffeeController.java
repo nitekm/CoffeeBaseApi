@@ -1,5 +1,6 @@
 package coffeebase.api.coffee;
 
+import coffeebase.api.coffeegroup.CoffeeGroup;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -50,13 +51,13 @@ public class CoffeeController {
         if (!repository.existsById(id)) {
             ResponseEntity.notFound().build();
         }
-        repository.findById(id).ifPresent(coffee -> repository.deleteById(id));
+       service.deleteCoffee(id);
         return ResponseEntity.noContent().build();
     }
 
     @Transactional
     @PatchMapping("/{id}")
-    ResponseEntity<?> changeFavourite(@PathVariable int id) {
+    ResponseEntity<?> switchFavourite(@PathVariable int id) {
         service.switchFavourite(id);
         return ResponseEntity.noContent().build();
     }
