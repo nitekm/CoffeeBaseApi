@@ -53,7 +53,7 @@ public class CoffeeGroup {
         return groupType;
     }
 
-    void setGroupType(final GroupType type) {
+    public void setGroupType(final GroupType type) {
         this.groupType = type;
     }
 

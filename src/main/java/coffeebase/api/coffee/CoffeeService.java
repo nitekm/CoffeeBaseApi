@@ -50,6 +50,7 @@ public class CoffeeService {
                     .orElseThrow(() -> new IllegalArgumentException("Given group does not exists"));
 
             //Get all coffee groups types of given coffee
+        if (!coffee.getCoffeeGroups().isEmpty()) {
             List<CoffeeGroup.GroupType> coffeeGroupTypes = coffee.getCoffeeGroups()
                     .stream()
                     .map(CoffeeGroup::getGroupType)
@@ -57,7 +58,8 @@ public class CoffeeService {
 
             //Make sure coffee is not in given group type already
             if (coffeeGroupTypes.contains(coffeeGroup.getGroupType())) {
-                throw new IllegalArgumentException("Coffee cannot be in 2 groups of the same type");
+                throw new IllegalStateException("Coffee cannot be in 2 groups of the same type");
+            }
         }
             coffee.getCoffeeGroups().add(coffeeGroup);
             coffeeRepository.save(coffee);
@@ -71,7 +73,6 @@ public class CoffeeService {
         });
         coffeeRepository.findById(id)
                 .ifPresent(coffee -> coffeeRepository.deleteById(id));
-
         }
 
     void updateCoffee(int id, CoffeeDTO toUpdate) {

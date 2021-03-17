@@ -5,6 +5,7 @@ import coffeebase.api.coffeegroup.CoffeeGroup;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,7 +27,7 @@ public class Coffee {
             joinColumns = { @JoinColumn(name = "coffee_id") },
             inverseJoinColumns = { @JoinColumn(name = "coffee_group_id") }
     )
-    private Set<CoffeeGroup> coffeeGroups;
+    private Set<CoffeeGroup> coffeeGroups = new HashSet<>();
     @Embedded
     Audit audit = new Audit();
 
