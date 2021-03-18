@@ -114,6 +114,11 @@ public class TestConfig {
             public boolean existsById(final int id) {
                 return coffeeGroups.containsKey(id);
             }
+
+            @Override
+            public boolean existsByName(final String name) {
+                return false;
+            }
         };
     }
 }

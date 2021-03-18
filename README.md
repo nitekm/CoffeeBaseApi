@@ -11,15 +11,18 @@ It enables to store coffee information in database and handles user requests mad
 * Assign coffees to certain groups
 
 Data persistence is done by databases: H2 (local - test DB) and MySQL (production) and JPA. Flyway migrations are present.
-App has auditing like @PrePersist and @PreUpdate methods.
+App has auditing like @PrePersist and @PreUpdate methods and loggers with Interceptors.
+There is also a little of Spring events used in Warmup class.
+Test are made in JUnit5 and MockMvc.
 
 ## Technology
 * Java
 * Spring Boot
-* Spring JPA
+* JPA
 * Flyway
 * H2 Database
 * MySQL
+* Tests (unit tests with JUnit5 and integration tests)
 
 
 

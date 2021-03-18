@@ -16,4 +16,6 @@ public interface CoffeeGroupRepository {
     void deleteById(int id);
 
     boolean existsById(int id);
+
+    boolean existsByName(String name);
 }

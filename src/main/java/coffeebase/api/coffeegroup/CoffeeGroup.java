@@ -45,7 +45,7 @@ public class CoffeeGroup {
         return name;
     }
 
-    void setName(final String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -61,7 +61,7 @@ public class CoffeeGroup {
         return coffees;
     }
 
-    void setCoffees(final Set<Coffee> coffees) {
+    public void setCoffees(final Set<Coffee> coffees) {
         this.coffees = coffees;
     }
 }
