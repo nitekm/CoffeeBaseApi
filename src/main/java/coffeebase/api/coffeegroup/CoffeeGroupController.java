@@ -1,5 +1,6 @@
 package coffeebase.api.coffeegroup;
 
+import coffeebase.api.exception.IllegalExceptionProcessing;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,7 +8,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+
 @RestController
+@IllegalExceptionProcessing
 @RequestMapping("/groups")
 public class CoffeeGroupController {
     private CoffeeGroupRepository repository;

@@ -1,9 +1,7 @@
 package coffeebase.api.coffeegroup;
 
 import coffeebase.api.coffee.Coffee;
-import coffeebase.api.coffee.CoffeeDTO;
 
-import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 

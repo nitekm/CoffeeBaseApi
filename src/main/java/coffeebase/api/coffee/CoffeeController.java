@@ -1,6 +1,6 @@
 package coffeebase.api.coffee;
 
-import coffeebase.api.coffeegroup.CoffeeGroup;
+import coffeebase.api.exception.IllegalExceptionProcessing;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +10,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@IllegalExceptionProcessing
 @RequestMapping("/coffees")
 public class CoffeeController {
 
