@@ -44,7 +44,7 @@ public class CoffeeController {
             ResponseEntity.notFound().build();
         }
         service.updateCoffee(id, toUpdate);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
@@ -60,13 +60,13 @@ public class CoffeeController {
     @PatchMapping("/{id}")
     ResponseEntity<?> switchFavourite(@PathVariable int id) {
         service.switchFavourite(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @Transactional
     @PatchMapping("/{id}/{groupName}")
     ResponseEntity<?> addToGroup(@PathVariable int id, @PathVariable String groupName) {
         service.addToGroup(id, groupName);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }

@@ -28,7 +28,7 @@ public class CoffeeGroup {
     public CoffeeGroup() {
     }
 
-    CoffeeGroup(final String name, final GroupType groupType) {
+    public CoffeeGroup(final String name, final GroupType groupType) {
         this.name = name;
         this.groupType = groupType;
     }
