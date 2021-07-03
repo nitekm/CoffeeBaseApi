@@ -62,7 +62,6 @@ public class CoffeeService {
         }
             coffee.getCoffeeGroups().add(coffeeGroup);
             coffeeRepository.save(coffee);
-
         }
 
     void deleteCoffee(int id) {

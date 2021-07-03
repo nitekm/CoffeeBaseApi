@@ -4,21 +4,29 @@ import javax.validation.constraints.NotBlank;
 
 public class CoffeeDTO {
 
+    private int id;
     @NotBlank(message = "Name cannot be empty")
     private String name;
     private String origin;
     private String roaster;
     private int rating;
     private String imageUrl;
+    private boolean favourite;
 
-    public CoffeeDTO() {};
+    public CoffeeDTO() {}
 
     public CoffeeDTO(Coffee source) {
+        favourite = source.isFavourite();
+        id = source.getId();
         name = source.getName();
         origin = source.getOrigin();
         roaster = source.getRoaster();
         rating = source.getRating();
         imageUrl = source.getImageUrl();
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -61,6 +69,10 @@ public class CoffeeDTO {
         this.imageUrl = imageUrl;
     }
 
+    public boolean isFavourite() {
+        return favourite;
+    }
+    
     public Coffee toCoffee() {
         return new Coffee(name, origin, roaster, rating, imageUrl);
     }

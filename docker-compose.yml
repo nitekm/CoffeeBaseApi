@@ -1,0 +1,26 @@
+version: '2'
+services:
+  coffeebasedb:
+    image: mysql
+    restart: always
+    container_name: coffeebasedb
+    environment:
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+
+  coffeebaseapi:
+    container_name: coffeebaseapi
+    build:
+      context: .
+    depends_on:
+      - coffeebasedb
+    image: coffeebaseapi
+    links:
+      - coffeebasedb
+    ports:
+      - "8080:80"
