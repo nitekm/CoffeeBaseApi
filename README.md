@@ -40,7 +40,7 @@ On application start app updates database schema if needed.
 Flyway does persist our database schemas in case of any emergency and help us keep consistency in both local and prod
 environments.
 
-####Database
+#### Database
 Many-to-Many relationship with 2 main tables: coffees and coffee_groups, also 3rd table (coffee_coffee_group) to provide 
 connection between 2 main ones.
 
