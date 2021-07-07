@@ -27,6 +27,26 @@ public class CoffeeController {
         return ResponseEntity.ok(service.getAllCoffees());
     }
 
+    @GetMapping("/sort/name_asc")
+    ResponseEntity<List<CoffeeDTO>> getAllCoffeesSortByNameAsc() {
+        return ResponseEntity.ok(service.getAllCoffeesSortByNameAsc());
+    }
+
+    @GetMapping("/sort/name_desc")
+    ResponseEntity<List<CoffeeDTO>> getAllCoffeesSortByNameDesc() {
+        return ResponseEntity.ok(service.getAllCoffeesSortByNameDesc());
+    }
+
+    @GetMapping("/sort/rating_asc")
+    ResponseEntity<List<CoffeeDTO>> getAllCoffeesSortByRatingAsc() {
+        return ResponseEntity.ok(service.getAllCoffeesSortByRatingAsc());
+    }
+
+    @GetMapping("/sort/rating_desc")
+    ResponseEntity<List<CoffeeDTO>> getAllCoffeesSortByRatingDesc() {
+        return ResponseEntity.ok(service.getAllCoffeesSortByRatingDesc());
+    }
+
     @GetMapping("/{id}")
     ResponseEntity<CoffeeDTO> getCoffeeById(@PathVariable int id) {
         return ResponseEntity.ok(service.getCoffeeById(id));

@@ -1,4 +1,4 @@
-FROM java:8-jdk-alpine
+FROM adoptopenjdk/openjdk11:ubi
 ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} api-0.0.1-SNAPSHOT.jar
-ENTRYPOINT ["java", "-jar", "api-0.0.1-SNAPSHOT.jar"]
+COPY ${JAR_FILE} coffeebaseapi-1.0.jar
+ENTRYPOINT ["java", "-jar", "coffeebaseapi-1.0.jar"]

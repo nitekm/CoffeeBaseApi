@@ -7,6 +7,14 @@ public interface CoffeeRepository {
 
     List<Coffee> findAll();
 
+    List<Coffee> findAllByOrderByNameAsc();
+
+    List<Coffee> findAllByOrderByRatingAsc();
+
+    List<Coffee> findAllByOrderByRatingDesc();
+
+    List<Coffee> findAllByOrderByNameDesc();
+
     Optional<Coffee> findById(Integer id);
 
     Coffee save(Coffee coffee);

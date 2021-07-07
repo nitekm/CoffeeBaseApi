@@ -40,6 +40,26 @@ public class TestConfig {
             }
 
             @Override
+            public List<Coffee> findAllByOrderByNameAsc() {
+                return null;
+            }
+
+            @Override
+            public List<Coffee> findAllByOrderByRatingAsc() {
+                return null;
+            }
+
+            @Override
+            public List<Coffee> findAllByOrderByRatingDesc() {
+                return null;
+            }
+
+            @Override
+            public List<Coffee> findAllByOrderByNameDesc() {
+                return null;
+            }
+
+            @Override
             public Optional<Coffee> findById(final Integer id) {
                 return Optional.ofNullable(coffees.get(id));
             }
@@ -106,9 +126,7 @@ public class TestConfig {
             }
 
             @Override
-            public void deleteById(final int id) {
-
-            }
+            public void deleteById(final int id) {}
 
             @Override
             public boolean existsById(final int id) {

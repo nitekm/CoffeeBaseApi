@@ -24,6 +24,34 @@ public class CoffeeService {
                 .collect(Collectors.toList());
     }
 
+    List<CoffeeDTO> getAllCoffeesSortByNameAsc() {
+        return coffeeRepository.findAllByOrderByNameAsc()
+                .stream()
+                .map(CoffeeDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    List<CoffeeDTO> getAllCoffeesSortByNameDesc() {
+        return coffeeRepository.findAllByOrderByNameDesc()
+                .stream()
+                .map(CoffeeDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    List<CoffeeDTO> getAllCoffeesSortByRatingAsc() {
+        return coffeeRepository.findAllByOrderByRatingAsc()
+                .stream()
+                .map(CoffeeDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    List<CoffeeDTO> getAllCoffeesSortByRatingDesc() {
+        return coffeeRepository.findAllByOrderByRatingDesc()
+                .stream()
+                .map(CoffeeDTO::new)
+                .collect(Collectors.toList());
+    }
+
     CoffeeDTO getCoffeeById(int id) {
         return coffeeRepository.findById(id)
                 .map(CoffeeDTO::new)

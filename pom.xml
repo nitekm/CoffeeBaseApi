@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>coffeebase</groupId>
-    <artifactId>api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>coffeebaseapi</artifactId>
+    <version>1.0</version>
     <name>CoffeeBaseApi</name>
     <description>REST API for CoffeeBase Application</description>
     <properties>
