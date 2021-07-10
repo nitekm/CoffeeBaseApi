@@ -66,7 +66,7 @@ public class Coffee {
         return imageUrl;
     }
 
-    boolean isFavourite() {
+    public boolean isFavourite() {
         return favourite;
     }
 
