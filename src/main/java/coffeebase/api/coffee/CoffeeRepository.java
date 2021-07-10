@@ -22,5 +22,4 @@ public interface CoffeeRepository {
     boolean existsById(Integer id);
 
     void deleteById(Integer id);
-
 }

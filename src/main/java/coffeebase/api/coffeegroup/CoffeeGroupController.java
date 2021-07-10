@@ -2,6 +2,7 @@ package coffeebase.api.coffeegroup;
 
 import coffeebase.api.exception.IllegalExceptionProcessing;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,7 +33,7 @@ public class CoffeeGroupController {
     }
 
     @PostMapping
-    ResponseEntity<CoffeeGroupDTO> addCoffeeGroup(@RequestBody @Valid CoffeeGroupDTO coffeeGroup) {
+    ResponseEntity<CoffeeGroupDTO> addCoffeeGroup(@RequestBody @Valid CoffeeGroupDTO coffeeGroup, Error error) {
         var result = service.addCoffeeGroup(coffeeGroup);
         return ResponseEntity.created(URI.create("/")).body(result);
     }

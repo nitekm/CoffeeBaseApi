@@ -8,6 +8,7 @@ import java.util.Set;
 public class CoffeeGroupDTO {
 
     @NotBlank(message = "Name cannot be empty")
+    private int id;
     private String name;
     private CoffeeGroup.GroupType groupType;
     private Set<Coffee> coffees;
@@ -15,9 +16,14 @@ public class CoffeeGroupDTO {
     public CoffeeGroupDTO() {}
 
     public CoffeeGroupDTO(CoffeeGroup source) {
+        id = source.getId();
         name = source.getName();
         groupType = source.getGroupType();
         coffees = source.getCoffees();
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {

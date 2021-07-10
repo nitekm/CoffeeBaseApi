@@ -138,4 +138,55 @@ class CoffeeServiceTest {
         //then
         assertThat(coffee.getCoffeeGroups().contains(coffeeGroup));
     }
+
+    @Test
+    @DisplayName("deleteCoffeeFromGroup should throw IllegalArgumentException when coffee does not belong to given group")
+    void deleteCoffeeFromGroup_coffeeDoesNotBelongToGivenGroup() {
+        //given
+        var mockCoffeeRepository = mock(CoffeeRepository.class);
+        var mockCoffeeGroupRepository = mock(CoffeeGroupRepository.class);
+        //and
+        Coffee coffee = new Coffee();
+        when(mockCoffeeRepository.findById(anyInt())).thenReturn(Optional.of(coffee));
+        //and
+        CoffeeGroup coffeeGroup = new CoffeeGroup();
+        when(mockCoffeeGroupRepository.findByName(anyString())).thenReturn(Optional.of(coffeeGroup));
+        //and
+        var dummySet = new HashSet<Coffee>();
+        dummySet.add(new Coffee());
+        coffeeGroup.setCoffees(dummySet);
+        //System under test
+        var toTest = new CoffeeService(mockCoffeeRepository, mockCoffeeGroupRepository);
+        //when
+        var exception = catchThrowable(() -> toTest.deleteCoffeeFromGroup(1, "group"));
+        //then
+        assertThat(exception)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("not member of given group");
+    }
+
+    @Test
+    @DisplayName("Should delete coffee from given group")
+    void deleteCoffeeFromGroup_workAsExpected() {
+        //given
+        var mockCoffeeRepository = mock(CoffeeRepository.class);
+        var mockCoffeeGroupRepository = mock(CoffeeGroupRepository.class);
+        //and
+        Coffee coffee = new Coffee();
+        when(mockCoffeeRepository.findById(anyInt())).thenReturn(Optional.of(coffee));
+        //and
+        CoffeeGroup coffeeGroup = new CoffeeGroup();
+        when(mockCoffeeGroupRepository.findByName(anyString())).thenReturn(Optional.of(coffeeGroup));
+        //and
+        var dummySet = new HashSet<Coffee>();
+        dummySet.add(coffee);
+        coffeeGroup.setCoffees(dummySet);
+        //System under test
+        var toTest = new CoffeeService(mockCoffeeRepository, mockCoffeeGroupRepository);
+        //when
+        toTest.deleteCoffeeFromGroup(1, "group");
+        //then
+        assertThat(!coffee.getCoffeeGroups().contains(coffeeGroup));
+
+    }
 }

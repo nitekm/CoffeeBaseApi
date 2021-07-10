@@ -21,7 +21,7 @@ public class Coffee {
     private int rating;
     private String imageUrl;
     private boolean favourite;
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "coffee_coffee_group",
             joinColumns = { @JoinColumn(name = "coffee_id") },
@@ -29,7 +29,7 @@ public class Coffee {
     )
     private Set<CoffeeGroup> coffeeGroups = new HashSet<>();
     @Embedded
-    Audit audit = new Audit();
+    private Audit audit = new Audit();
 
     public Coffee() {
     }
@@ -46,51 +46,27 @@ public class Coffee {
         return id;
     }
 
-    void setId(final int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    void setName(final String name) {
-        this.name = name;
     }
 
     public String getOrigin() {
         return origin;
     }
 
-    void setOrigin(final String origin) {
-        this.origin = origin;
-    }
-
     public String getRoaster() {
         return roaster;
-    }
-
-    void setRoaster(final String roaster) {
-        this.roaster = roaster;
     }
 
     public int getRating() {
         return rating;
     }
 
-    void setRating(final int rating) {
-        this.rating = rating;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
 
-    void setImageUrl(final String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public boolean isFavourite() {
+    boolean isFavourite() {
         return favourite;
     }
 
@@ -106,7 +82,7 @@ public class Coffee {
         this.coffeeGroups = coffeeGroups;
     }
 
-    public void updateCoffee(CoffeeDTO updatedCoffee) {
+    void updateCoffee(CoffeeDTO updatedCoffee) {
         name = updatedCoffee.getName();
         origin = updatedCoffee.getOrigin();
         roaster = updatedCoffee.getRoaster();

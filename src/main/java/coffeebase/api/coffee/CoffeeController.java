@@ -23,32 +23,32 @@ public class CoffeeController {
     }
 
     @GetMapping
-    ResponseEntity<List<CoffeeDTO>> getAllCoffees() {
+    ResponseEntity<List<Coffee>> getAllCoffees() {
         return ResponseEntity.ok(service.getAllCoffees());
     }
 
     @GetMapping("/sort/name_asc")
-    ResponseEntity<List<CoffeeDTO>> getAllCoffeesSortByNameAsc() {
+    ResponseEntity<List<Coffee>> getAllCoffeesSortByNameAsc() {
         return ResponseEntity.ok(service.getAllCoffeesSortByNameAsc());
     }
 
     @GetMapping("/sort/name_desc")
-    ResponseEntity<List<CoffeeDTO>> getAllCoffeesSortByNameDesc() {
+    ResponseEntity<List<Coffee>> getAllCoffeesSortByNameDesc() {
         return ResponseEntity.ok(service.getAllCoffeesSortByNameDesc());
     }
 
     @GetMapping("/sort/rating_asc")
-    ResponseEntity<List<CoffeeDTO>> getAllCoffeesSortByRatingAsc() {
+    ResponseEntity<List<Coffee>> getAllCoffeesSortByRatingAsc() {
         return ResponseEntity.ok(service.getAllCoffeesSortByRatingAsc());
     }
 
     @GetMapping("/sort/rating_desc")
-    ResponseEntity<List<CoffeeDTO>> getAllCoffeesSortByRatingDesc() {
+    ResponseEntity<List<Coffee>> getAllCoffeesSortByRatingDesc() {
         return ResponseEntity.ok(service.getAllCoffeesSortByRatingDesc());
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<CoffeeDTO> getCoffeeById(@PathVariable int id) {
+    ResponseEntity<Coffee> getCoffeeById(@PathVariable int id) {
         return ResponseEntity.ok(service.getCoffeeById(id));
     }
 
@@ -74,6 +74,12 @@ public class CoffeeController {
         }
        service.deleteCoffee(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}/{groupName}")
+    ResponseEntity<Void> deleteCoffeeFromGroup(@PathVariable int id, @PathVariable String groupName) {
+        service.deleteCoffeeFromGroup(id, groupName);
+        return ResponseEntity.ok().build();
     }
 
     @Transactional
