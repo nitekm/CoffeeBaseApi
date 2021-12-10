@@ -2,6 +2,7 @@ package coffeebase.api.coffeegroup;
 
 import coffeebase.api.audit.Audit;
 import coffeebase.api.coffee.Coffee;
+import coffeebase.api.security.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -18,6 +19,8 @@ public class CoffeeGroup {
     private GroupType groupType;
     @ManyToMany(mappedBy = "coffeeGroups")
     private Set<Coffee> coffees;
+    @ManyToOne
+    private User user;
     @Embedded
     Audit audit = new Audit();
 
