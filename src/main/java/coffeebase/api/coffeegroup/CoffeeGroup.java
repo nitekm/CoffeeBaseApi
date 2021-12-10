@@ -40,10 +40,6 @@ public class CoffeeGroup {
         return id;
     }
 
-    void setId(final int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }

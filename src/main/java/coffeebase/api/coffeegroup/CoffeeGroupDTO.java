@@ -7,7 +7,6 @@ import java.util.Set;
 
 public class CoffeeGroupDTO {
 
-    @NotBlank(message = "Name cannot be empty")
     private int id;
     private String name;
     private CoffeeGroup.GroupType groupType;

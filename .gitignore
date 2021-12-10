@@ -164,3 +164,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.db
+jpa-buddy.xml
+runConfigurations.xml
