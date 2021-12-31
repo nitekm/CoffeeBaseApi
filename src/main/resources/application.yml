@@ -1,0 +1,14 @@
+spring:
+  main:
+    banner-mode: off
+  profiles:
+    active: prod
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: '165342097164-f8e7i0chp797cjg2unkdt6qaeoutirhe.apps.googleusercontent.com'
+            client-secret: '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'
+            scope:
+              - profile
