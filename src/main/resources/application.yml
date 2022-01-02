@@ -12,8 +12,10 @@ spring:
             client-secret: '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'
             scope:
               - profile
+              - email
           facebook:
             client-id: '350861539708227'
             client-secret: '260bfb712e112f1c7e6169f64f0e5e20'
             scope:
               - public_profile
+              - email

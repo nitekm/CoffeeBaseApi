@@ -27,4 +27,12 @@ public class CoffeebaseOAuth2User implements OAuth2User {
     public String getName() {
         return oAuth2User.getName();
     }
+
+    public String getUsername() {
+        return oAuth2User.getAttribute("name");
+    }
+
+    public String getEmail() {
+        return oAuth2User.getAttribute("email");
+    }
 }
