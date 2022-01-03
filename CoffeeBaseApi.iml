@@ -15,6 +15,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
+          <factory-entry name="CoffeeBaseApi" />
           <factory-entry name="entityManagerFactory" value="d9bc709d-ca22-4f97-bfd7-b38eb73cd6f3" />
         </datasource-mapping>
         <naming-strategy-map />
