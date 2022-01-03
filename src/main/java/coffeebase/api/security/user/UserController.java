@@ -2,6 +2,7 @@ package coffeebase.api.security.user;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,12 +17,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(User user) {
+    public ResponseEntity<User> login(@RequestBody User user) {
         return ResponseEntity.ok(userService.login(user));
     }
 
     @PostMapping("register")
-    public ResponseEntity<User> register(User newUser) {
+    public ResponseEntity<User> register(@RequestBody User newUser) {
         return ResponseEntity.ok(userService.register(newUser));
     }
 }
