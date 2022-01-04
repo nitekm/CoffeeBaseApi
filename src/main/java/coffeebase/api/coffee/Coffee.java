@@ -2,6 +2,7 @@ package coffeebase.api.coffee;
 
 import coffeebase.api.audit.Audit;
 import coffeebase.api.coffeegroup.CoffeeGroup;
+import coffeebase.api.security.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -28,6 +29,8 @@ public class Coffee {
             inverseJoinColumns = { @JoinColumn(name = "coffee_group_id") }
     )
     private Set<CoffeeGroup> coffeeGroups = new HashSet<>();
+    @ManyToOne
+    private User user;
     @Embedded
     private Audit audit = new Audit();
 
@@ -80,6 +83,14 @@ public class Coffee {
 
     void setCoffeeGroups(final Set<CoffeeGroup> coffeeGroups) {
         this.coffeeGroups = coffeeGroups;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     void updateCoffee(CoffeeDTO updatedCoffee) {
