@@ -2,7 +2,7 @@ package coffeebase.api.coffee;
 
 import coffeebase.api.audit.Audit;
 import coffeebase.api.coffeegroup.CoffeeGroup;
-import coffeebase.api.security.user.User;
+import coffeebase.api.security.model.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -22,6 +22,8 @@ public class Coffee {
     private int rating;
     private String imageUrl;
     private boolean favourite;
+    @Column(name = "plain_user_id")
+    private String userId;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "coffee_coffee_group",
@@ -30,7 +32,7 @@ public class Coffee {
     )
     private Set<CoffeeGroup> coffeeGroups = new HashSet<>();
     @ManyToOne
-    private User user;
+    private User User;
     @Embedded
     private Audit audit = new Audit();
 
@@ -43,6 +45,15 @@ public class Coffee {
         this.roaster = roaster;
         this.rating = rating;
         this.imageUrl = imageUrl;
+    }
+
+    Coffee(final String name, final String origin, final String roaster, final int rating, final String imageUrl, final String userId) {
+        this.name = name;
+        this.origin = origin;
+        this.roaster = roaster;
+        this.rating = rating;
+        this.imageUrl = imageUrl;
+        this.userId = userId;
     }
 
     public int getId() {
@@ -77,6 +88,14 @@ public class Coffee {
         this.favourite = favourite;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(final String userId) {
+        this.userId = userId;
+    }
+
     Set<CoffeeGroup> getCoffeeGroups() {
         return coffeeGroups;
     }
@@ -86,11 +105,11 @@ public class Coffee {
     }
 
     public User getUser() {
-        return user;
+        return User;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(User User) {
+        this.User = User;
     }
 
     void updateCoffee(CoffeeDTO updatedCoffee) {

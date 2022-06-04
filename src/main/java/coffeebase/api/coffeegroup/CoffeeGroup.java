@@ -2,7 +2,7 @@ package coffeebase.api.coffeegroup;
 
 import coffeebase.api.audit.Audit;
 import coffeebase.api.coffee.Coffee;
-import coffeebase.api.security.user.User;
+import coffeebase.api.security.model.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -20,7 +20,7 @@ public class CoffeeGroup {
     @ManyToMany(mappedBy = "coffeeGroups")
     private Set<Coffee> coffees;
     @ManyToOne
-    private User user;
+    private User User;
     @Embedded
     Audit audit = new Audit();
 
@@ -69,10 +69,10 @@ public class CoffeeGroup {
     }
 
     public User getUser() {
-        return user;
+        return User;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(User User) {
+        this.User = User;
     }
 }

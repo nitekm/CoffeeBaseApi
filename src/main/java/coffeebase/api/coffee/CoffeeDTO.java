@@ -10,6 +10,7 @@ public class CoffeeDTO {
     private String roaster;
     private int rating;
     private String imageUrl;
+    private String userId;
 
     public CoffeeDTO() {}
 
@@ -19,6 +20,8 @@ public class CoffeeDTO {
         roaster = source.getRoaster();
         rating = source.getRating();
         imageUrl = source.getImageUrl();
+        userId = source.getUserId();
+
     }
 
     public String getName() {
@@ -41,7 +44,11 @@ public class CoffeeDTO {
         return imageUrl;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
     Coffee toCoffee() {
-        return new Coffee(name, origin, roaster, rating, imageUrl);
+        return new Coffee(name, origin, roaster, rating, imageUrl, userId);
     }
 }

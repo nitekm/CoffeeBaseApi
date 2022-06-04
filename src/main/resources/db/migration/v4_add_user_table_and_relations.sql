@@ -8,3 +8,4 @@ create table users (
 );
 
 alter table coffees add foreign key (user_id) references users (id);
+alter table coffees add column plain_user_id varchar(255);
