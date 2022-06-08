@@ -6,5 +6,5 @@ spring:
 
 jwt:
   expirationTime: 3600000
-  secret: '53cr3t'
-  clientId: '490912130144-qjrd8n250pc01p44qdv8hck00mqfitil.apps.googleusercontent.com'
+  secret: ${secret}
+  clientId: ${clientId}
