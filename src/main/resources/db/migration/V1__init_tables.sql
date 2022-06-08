@@ -13,7 +13,7 @@ create table COFFEES
     created_on    timestamp    not null,
     updated_on    timestamp,
     plain_user_id varchar(255) not null,
-    user_id       int not null
+    user_id       int
 );
 
 create table USERS
