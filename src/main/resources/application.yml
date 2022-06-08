@@ -1,0 +1,10 @@
+spring:
+  main:
+    banner-mode: off
+  profiles:
+    active: prod
+
+jwt:
+  expirationTime: 3600000
+  secret: ${secret}
+  clientId: ${clientId}

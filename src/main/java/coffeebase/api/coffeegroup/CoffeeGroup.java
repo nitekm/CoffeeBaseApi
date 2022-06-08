@@ -2,6 +2,7 @@ package coffeebase.api.coffeegroup;
 
 import coffeebase.api.audit.Audit;
 import coffeebase.api.coffee.Coffee;
+import coffeebase.api.security.model.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -18,6 +19,8 @@ public class CoffeeGroup {
     private GroupType groupType;
     @ManyToMany(mappedBy = "coffeeGroups")
     private Set<Coffee> coffees;
+    @ManyToOne
+    private User User;
     @Embedded
     Audit audit = new Audit();
 
@@ -63,5 +66,13 @@ public class CoffeeGroup {
 
     public void setCoffees(final Set<Coffee> coffees) {
         this.coffees = coffees;
+    }
+
+    public User getUser() {
+        return User;
+    }
+
+    public void setUser(User User) {
+        this.User = User;
     }
 }

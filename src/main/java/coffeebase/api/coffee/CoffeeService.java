@@ -2,12 +2,13 @@ package coffeebase.api.coffee;
 
 import coffeebase.api.coffeegroup.CoffeeGroup;
 import coffeebase.api.coffeegroup.CoffeeGroupRepository;
+import coffeebase.api.security.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,7 +24,11 @@ public class CoffeeService {
     }
 
     List<Coffee> getAllCoffees() {
-        return coffeeRepository.findAll();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return coffeeRepository.findAll().stream()
+                .filter(coffee -> coffee.getUserId() != null)
+                .filter(coffee -> coffee.getUserId().equalsIgnoreCase(user.getUserId()))
+                .collect(Collectors.toList());
     }
 
     List<Coffee> getAllCoffeesSortByNameAsc() {
@@ -97,10 +102,10 @@ public class CoffeeService {
     }
 
     void deleteCoffee(int id) {
-        coffeeRepository.findById(id).ifPresent(coffee -> {
-            coffee.getCoffeeGroups().forEach(coffeeGroup -> getAllCoffees().remove(coffee));
-            coffeeRepository.deleteById(id);
-        });
+//        coffeeRepository.findById(id).ifPresent(coffee -> {
+//            coffee.getCoffeeGroups().forEach(coffeeGroup -> getAllCoffees().remove(coffee));
+//            coffeeRepository.deleteById(id);
+//        });
         coffeeRepository.findById(id)
                 .ifPresent(coffee -> coffeeRepository.deleteById(id));
     }

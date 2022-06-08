@@ -3,6 +3,6 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: 'jdbc:mysql://localhost:3306/CoffeeBasedb'
+    url: 'jdbc:mysql://localhost:3306/coffeebase_db'
     username: 'user'
     password: 'password'

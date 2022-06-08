@@ -22,7 +22,7 @@ public class CoffeeController {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping()
     ResponseEntity<List<Coffee>> getAllCoffees() {
         return ResponseEntity.ok(service.getAllCoffees());
     }
