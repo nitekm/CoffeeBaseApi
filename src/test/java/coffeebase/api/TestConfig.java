@@ -1,7 +1,7 @@
 package coffeebase.api;
 
-import coffeebase.api.coffee.Coffee;
-import coffeebase.api.coffee.CoffeeRepository;
+import coffeebase.api.coffee.model.Coffee;
+import coffeebase.api.coffee.repository.CoffeeRepository;
 import coffeebase.api.coffeegroup.CoffeeGroup;
 import coffeebase.api.coffeegroup.CoffeeGroupRepository;
 import org.springframework.context.annotation.Bean;

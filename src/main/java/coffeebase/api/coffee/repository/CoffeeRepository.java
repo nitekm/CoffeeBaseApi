@@ -1,8 +1,12 @@
-package coffeebase.api.coffee;
+package coffeebase.api.coffee.repository;
+
+import coffeebase.api.coffee.model.Coffee;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface CoffeeRepository {
 
     List<Coffee> findAll();

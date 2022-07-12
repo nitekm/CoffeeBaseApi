@@ -1,5 +1,7 @@
 package coffeebase.api.coffee;
 
+import coffeebase.api.coffee.model.Coffee;
+import coffeebase.api.coffee.repository.CoffeeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

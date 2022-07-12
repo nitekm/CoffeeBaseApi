@@ -1,7 +1,7 @@
 package coffeebase.api.coffeegroup;
 
 import coffeebase.api.audit.Audit;
-import coffeebase.api.coffee.Coffee;
+import coffeebase.api.coffee.model.Coffee;
 import coffeebase.api.security.model.User;
 
 import javax.persistence.*;

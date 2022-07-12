@@ -1,5 +1,9 @@
-package coffeebase.api.coffee;
+package coffeebase.api.coffee.controller;
 
+import coffeebase.api.coffee.model.Coffee;
+import coffeebase.api.coffee.model.CoffeeDTO;
+import coffeebase.api.coffee.repository.CoffeeRepository;
+import coffeebase.api.coffee.service.CoffeeService;
 import coffeebase.api.exception.IllegalExceptionProcessing;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,26 +31,6 @@ public class CoffeeController {
         return ResponseEntity.ok(service.getAllCoffees());
     }
 
-    @GetMapping("/sort/name_asc")
-    ResponseEntity<List<Coffee>> getAllCoffeesSortByNameAsc() {
-        return ResponseEntity.ok(service.getAllCoffeesSortByNameAsc());
-    }
-
-    @GetMapping("/sort/name_desc")
-    ResponseEntity<List<Coffee>> getAllCoffeesSortByNameDesc() {
-        return ResponseEntity.ok(service.getAllCoffeesSortByNameDesc());
-    }
-
-    @GetMapping("/sort/rating_asc")
-    ResponseEntity<List<Coffee>> getAllCoffeesSortByRatingAsc() {
-        return ResponseEntity.ok(service.getAllCoffeesSortByRatingAsc());
-    }
-
-    @GetMapping("/sort/rating_desc")
-    ResponseEntity<List<Coffee>> getAllCoffeesSortByRatingDesc() {
-        return ResponseEntity.ok(service.getAllCoffeesSortByRatingDesc());
-    }
-
     @GetMapping("/{id}")
     ResponseEntity<Coffee> getCoffeeById(@PathVariable int id) {
         return ResponseEntity.ok(service.getCoffeeById(id));
@@ -72,27 +56,14 @@ public class CoffeeController {
         if (!repository.existsById(id)) {
             ResponseEntity.notFound().build();
         }
-       service.deleteCoffee(id);
+        service.deleteCoffee(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping("/{id}/{groupName}")
-    ResponseEntity<Void> deleteCoffeeFromGroup(@PathVariable int id, @PathVariable String groupName) {
-        service.deleteCoffeeFromGroup(id, groupName);
-        return ResponseEntity.ok().build();
     }
 
     @Transactional
     @PatchMapping("/{id}")
     ResponseEntity<?> switchFavourite(@PathVariable int id) {
         service.switchFavourite(id);
-        return ResponseEntity.ok().build();
-    }
-
-    @Transactional
-    @PatchMapping("/{id}/{groupName}")
-    ResponseEntity<?> addToGroup(@PathVariable int id, @PathVariable String groupName) {
-        service.addToGroup(id, groupName);
         return ResponseEntity.ok().build();
     }
 }

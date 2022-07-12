@@ -1,5 +1,8 @@
 package coffeebase.api.coffee;
 
+import coffeebase.api.coffee.model.Coffee;
+import coffeebase.api.coffee.repository.CoffeeRepository;
+import coffeebase.api.coffee.service.CoffeeService;
 import coffeebase.api.coffeegroup.CoffeeGroup;
 import coffeebase.api.coffeegroup.CoffeeGroupRepository;
 import org.junit.jupiter.api.DisplayName;

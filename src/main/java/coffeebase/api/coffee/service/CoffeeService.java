@@ -1,5 +1,10 @@
-package coffeebase.api.coffee;
+package coffeebase.api.coffee.service;
 
+import coffeebase.api.coffee.controller.CoffeeController;
+import coffeebase.api.coffee.model.Coffee;
+import coffeebase.api.coffee.model.CoffeeDTO;
+import coffeebase.api.coffee.model.CoffeeMapper;
+import coffeebase.api.coffee.repository.CoffeeRepository;
 import coffeebase.api.coffeegroup.CoffeeGroup;
 import coffeebase.api.coffeegroup.CoffeeGroupRepository;
 import coffeebase.api.security.model.User;
@@ -13,17 +18,19 @@ import java.util.stream.Collectors;
 
 @Service
 public class CoffeeService {
+    public final CoffeeMapper coffeeMapper;
     private final CoffeeRepository coffeeRepository;
     private final CoffeeGroupRepository groupRepository;
 
     private static final Logger log = LoggerFactory.getLogger(CoffeeController.class);
 
-    CoffeeService(final CoffeeRepository coffeeRepository, final CoffeeGroupRepository groupRepository) {
+    CoffeeService(final CoffeeMapper coffeeMapper, final CoffeeRepository coffeeRepository, final CoffeeGroupRepository groupRepository) {
+        this.coffeeMapper = coffeeMapper;
         this.coffeeRepository = coffeeRepository;
         this.groupRepository = groupRepository;
     }
 
-    List<Coffee> getAllCoffees() {
+    public List<Coffee> getAllCoffees() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return coffeeRepository.findAll().stream()
                 .filter(coffee -> coffee.getUserId() != null)
@@ -31,40 +38,40 @@ public class CoffeeService {
                 .collect(Collectors.toList());
     }
 
-    List<Coffee> getAllCoffeesSortByNameAsc() {
+    public List<Coffee> getAllCoffeesSortByNameAsc() {
         return coffeeRepository.findAllByOrderByNameAsc();
     }
 
-    List<Coffee> getAllCoffeesSortByNameDesc() {
+    public List<Coffee> getAllCoffeesSortByNameDesc() {
         return coffeeRepository.findAllByOrderByNameDesc();
     }
 
-    List<Coffee> getAllCoffeesSortByRatingAsc() {
+    public List<Coffee> getAllCoffeesSortByRatingAsc() {
         return coffeeRepository.findAllByOrderByRatingAsc();
     }
 
-    List<Coffee> getAllCoffeesSortByRatingDesc() {
+    public List<Coffee> getAllCoffeesSortByRatingDesc() {
         return coffeeRepository.findAllByOrderByRatingDesc();
     }
 
-    Coffee getCoffeeById(int id) {
+    public Coffee getCoffeeById(int id) {
         return coffeeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
     }
 
-    CoffeeDTO addCoffee(CoffeeDTO source) {
-        var result = coffeeRepository.save(source.toCoffee());
-        return new CoffeeDTO(result);
+    public CoffeeDTO addCoffee(CoffeeDTO source) {
+        var result = coffeeRepository.save(coffeeMapper.toCoffee(source));
+        return coffeeMapper.toDTO(result);
     }
 
-    void switchFavourite(int id) {
+    public void switchFavourite(int id) {
         var coffee = coffeeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
         coffee.setFavourite(!coffee.isFavourite());
         coffeeRepository.save(coffee);
     }
 
-    void addToGroup(int id, String groupName) {
+    public void addToGroup(int id, String groupName) {
         var coffee = coffeeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
         var coffeeGroup = groupRepository.findByName(groupName)
@@ -86,7 +93,7 @@ public class CoffeeService {
         coffeeRepository.save(coffee);
     }
 
-    void deleteCoffeeFromGroup(int id, String groupName) {
+    public void deleteCoffeeFromGroup(int id, String groupName) {
         var coffee = coffeeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
         var coffeeGroup = groupRepository.findByName(groupName)
@@ -101,7 +108,7 @@ public class CoffeeService {
         }
     }
 
-    void deleteCoffee(int id) {
+    public void deleteCoffee(int id) {
 //        coffeeRepository.findById(id).ifPresent(coffee -> {
 //            coffee.getCoffeeGroups().forEach(coffeeGroup -> getAllCoffees().remove(coffee));
 //            coffeeRepository.deleteById(id);
@@ -110,10 +117,10 @@ public class CoffeeService {
                 .ifPresent(coffee -> coffeeRepository.deleteById(id));
     }
 
-    void updateCoffee(int id, CoffeeDTO toUpdate) {
+    //TODO: maybe wrong
+    public void updateCoffee(int id, CoffeeDTO toUpdate) {
         coffeeRepository.findById(id)
                 .ifPresent(coffee -> {
-                    coffee.updateCoffee(toUpdate);
                     coffeeRepository.save(coffee);
                 });
     }

@@ -1,4 +1,4 @@
-package coffeebase.api.coffee;
+package coffeebase.api.coffee.model;
 
 import coffeebase.api.audit.Audit;
 import coffeebase.api.coffeegroup.CoffeeGroup;
@@ -39,7 +39,7 @@ public class Coffee {
     public Coffee() {
     }
 
-    Coffee(final String name, final String origin, final String roaster, final int rating, final String imageUrl) {
+    public Coffee(final String name, final String origin, final String roaster, final int rating, final String imageUrl) {
         this.name = name;
         this.origin = origin;
         this.roaster = roaster;
@@ -47,7 +47,7 @@ public class Coffee {
         this.imageUrl = imageUrl;
     }
 
-    Coffee(final String name, final String origin, final String roaster, final int rating, final String imageUrl, final String userId) {
+    public Coffee(final String name, final String origin, final String roaster, final int rating, final String imageUrl, final String userId) {
         this.name = name;
         this.origin = origin;
         this.roaster = roaster;
@@ -84,7 +84,7 @@ public class Coffee {
         return favourite;
     }
 
-    void setFavourite(final boolean favourite) {
+    public void setFavourite(final boolean favourite) {
         this.favourite = favourite;
     }
 
@@ -96,11 +96,11 @@ public class Coffee {
         this.userId = userId;
     }
 
-    Set<CoffeeGroup> getCoffeeGroups() {
+    public Set<CoffeeGroup> getCoffeeGroups() {
         return coffeeGroups;
     }
 
-    void setCoffeeGroups(final Set<CoffeeGroup> coffeeGroups) {
+    public void setCoffeeGroups(final Set<CoffeeGroup> coffeeGroups) {
         this.coffeeGroups = coffeeGroups;
     }
 
@@ -112,11 +112,4 @@ public class Coffee {
         this.User = User;
     }
 
-    void updateCoffee(CoffeeDTO updatedCoffee) {
-        name = updatedCoffee.getName();
-        origin = updatedCoffee.getOrigin();
-        roaster = updatedCoffee.getRoaster();
-        rating = updatedCoffee.getRating();
-        imageUrl = updatedCoffee.getImageUrl();
-    }
 }
