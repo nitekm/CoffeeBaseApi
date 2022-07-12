@@ -5,8 +5,6 @@ import coffeebase.api.coffee.model.Coffee;
 import coffeebase.api.coffee.model.CoffeeDTO;
 import coffeebase.api.coffee.model.CoffeeMapper;
 import coffeebase.api.coffee.repository.CoffeeRepository;
-import coffeebase.api.coffeegroup.CoffeeGroup;
-import coffeebase.api.coffeegroup.CoffeeGroupRepository;
 import coffeebase.api.security.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,14 +18,12 @@ import java.util.stream.Collectors;
 public class CoffeeService {
     public final CoffeeMapper coffeeMapper;
     private final CoffeeRepository coffeeRepository;
-    private final CoffeeGroupRepository groupRepository;
 
     private static final Logger log = LoggerFactory.getLogger(CoffeeController.class);
 
-    CoffeeService(final CoffeeMapper coffeeMapper, final CoffeeRepository coffeeRepository, final CoffeeGroupRepository groupRepository) {
+    CoffeeService(final CoffeeMapper coffeeMapper, final CoffeeRepository coffeeRepository) {
         this.coffeeMapper = coffeeMapper;
         this.coffeeRepository = coffeeRepository;
-        this.groupRepository = groupRepository;
     }
 
     public List<Coffee> getAllCoffees() {
@@ -69,43 +65,6 @@ public class CoffeeService {
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
         coffee.setFavourite(!coffee.isFavourite());
         coffeeRepository.save(coffee);
-    }
-
-    public void addToGroup(int id, String groupName) {
-        var coffee = coffeeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
-        var coffeeGroup = groupRepository.findByName(groupName)
-                .orElseThrow(() -> new IllegalArgumentException("Given group does not exists"));
-
-        //Get all coffee groups types of given coffee
-        if (!coffee.getCoffeeGroups().isEmpty()) {
-            List<CoffeeGroup.GroupType> coffeeGroupTypes = coffee.getCoffeeGroups()
-                    .stream()
-                    .map(CoffeeGroup::getGroupType)
-                    .collect(Collectors.toList());
-
-            //Make sure coffee is not in given group type already
-            if (coffeeGroupTypes.contains(coffeeGroup.getGroupType())) {
-                throw new IllegalStateException("Coffee cannot be in 2 groups of the same type");
-            }
-        }
-        coffee.getCoffeeGroups().add(coffeeGroup);
-        coffeeRepository.save(coffee);
-    }
-
-    public void deleteCoffeeFromGroup(int id, String groupName) {
-        var coffee = coffeeRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
-        var coffeeGroup = groupRepository.findByName(groupName)
-                .orElseThrow(() -> new IllegalArgumentException("Given group does not exists"));
-
-        if (!coffee.getCoffeeGroups().contains(coffeeGroup) && !coffeeGroup.getCoffees().contains(coffee)) {
-            throw new IllegalArgumentException("Coffee is not member of given group");
-        }
-        else {
-            coffee.getCoffeeGroups().remove(coffeeGroup);
-            coffeeRepository.save(coffee);
-        }
     }
 
     public void deleteCoffee(int id) {
