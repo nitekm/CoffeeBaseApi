@@ -1,13 +1,10 @@
 package coffeebase.api.coffee.model;
 
 import coffeebase.api.audit.Audit;
-import coffeebase.api.coffeegroup.CoffeeGroup;
 import coffeebase.api.security.model.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "COFFEES")
@@ -24,27 +21,12 @@ public class Coffee {
     private boolean favourite;
     @Column(name = "plain_user_id")
     private String userId;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "coffee_coffee_group",
-            joinColumns = { @JoinColumn(name = "coffee_id") },
-            inverseJoinColumns = { @JoinColumn(name = "coffee_group_id") }
-    )
-    private Set<CoffeeGroup> coffeeGroups = new HashSet<>();
     @ManyToOne
     private User User;
     @Embedded
     private Audit audit = new Audit();
 
     public Coffee() {
-    }
-
-    public Coffee(final String name, final String origin, final String roaster, final int rating, final String imageUrl) {
-        this.name = name;
-        this.origin = origin;
-        this.roaster = roaster;
-        this.rating = rating;
-        this.imageUrl = imageUrl;
     }
 
     public Coffee(final String name, final String origin, final String roaster, final int rating, final String imageUrl, final String userId) {
@@ -60,24 +42,48 @@ public class Coffee {
         return id;
     }
 
+    public void setId(final int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
     }
 
     public String getOrigin() {
         return origin;
     }
 
+    public void setOrigin(final String origin) {
+        this.origin = origin;
+    }
+
     public String getRoaster() {
         return roaster;
+    }
+
+    public void setRoaster(final String roaster) {
+        this.roaster = roaster;
     }
 
     public int getRating() {
         return rating;
     }
 
+    public void setRating(final int rating) {
+        this.rating = rating;
+    }
+
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public void setImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public boolean isFavourite() {
@@ -96,20 +102,12 @@ public class Coffee {
         this.userId = userId;
     }
 
-    public Set<CoffeeGroup> getCoffeeGroups() {
-        return coffeeGroups;
-    }
-
-    public void setCoffeeGroups(final Set<CoffeeGroup> coffeeGroups) {
-        this.coffeeGroups = coffeeGroups;
-    }
-
-    public User getUser() {
+    public coffeebase.api.security.model.User getUser() {
         return User;
     }
 
-    public void setUser(User User) {
-        this.User = User;
+    public void setUser(final coffeebase.api.security.model.User user) {
+        User = user;
     }
 
 }

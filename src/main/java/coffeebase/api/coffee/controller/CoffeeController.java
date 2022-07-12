@@ -19,26 +19,26 @@ import java.util.List;
 public class CoffeeController {
 
     private CoffeeRepository repository;
-    private CoffeeService service;
+    private CoffeeService coffeeService;
 
-    CoffeeController(final CoffeeRepository repository, final CoffeeService service) {
+    CoffeeController(final CoffeeRepository repository, final CoffeeService coffeeService) {
         this.repository = repository;
-        this.service = service;
+        this.coffeeService = coffeeService;
     }
 
     @GetMapping()
     ResponseEntity<List<Coffee>> getAllCoffees() {
-        return ResponseEntity.ok(service.getAllCoffees());
+        return ResponseEntity.ok(coffeeService.getAllCoffees());
     }
 
     @GetMapping("/{id}")
     ResponseEntity<Coffee> getCoffeeById(@PathVariable int id) {
-        return ResponseEntity.ok(service.getCoffeeById(id));
+        return ResponseEntity.ok(coffeeService.getCoffeeById(id));
     }
 
     @PostMapping
     ResponseEntity<CoffeeDTO> addCoffee(@RequestBody @Valid CoffeeDTO coffee) {
-        var result = service.addCoffee(coffee);
+        var result = coffeeService.addCoffee(coffee);
         return ResponseEntity.created(URI.create("/")).body(result);
     }
 
@@ -47,7 +47,7 @@ public class CoffeeController {
         if (!repository.existsById(id)) {
             ResponseEntity.notFound().build();
         }
-        service.updateCoffee(id, toUpdate);
+        coffeeService.updateCoffee(id, toUpdate);
         return ResponseEntity.ok().build();
     }
 
@@ -56,14 +56,14 @@ public class CoffeeController {
         if (!repository.existsById(id)) {
             ResponseEntity.notFound().build();
         }
-        service.deleteCoffee(id);
+        coffeeService.deleteCoffee(id);
         return ResponseEntity.noContent().build();
     }
 
     @Transactional
     @PatchMapping("/{id}")
     ResponseEntity<?> switchFavourite(@PathVariable int id) {
-        service.switchFavourite(id);
+        coffeeService.switchFavourite(id);
         return ResponseEntity.ok().build();
     }
 }

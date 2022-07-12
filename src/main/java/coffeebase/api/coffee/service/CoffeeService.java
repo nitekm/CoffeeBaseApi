@@ -34,22 +34,6 @@ public class CoffeeService {
                 .collect(Collectors.toList());
     }
 
-    public List<Coffee> getAllCoffeesSortByNameAsc() {
-        return coffeeRepository.findAllByOrderByNameAsc();
-    }
-
-    public List<Coffee> getAllCoffeesSortByNameDesc() {
-        return coffeeRepository.findAllByOrderByNameDesc();
-    }
-
-    public List<Coffee> getAllCoffeesSortByRatingAsc() {
-        return coffeeRepository.findAllByOrderByRatingAsc();
-    }
-
-    public List<Coffee> getAllCoffeesSortByRatingDesc() {
-        return coffeeRepository.findAllByOrderByRatingDesc();
-    }
-
     public Coffee getCoffeeById(int id) {
         return coffeeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
@@ -68,10 +52,6 @@ public class CoffeeService {
     }
 
     public void deleteCoffee(int id) {
-//        coffeeRepository.findById(id).ifPresent(coffee -> {
-//            coffee.getCoffeeGroups().forEach(coffeeGroup -> getAllCoffees().remove(coffee));
-//            coffeeRepository.deleteById(id);
-//        });
         coffeeRepository.findById(id)
                 .ifPresent(coffee -> coffeeRepository.deleteById(id));
     }
@@ -79,8 +59,6 @@ public class CoffeeService {
     //TODO: maybe wrong
     public void updateCoffee(int id, CoffeeDTO toUpdate) {
         coffeeRepository.findById(id)
-                .ifPresent(coffee -> {
-                    coffeeRepository.save(coffee);
-                });
+                .ifPresent(coffeeRepository::save);
     }
 }
