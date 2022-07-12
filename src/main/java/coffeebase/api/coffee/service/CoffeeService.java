@@ -52,13 +52,26 @@ public class CoffeeService {
     }
 
     public void deleteCoffee(int id) {
+        if (!coffeeRepository.existsById(id)) {
+            throw new IllegalArgumentException("Coffee with given id not found");
+        }
         coffeeRepository.findById(id)
                 .ifPresent(coffee -> coffeeRepository.deleteById(id));
     }
 
     //TODO: maybe wrong
     public void updateCoffee(int id, CoffeeDTO toUpdate) {
+        if (!coffeeRepository.existsById(id)) {
+            throw new IllegalArgumentException("Coffee with given id not found");
+        }
         coffeeRepository.findById(id)
-                .ifPresent(coffeeRepository::save);
+                .ifPresent(coffee -> updateCoffeeData(coffee, toUpdate));
+    }
+
+    private void updateCoffeeData(Coffee coffee, CoffeeDTO coffeeDTO) {
+        var updatedCoffee = coffeeMapper.toCoffee(coffeeDTO);
+        updatedCoffee.setId(coffee.getId());
+
+        coffeeRepository.save(updatedCoffee);
     }
 }
