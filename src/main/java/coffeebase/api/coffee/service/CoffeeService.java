@@ -21,57 +21,64 @@ public class CoffeeService {
 
     private static final Logger log = LoggerFactory.getLogger(CoffeeController.class);
 
-    CoffeeService(final CoffeeMapper coffeeMapper, final CoffeeRepository coffeeRepository) {
+    public CoffeeService(final CoffeeMapper coffeeMapper, final CoffeeRepository coffeeRepository) {
         this.coffeeMapper = coffeeMapper;
         this.coffeeRepository = coffeeRepository;
     }
 
-    public List<Coffee> getAllCoffees() {
+    public List<CoffeeDTO> getAllCoffees() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return coffeeRepository.findAll().stream()
+        return coffeeRepository.findAll()
+                .stream()
                 .filter(coffee -> coffee.getUserId() != null)
                 .filter(coffee -> coffee.getUserId().equalsIgnoreCase(user.getUserId()))
+                .map(coffeeMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
-    public Coffee getCoffeeById(int id) {
+    public CoffeeDTO getCoffeeById(int id) {
         return coffeeRepository.findById(id)
+                .map(coffeeMapper::toDTO)
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
     }
 
     public CoffeeDTO addCoffee(CoffeeDTO source) {
-        var result = coffeeRepository.save(coffeeMapper.toCoffee(source));
-        return coffeeMapper.toDTO(result);
+        var savedCoffee = coffeeRepository.save(coffeeMapper.toCoffee(source));
+        return coffeeMapper.toDTO(savedCoffee);
     }
 
-    public void switchFavourite(int id) {
+    public CoffeeDTO switchFavourite(int id) {
         var coffee = coffeeRepository.findById(id)
+                .map(dbCoffee -> {
+                    dbCoffee.setFavourite(!dbCoffee.isFavourite());
+                    return dbCoffee;
+                })
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
-        coffee.setFavourite(!coffee.isFavourite());
-        coffeeRepository.save(coffee);
+        var updatedCoffee = coffeeRepository.save(coffee);
+        return coffeeMapper.toDTO(updatedCoffee);
     }
 
     public void deleteCoffee(int id) {
-        if (!coffeeRepository.existsById(id)) {
-            throw new IllegalArgumentException("Coffee with given id not found");
-        }
         coffeeRepository.findById(id)
-                .ifPresent(coffee -> coffeeRepository.deleteById(id));
+                .map(coffee -> {
+                    coffeeRepository.deleteById(id);
+                    return true;
+                })
+                .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
     }
 
-    //TODO: maybe wrong
-    public void updateCoffee(int id, CoffeeDTO toUpdate) {
-        if (!coffeeRepository.existsById(id)) {
-            throw new IllegalArgumentException("Coffee with given id not found");
-        }
-        coffeeRepository.findById(id)
-                .ifPresent(coffee -> updateCoffeeData(coffee, toUpdate));
+    public CoffeeDTO updateCoffee(int id, CoffeeDTO toUpdate) {
+        var updatedCoffee = coffeeRepository.findById(id)
+                .map(coffee -> updateCoffeeData(coffee, toUpdate))
+                .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
+
+        return coffeeMapper.toDTO(updatedCoffee);
     }
 
-    private void updateCoffeeData(Coffee coffee, CoffeeDTO coffeeDTO) {
+    private Coffee updateCoffeeData(Coffee coffee, CoffeeDTO coffeeDTO) {
         var updatedCoffee = coffeeMapper.toCoffee(coffeeDTO);
         updatedCoffee.setId(coffee.getId());
 
-        coffeeRepository.save(updatedCoffee);
+        return coffeeRepository.save(updatedCoffee);
     }
 }
