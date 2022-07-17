@@ -15,13 +15,12 @@ public class User {
     private String username;
     private String email;
 
+    public User() {}
+
     public User(final String userId, final String username, final String email) {
         this.userId = userId;
         this.username = username;
         this.email = email;
-    }
-
-    public User() {
     }
 
     public int getId() {

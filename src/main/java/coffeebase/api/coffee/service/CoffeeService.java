@@ -30,8 +30,8 @@ public class CoffeeService {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return coffeeRepository.findAll()
                 .stream()
-                .filter(coffee -> coffee.getUserId() != null)
-                .filter(coffee -> coffee.getUserId().equalsIgnoreCase(user.getUserId()))
+                .filter(coffee -> coffee.getUser() != null)
+                .filter(coffee -> coffee.getUser().getUserId().equalsIgnoreCase(user.getUserId()))
                 .map(coffeeMapper::toDTO)
                 .collect(Collectors.toList());
     }

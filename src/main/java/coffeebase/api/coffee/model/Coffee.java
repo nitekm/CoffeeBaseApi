@@ -19,24 +19,12 @@ public class Coffee {
     private int rating;
     private String imageUrl;
     private boolean favourite;
-    @Column(name = "plain_user_id")
-    private String userId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId")
     private User User;
+
     @Embedded
     private Audit audit = new Audit();
-
-    public Coffee() {
-    }
-
-    public Coffee(final String name, final String origin, final String roaster, final int rating, final String imageUrl, final String userId) {
-        this.name = name;
-        this.origin = origin;
-        this.roaster = roaster;
-        this.rating = rating;
-        this.imageUrl = imageUrl;
-        this.userId = userId;
-    }
 
     public int getId() {
         return id;
@@ -92,14 +80,6 @@ public class Coffee {
 
     public void setFavourite(final boolean favourite) {
         this.favourite = favourite;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(final String userId) {
-        this.userId = userId;
     }
 
     public coffeebase.api.security.model.User getUser() {

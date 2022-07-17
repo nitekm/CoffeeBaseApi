@@ -1,4 +1,4 @@
-package coffeebase.api;
+package coffeebase.api.utils;
 
 import coffeebase.api.coffee.model.Coffee;
 import coffeebase.api.coffee.repository.CoffeeRepository;
