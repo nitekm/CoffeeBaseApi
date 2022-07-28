@@ -10,6 +10,7 @@ public class CoffeeDTO {
     private String roaster;
     private int rating;
     private String imageUrl;
+    private boolean favourite;
     private String userId;
     private User user;
 
@@ -61,6 +62,14 @@ public class CoffeeDTO {
 
     public void setImageUrl(final String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public boolean isFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(final boolean favourite) {
+        this.favourite = favourite;
     }
 
     public String getUserId() {

@@ -5,7 +5,10 @@ spring:
       path: '/console'
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: 'create-drop'
     show-sql: true
-
+jwt:
+  expirationTime: 3600000
+  secret: '53cr3t'
+  clientId: 'qwerty12345'
 
