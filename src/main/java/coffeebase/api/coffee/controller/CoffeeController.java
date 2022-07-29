@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @IllegalExceptionProcessing
 @RequestMapping("/coffees")
+@Transactional
 public class CoffeeController {
 
     private final CoffeeService coffeeService;
@@ -22,7 +23,7 @@ public class CoffeeController {
         this.coffeeService = coffeeService;
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<CoffeeDTO>> getAllCoffees() {
         return ResponseEntity.ok(coffeeService.getAllCoffees());
     }
@@ -43,7 +44,6 @@ public class CoffeeController {
         return ResponseEntity.ok(coffeeService.updateCoffee(id, toUpdate));
     }
 
-    @Transactional
     @PatchMapping("/{id}")
     public ResponseEntity<CoffeeDTO> switchFavourite(@PathVariable int id) {
         return ResponseEntity.ok(coffeeService.switchFavourite(id));
