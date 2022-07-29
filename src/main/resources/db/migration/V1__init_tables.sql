@@ -10,10 +10,9 @@ create table COFFEES
     rating        int,
     imageUrl      varchar(255),
     favourite     bit,
-    created_on    timestamp    not null,
+    created_on    timestamp,
     updated_on    timestamp,
-    plain_user_id varchar(255) not null,
-    user_id       int
+    user_id       int not null
 );
 
 create table USERS

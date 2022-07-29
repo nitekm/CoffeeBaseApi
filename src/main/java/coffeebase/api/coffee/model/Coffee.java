@@ -20,8 +20,8 @@ public class Coffee {
     private String imageUrl;
     private boolean favourite;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "userId")
-    private User User;
+    @JoinColumn(name = "user.id")
+    private User user;
 
     @Embedded
     private Audit audit = new Audit();
@@ -82,12 +82,11 @@ public class Coffee {
         this.favourite = favourite;
     }
 
-    public coffeebase.api.security.model.User getUser() {
-        return User;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser(final coffeebase.api.security.model.User user) {
-        User = user;
+    public void setUser(final User user) {
+        this.user = user;
     }
-
 }

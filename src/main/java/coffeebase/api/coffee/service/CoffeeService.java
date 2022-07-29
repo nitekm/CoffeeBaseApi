@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,7 +44,11 @@ public class CoffeeService {
     }
 
     public CoffeeDTO addCoffee(CoffeeDTO source) {
-        var savedCoffee = coffeeRepository.save(coffeeMapper.toCoffee(source));
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        source.setUser(user);
+        source.setUserId(user.getUserId());
+        var mappedCoffee = coffeeMapper.toCoffee(source);
+        var savedCoffee = coffeeRepository.save(mappedCoffee);
         return coffeeMapper.toDTO(savedCoffee);
     }
 
@@ -75,10 +80,13 @@ public class CoffeeService {
         return coffeeMapper.toDTO(updatedCoffee);
     }
 
-    private Coffee updateCoffeeData(Coffee coffee, CoffeeDTO coffeeDTO) {
-        var updatedCoffee = coffeeMapper.toCoffee(coffeeDTO);
-        updatedCoffee.setId(coffee.getId());
+    private Coffee updateCoffeeData(Coffee coffee, CoffeeDTO update) {
+        Optional.ofNullable(update.getName()).ifPresent(coffee::setName);
+        Optional.ofNullable(update.getOrigin()).ifPresent(coffee::setOrigin);
+        Optional.ofNullable(update.getRoaster()).ifPresent(coffee::setRoaster);
+        Optional.of(update.getRating()).ifPresent(coffee::setRating);
+        Optional.ofNullable(update.getImageUrl()).ifPresent(coffee::setImageUrl);
 
-        return coffeeRepository.save(updatedCoffee);
+        return coffeeRepository.save(coffee);
     }
 }
