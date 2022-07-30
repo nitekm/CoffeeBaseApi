@@ -29,6 +29,7 @@ public class CoffeeService {
 
     public List<CoffeeDTO> getAllCoffees() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        log.info("Getting all coffees for user" + user.getUserId() + " CALLED!");
         return coffeeRepository.findAll()
                 .stream()
                 .filter(coffee -> coffee.getUser() != null)
@@ -38,6 +39,7 @@ public class CoffeeService {
     }
 
     public CoffeeDTO getCoffeeById(int id) {
+        log.info("Getting coffee with id: " + id + " CALLED!");
         return coffeeRepository.findById(id)
                 .map(coffeeMapper::toDTO)
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
@@ -49,6 +51,7 @@ public class CoffeeService {
         source.setUserId(user.getUserId());
         var mappedCoffee = coffeeMapper.toCoffee(source);
         var savedCoffee = coffeeRepository.save(mappedCoffee);
+        log.info("Saving new coffee for user: " + user.getUserId() + " CALLED");
         return coffeeMapper.toDTO(savedCoffee);
     }
 
@@ -60,6 +63,7 @@ public class CoffeeService {
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
         var updatedCoffee = coffeeRepository.save(coffee);
+        log.info("Switching favourites for coffee id: " + id + " CALLED!");
         return coffeeMapper.toDTO(updatedCoffee);
     }
 
@@ -70,6 +74,7 @@ public class CoffeeService {
                     return true;
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
+        log.info("Delete coffee with id: " + id + "CALLED!");
     }
 
     public CoffeeDTO updateCoffee(int id, CoffeeDTO toUpdate) {
@@ -77,6 +82,7 @@ public class CoffeeService {
                 .map(coffee -> updateCoffeeData(coffee, toUpdate))
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
 
+        log.info("Updating coffee with id: " + id + " CALLED!");
         return coffeeMapper.toDTO(updatedCoffee);
     }
 
