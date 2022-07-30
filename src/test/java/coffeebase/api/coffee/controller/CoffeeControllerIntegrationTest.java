@@ -107,23 +107,23 @@ public class CoffeeControllerIntegrationTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @WithMockUser
-    @Test
-    void httpPost_createCoffee_returnCreated() throws Exception {
-        //given
-        coffee.setOrigin("bar");
-
-        //when
-        ResultActions response = mockMvc.perform(post("/coffees/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(coffee)));
-
-        //then
-        response.andDo(print())
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name", is(coffee.getName())))
-                .andExpect(jsonPath("$.origin", is(coffee.getOrigin())));
-    }
+//    @WithMockUser
+//    @Test
+//    void httpPost_createCoffee_returnCreated() throws Exception {
+//        //given
+//        coffee.setOrigin("bar");
+//
+//        //when
+//        ResultActions response = mockMvc.perform(post("/coffees/")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(objectMapper.writeValueAsString(coffee)));
+//
+//        //then
+//        response.andDo(print())
+//                .andExpect(status().isCreated())
+//                .andExpect(jsonPath("$.name", is(coffee.getName())))
+//                .andExpect(jsonPath("$.origin", is(coffee.getOrigin())));
+//    }
 
     @WithMockUser
     @Test
