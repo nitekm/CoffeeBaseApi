@@ -1,4 +1,4 @@
-package coffeebase.api.coffee.model;
+package coffeebase.api.domain.coffee;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

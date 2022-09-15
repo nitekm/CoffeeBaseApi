@@ -1,4 +1,4 @@
-package coffeebase.api.coffee.model;
+package coffeebase.api.domain.coffee;
 
 import coffeebase.api.security.model.User;
 

@@ -1,10 +1,5 @@
-package coffeebase.api.coffee.service;
+package coffeebase.api.domain.coffee;
 
-import coffeebase.api.coffee.controller.CoffeeController;
-import coffeebase.api.coffee.model.Coffee;
-import coffeebase.api.coffee.model.CoffeeDTO;
-import coffeebase.api.coffee.model.CoffeeMapper;
-import coffeebase.api.coffee.repository.CoffeeRepository;
 import coffeebase.api.security.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +29,12 @@ public class CoffeeService {
                 .stream()
                 .filter(coffee -> coffee.getUser() != null)
                 .filter(coffee -> coffee.getUser().getUserId().equalsIgnoreCase(user.getUserId()))
+                .map(coffeeMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<CoffeeDTO> search(String content) {
+        return coffeeRepository.findByFields(content).stream()
                 .map(coffeeMapper::toDTO)
                 .collect(Collectors.toList());
     }
