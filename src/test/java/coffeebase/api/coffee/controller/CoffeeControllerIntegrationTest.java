@@ -1,7 +1,7 @@
 package coffeebase.api.coffee.controller;
 
-import coffeebase.api.domain.coffee.Coffee;
 import coffeebase.api.domain.coffee.CoffeeRepository;
+import coffeebase.api.domain.coffee.model.Coffee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

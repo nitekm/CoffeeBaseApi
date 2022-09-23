@@ -1,5 +1,8 @@
 package coffeebase.api.domain.coffee;
 
+import coffeebase.api.domain.coffee.model.Coffee;
+import coffeebase.api.domain.coffee.model.CoffeeDTO;
+import coffeebase.api.domain.coffee.model.CoffeeMapper;
 import coffeebase.api.security.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
