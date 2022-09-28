@@ -18,6 +18,7 @@ public class CoffeeDTO {
     private Continent continent;
     private String farm;
     private Integer cropHeight;
+    private Integer scaRating;
     private String userId;
     private User user;
 
@@ -125,6 +126,14 @@ public class CoffeeDTO {
 
     public void setCropHeight(final Integer cropHeight) {
         this.cropHeight = cropHeight;
+    }
+
+    public Integer getScaRating() {
+        return scaRating;
+    }
+
+    public void setScaRating(final Integer scaRating) {
+        this.scaRating = scaRating;
     }
 
     public String getUserId() {
