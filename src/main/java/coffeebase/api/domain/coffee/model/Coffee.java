@@ -27,6 +27,7 @@ public class Coffee {
     private Continent continent;
     private String farm;
     private Integer cropHeight;
+    private Integer scaRating;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user.id")
     private User user;
@@ -136,6 +137,22 @@ public class Coffee {
 
     public void setCropHeight(final Integer cropHeight) {
         this.cropHeight = cropHeight;
+    }
+
+    public Boolean getFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(final Boolean favourite) {
+        this.favourite = favourite;
+    }
+
+    public Integer getScaRating() {
+        return scaRating;
+    }
+
+    public void setScaRating(final Integer scaRating) {
+        this.scaRating = scaRating;
     }
 
     public User getUser() {
