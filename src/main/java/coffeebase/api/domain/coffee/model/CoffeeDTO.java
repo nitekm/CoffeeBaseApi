@@ -2,7 +2,10 @@ package coffeebase.api.domain.coffee.model;
 
 import coffeebase.api.domain.enums.Continent;
 import coffeebase.api.domain.enums.RoastProfile;
+import coffeebase.api.domain.tag.model.Tag;
 import coffeebase.api.security.model.User;
+
+import java.util.List;
 
 public class CoffeeDTO {
     private Integer id;
@@ -21,6 +24,7 @@ public class CoffeeDTO {
     private Integer scaRating;
     private String userId;
     private User user;
+    private List<Tag> tags;
 
     public CoffeeDTO() {}
 
@@ -150,5 +154,13 @@ public class CoffeeDTO {
 
     public void setUser(final User user) {
         this.user = user;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(final List<Tag> tags) {
+        this.tags = tags;
     }
 }

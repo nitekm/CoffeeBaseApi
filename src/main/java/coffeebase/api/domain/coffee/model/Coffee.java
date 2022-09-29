@@ -3,10 +3,12 @@ package coffeebase.api.domain.coffee.model;
 import coffeebase.api.audit.Audit;
 import coffeebase.api.domain.enums.Continent;
 import coffeebase.api.domain.enums.RoastProfile;
+import coffeebase.api.domain.tag.model.Tag;
 import coffeebase.api.security.model.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Entity
 @Table(name = "COFFEES")
@@ -28,6 +30,9 @@ public class Coffee {
     private String farm;
     private Integer cropHeight;
     private Integer scaRating;
+
+    @OneToMany(mappedBy = "coffee", cascade = CascadeType.PERSIST)
+    private List<Tag> tags;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user.id")
     private User user;
@@ -35,11 +40,11 @@ public class Coffee {
     @Embedded
     private Audit audit = new Audit();
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(final int id) {
+    public void setId(final Integer id) {
         this.id = id;
     }
 
@@ -153,6 +158,14 @@ public class Coffee {
 
     public void setScaRating(final Integer scaRating) {
         this.scaRating = scaRating;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(final List<Tag> tags) {
+        this.tags = tags;
     }
 
     public User getUser() {
