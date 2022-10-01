@@ -92,9 +92,17 @@ public class CoffeeService {
 
     private Coffee updateCoffeeData(Coffee coffee, CoffeeDTO update) {
         Optional.ofNullable(update.getName()).ifPresent(coffee::setName);
-        Optional.ofNullable(update.getOrigin()).ifPresent(coffee::setOrigin);
         Optional.ofNullable(update.getRoaster()).ifPresent(coffee::setRoaster);
+        Optional.ofNullable(update.getOrigin()).ifPresent(coffee::setOrigin);
         Optional.of(update.getRating()).ifPresent(coffee::setRating);
+        Optional.ofNullable(update.getProcessing()).ifPresent(coffee::setProcessing);
+        Optional.ofNullable(update.getRoastProfile()).ifPresent(coffee::setRoastProfile);
+        Optional.ofNullable(update.getRegion()).ifPresent(coffee::setRegion);
+        Optional.ofNullable(update.getContinent()).ifPresent(coffee::setContinent);
+        Optional.ofNullable(update.getFarm()).ifPresent(coffee::setFarm);
+        Optional.ofNullable(update.getCropHeight()).ifPresent(coffee::setCropHeight);
+        Optional.ofNullable(update.getScaRating()).ifPresent(coffee::setScaRating);
+        Optional.ofNullable(update.getTags()).ifPresent(coffee::setTags);
         Optional.ofNullable(update.getImageUrl()).ifPresent(coffee::setImageUrl);
 
         return coffeeRepository.save(coffee);
