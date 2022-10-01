@@ -1,7 +1,5 @@
 package coffeebase.api.domain.coffee.model;
 
-import coffeebase.api.domain.enums.Continent;
-import coffeebase.api.domain.enums.RoastProfile;
 import coffeebase.api.domain.tag.model.Tag;
 import coffeebase.api.security.model.User;
 
@@ -16,9 +14,9 @@ public class CoffeeDTO {
     private String origin;
     private String roaster;
     private String processing;
-    private RoastProfile roastProfile;
+    private String roastProfile;
     private String region;
-    private Continent continent;
+    private String continent;
     private String farm;
     private Integer cropHeight;
     private Integer scaRating;
@@ -92,11 +90,11 @@ public class CoffeeDTO {
         this.processing = processing;
     }
 
-    public RoastProfile getRoastProfile() {
+    public String getRoastProfile() {
         return roastProfile;
     }
 
-    public void setRoastProfile(final RoastProfile roastProfile) {
+    public void setRoastProfile(final String roastProfile) {
         this.roastProfile = roastProfile;
     }
 
@@ -108,11 +106,11 @@ public class CoffeeDTO {
         this.region = region;
     }
 
-    public Continent getContinent() {
+    public String getContinent() {
         return continent;
     }
 
-    public void setContinent(final Continent continent) {
+    public void setContinent(final String continent) {
         this.continent = continent;
     }
 
