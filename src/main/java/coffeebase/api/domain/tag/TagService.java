@@ -36,6 +36,4 @@ public class TagService {
                 .orElseThrow(() -> new IllegalArgumentException("Tag with given id not found"));
         log.info("Delete tag with id: " + id + "CALLED!");
     }
-
-
 }

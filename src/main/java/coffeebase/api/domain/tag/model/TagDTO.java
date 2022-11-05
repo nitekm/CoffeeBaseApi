@@ -1,13 +1,18 @@
 package coffeebase.api.domain.tag.model;
 
-import coffeebase.api.domain.coffee.model.Coffee;
+import coffeebase.api.domain.coffee.model.CoffeeDTO;
+import coffeebase.api.security.model.User;
+
+import java.util.List;
 
 public class TagDTO {
 
     private Integer id;
     private String name;
     private String color;
-    private Coffee coffee;
+    private List<CoffeeDTO> coffees;
+    private String userId;
+    private User user;
 
     public Integer getId() {
         return id;
@@ -33,11 +38,27 @@ public class TagDTO {
         this.color = color;
     }
 
-    public Coffee getCoffee() {
-        return coffee;
+    public List<CoffeeDTO> getCoffees() {
+        return coffees;
     }
 
-    public void setCoffee(final Coffee coffee) {
-        this.coffee = coffee;
+    public void setCoffees(final List<CoffeeDTO> coffees) {
+        this.coffees = coffees;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(final String userId) {
+        this.userId = userId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(final User user) {
+        this.user = user;
     }
 }

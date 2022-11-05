@@ -3,6 +3,8 @@ package coffeebase.api.domain.coffee;
 import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
 import coffeebase.api.domain.coffee.model.CoffeeMapper;
+import coffeebase.api.domain.tag.model.Tag;
+import coffeebase.api.domain.tag.model.TagMapper;
 import coffeebase.api.security.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +18,15 @@ import java.util.stream.Collectors;
 @Service
 public class CoffeeService {
     public final CoffeeMapper coffeeMapper;
+
+    public final TagMapper tagMapper;
     private final CoffeeRepository coffeeRepository;
 
     private static final Logger log = LoggerFactory.getLogger(CoffeeController.class);
 
-    public CoffeeService(final CoffeeMapper coffeeMapper, final CoffeeRepository coffeeRepository) {
+    public CoffeeService(final CoffeeMapper coffeeMapper, final TagMapper tagMapper, final CoffeeRepository coffeeRepository) {
         this.coffeeMapper = coffeeMapper;
+        this.tagMapper = tagMapper;
         this.coffeeRepository = coffeeRepository;
     }
 
@@ -54,6 +59,9 @@ public class CoffeeService {
         source.setUser(user);
         source.setUserId(user.getUserId());
         var mappedCoffee = coffeeMapper.toCoffee(source);
+
+//        mappedCoffee.getTags().forEach(tag -> tag.setCoffee(mappedCoffee));
+
         var savedCoffee = coffeeRepository.save(mappedCoffee);
         log.info("Saving new coffee for user: " + user.getUserId() + " CALLED");
         return coffeeMapper.toDTO(savedCoffee);
@@ -95,6 +103,17 @@ public class CoffeeService {
         Optional.ofNullable(update.getOrigin()).ifPresent(coffee::setOrigin);
         Optional.ofNullable(update.getRoaster()).ifPresent(coffee::setRoaster);
         Optional.of(update.getRating()).ifPresent(coffee::setRating);
+        Optional.ofNullable(update.getProcessing()).ifPresent(coffee::setProcessing);
+        Optional.ofNullable(update.getRoastProfile()).ifPresent(coffee::setRoastProfile);
+        Optional.ofNullable(update.getRegion()).ifPresent(coffee::setRegion);
+        Optional.ofNullable(update.getContinent()).ifPresent(coffee::setContinent);
+        Optional.ofNullable(update.getFarm()).ifPresent(coffee::setFarm);
+        Optional.ofNullable(update.getCropHeight()).ifPresent(coffee::setCropHeight);
+        Optional.ofNullable(update.getScaRating()).ifPresent(coffee::setScaRating);
+        final List<Tag> tags = update.getTags().stream()
+                .map(tagMapper::toTag)
+                .collect(Collectors.toList());
+        coffee.setTags(tags);
         Optional.ofNullable(update.getImageUrl()).ifPresent(coffee::setImageUrl);
 
         return coffeeRepository.save(coffee);

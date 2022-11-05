@@ -31,7 +31,12 @@ public class Coffee {
     private Integer cropHeight;
     private Integer scaRating;
 
-    @OneToMany(mappedBy = "coffee", cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "coffee_tag",
+            joinColumns = @JoinColumn(name = "coffee_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
     private List<Tag> tags;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user.id")

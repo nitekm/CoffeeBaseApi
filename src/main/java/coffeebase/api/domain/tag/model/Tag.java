@@ -2,8 +2,10 @@ package coffeebase.api.domain.tag.model;
 
 import coffeebase.api.audit.Audit;
 import coffeebase.api.domain.coffee.model.Coffee;
+import coffeebase.api.security.model.User;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "TAGS")
@@ -11,21 +13,21 @@ public class Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
     private Integer id;
 
-    @Column(name = "NAME")
     private String name;
 
-    @Column(name = "COLOR")
     private String color;
 
-    @Embedded
-    private Audit audit;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user.id")
+    private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "coffee_id")
-    private Coffee coffee;
+    @Embedded
+    private Audit audit = new Audit();
+
+    @ManyToMany(mappedBy = "tags")
+    private List<Coffee> coffees;
 
     public Tag() {
     }
@@ -59,11 +61,27 @@ public class Tag {
         this.color = color;
     }
 
-    public Coffee getCoffee() {
-        return coffee;
+    public User getUser() {
+        return user;
     }
 
-    public void setCoffee(final Coffee coffee) {
-        this.coffee = coffee;
+    public void setUser(final User user) {
+        this.user = user;
+    }
+
+    public List<Coffee> getCoffees() {
+        return coffees;
+    }
+
+    public void setCoffees(final List<Coffee> coffees) {
+        this.coffees = coffees;
+    }
+
+    public Audit getAudit() {
+        return audit;
+    }
+
+    public void setAudit(final Audit audit) {
+        this.audit = audit;
     }
 }
