@@ -1,7 +1,6 @@
-package coffeebase.api.coffee.controller;
+package coffeebase.api.domain.coffee;
 
-import coffeebase.api.coffee.model.CoffeeDTO;
-import coffeebase.api.coffee.service.CoffeeService;
+import coffeebase.api.domain.coffee.model.CoffeeDTO;
 import coffeebase.api.exception.IllegalExceptionProcessing;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +17,6 @@ import java.util.List;
 public class CoffeeController {
 
     private final CoffeeService coffeeService;
-
     public CoffeeController(final CoffeeService coffeeService) {
         this.coffeeService = coffeeService;
     }
@@ -31,6 +29,11 @@ public class CoffeeController {
     @GetMapping("/{id}")
     public ResponseEntity<CoffeeDTO> getCoffeeById(@PathVariable int id) {
         return ResponseEntity.ok(coffeeService.getCoffeeById(id));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<CoffeeDTO>> searchByFields(@RequestParam String content) {
+        return ResponseEntity.ok(coffeeService.search(content));
     }
 
     @PostMapping
