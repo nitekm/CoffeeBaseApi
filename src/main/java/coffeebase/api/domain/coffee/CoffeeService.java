@@ -42,7 +42,10 @@ public class CoffeeService {
     }
 
     public List<CoffeeDTO> search(String content) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return coffeeRepository.findByFields(content).stream()
+                .filter(coffee -> coffee.getUser() != null)
+                .filter(coffee -> coffee.getUser().getUserId().equalsIgnoreCase(user.getUserId()))
                 .map(coffeeMapper::toDTO)
                 .collect(Collectors.toList());
     }
@@ -58,6 +61,10 @@ public class CoffeeService {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         source.setUser(user);
         source.setUserId(user.getUserId());
+        source.getTags().forEach(tag -> {
+            tag.setUser(user);
+            tag.setUserId(user.getUserId());
+        });
         var mappedCoffee = coffeeMapper.toCoffee(source);
 
 //        mappedCoffee.getTags().forEach(tag -> tag.setCoffee(mappedCoffee));
@@ -111,6 +118,7 @@ public class CoffeeService {
         Optional.ofNullable(update.getCropHeight()).ifPresent(coffee::setCropHeight);
         Optional.ofNullable(update.getScaRating()).ifPresent(coffee::setScaRating);
         final List<Tag> tags = update.getTags().stream()
+                .peek(tagDTO -> tagDTO.setUser(coffee.getUser()))
                 .map(tagMapper::toTag)
                 .collect(Collectors.toList());
         coffee.setTags(tags);

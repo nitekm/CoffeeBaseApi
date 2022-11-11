@@ -18,6 +18,11 @@ public class TagController {
         this.tagService = tagService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<TagDTO>> getAll() {
+        return ResponseEntity.ok(tagService.getAll());
+    }
+
     @GetMapping("/search")
     public ResponseEntity<List<TagDTO>> searchByName(@RequestParam String name) {
         return ResponseEntity.ok(tagService.search(name));

@@ -2,8 +2,10 @@ package coffeebase.api.domain.tag;
 
 import coffeebase.api.domain.tag.model.TagDTO;
 import coffeebase.api.domain.tag.model.TagMapper;
+import coffeebase.api.security.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,9 +22,20 @@ public class TagService {
         this.tagRepository = tagRepository;
         this.tagMapper = tagMapper;
     }
+    public List<TagDTO> getAll() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return tagRepository.findAll().stream()
+                .filter(coffee -> coffee.getUser() != null)
+                .filter(coffee -> coffee.getUser().getUserId().equalsIgnoreCase(user.getUserId()))
+                .map(tagMapper::toDTO)
+                .collect(Collectors.toList());
+    }
 
     public List<TagDTO> search(String name) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return tagRepository.findByName(name).stream()
+                .filter(coffee -> coffee.getUser() != null)
+                .filter(coffee -> coffee.getUser().getUserId().equalsIgnoreCase(user.getUserId()))
                 .map(tagMapper::toDTO)
                 .collect(Collectors.toList());
     }

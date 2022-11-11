@@ -29,7 +29,7 @@ public class Coffee {
     private Integer cropHeight;
     private Integer scaRating;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(
             name = "coffee_tag",
             joinColumns = @JoinColumn(name = "coffee_id"),
