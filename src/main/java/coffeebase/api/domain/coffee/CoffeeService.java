@@ -33,10 +33,8 @@ public class CoffeeService {
     public List<CoffeeDTO> getAllCoffees() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("Getting all coffees for user" + user.getUserId() + " CALLED!");
-        return coffeeRepository.findAll()
+        return coffeeRepository.findAllByUser(user)
                 .stream()
-                .filter(coffee -> coffee.getUser() != null)
-                .filter(coffee -> coffee.getUser().getUserId().equalsIgnoreCase(user.getUserId()))
                 .map(coffeeMapper::toDTO)
                 .collect(Collectors.toList());
     }
@@ -65,10 +63,8 @@ public class CoffeeService {
             tag.setUser(user);
             tag.setUserId(user.getUserId());
         });
+
         var mappedCoffee = coffeeMapper.toCoffee(source);
-
-//        mappedCoffee.getTags().forEach(tag -> tag.setCoffee(mappedCoffee));
-
         var savedCoffee = coffeeRepository.save(mappedCoffee);
         log.info("Saving new coffee for user: " + user.getUserId() + " CALLED");
         return coffeeMapper.toDTO(savedCoffee);

@@ -1,6 +1,7 @@
 package coffeebase.api.domain.coffee;
 
 import coffeebase.api.domain.coffee.model.Coffee;
+import coffeebase.api.security.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
 
-    List<Coffee> findAll();
+    List<Coffee> findAllByUser(User user);
 
     Optional<Coffee> findById(Integer id);
 
