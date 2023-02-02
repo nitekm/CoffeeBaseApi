@@ -46,7 +46,7 @@ public class Coffee {
     private Integer cropHeight;
 
     @Min(value = 0)
-    @Min(value = 100)
+    @Max(value = 100)
     private Integer scaRating;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
