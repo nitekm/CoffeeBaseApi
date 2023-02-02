@@ -5,6 +5,7 @@ import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.security.model.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Entity
@@ -15,8 +16,10 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank
     private String name;
 
+    @NotBlank
     private String color;
 
     @ManyToOne(fetch = FetchType.EAGER)

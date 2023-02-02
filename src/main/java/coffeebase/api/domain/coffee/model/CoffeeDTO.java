@@ -3,25 +3,51 @@ package coffeebase.api.domain.coffee.model;
 import coffeebase.api.domain.tag.model.TagDTO;
 import coffeebase.api.security.model.User;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 public class CoffeeDTO {
     private Integer id;
+
+    @NotBlank(message = "Name cannot be empty")
     private String name;
+
+    @Min(value = 0)
+    @Max(value = 6)
     private Double rating;
+
     private Boolean favourite;
+
     private String imageUrl;
+
     private String origin;
+
     private String roaster;
+
     private String processing;
+
     private String roastProfile;
+
     private String region;
+
     private String continent;
+
     private String farm;
+
+    @Min(value = 0)
+    @Max(value = 8849)
     private Integer cropHeight;
+
+    @Min(value = 0)
+    @Min(value = 100)
     private Integer scaRating;
+
     private String userId;
+
     private User user;
+
     private List<TagDTO> tags;
 
     public Integer getId() {
