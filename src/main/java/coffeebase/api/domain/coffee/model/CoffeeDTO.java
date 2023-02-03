@@ -2,6 +2,7 @@ package coffeebase.api.domain.coffee.model;
 
 import coffeebase.api.domain.tag.model.TagDTO;
 import coffeebase.api.security.model.User;
+import org.springframework.core.io.Resource;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -49,6 +50,8 @@ public class CoffeeDTO {
     private User user;
 
     private List<TagDTO> tags;
+
+   private Resource imageResource;
 
     public Integer getId() {
         return id;
@@ -184,5 +187,13 @@ public class CoffeeDTO {
 
     public void setTags(final List<TagDTO> tags) {
         this.tags = tags;
+    }
+
+    public Resource getImageResource() {
+        return imageResource;
+    }
+
+    public void setImageResource(final Resource imageResource) {
+        this.imageResource = imageResource;
     }
 }

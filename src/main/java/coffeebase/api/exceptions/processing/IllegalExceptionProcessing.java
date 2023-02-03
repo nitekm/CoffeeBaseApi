@@ -1,4 +1,4 @@
-package coffeebase.api.exception;
+package coffeebase.api.exceptions.processing;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

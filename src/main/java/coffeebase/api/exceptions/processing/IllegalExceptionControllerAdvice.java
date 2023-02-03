@@ -1,4 +1,4 @@
-package coffeebase.api.exception;
+package coffeebase.api.exceptions.processing;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,10 +1,12 @@
 package coffeebase.api.domain.coffee;
 
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
-import coffeebase.api.exception.IllegalExceptionProcessing;
+import coffeebase.api.domain.coffee.model.service.CoffeeService;
+import coffeebase.api.exceptions.processing.IllegalExceptionProcessing;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -37,14 +39,17 @@ public class CoffeeController {
     }
 
     @PostMapping
-    public ResponseEntity<CoffeeDTO> addCoffee(@RequestBody @Valid CoffeeDTO coffee) {
-        var result = coffeeService.addCoffee(coffee);
+    public ResponseEntity<CoffeeDTO> addCoffee(@RequestBody @Valid CoffeeDTO coffee,
+                                               @RequestParam("coffeeImage") MultipartFile file) {
+        var result = coffeeService.addCoffee(coffee, file);
         return ResponseEntity.created(URI.create("/")).body(result);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CoffeeDTO> updateCoffee(@PathVariable int id, @RequestBody @Valid CoffeeDTO toUpdate) {
-        return ResponseEntity.ok(coffeeService.updateCoffee(id, toUpdate));
+    public ResponseEntity<CoffeeDTO> updateCoffee(@PathVariable int id,
+                                                  @RequestBody @Valid CoffeeDTO toUpdate,
+                                                  @RequestParam("coffeeImage") MultipartFile file) {
+        return ResponseEntity.ok(coffeeService.updateCoffee(id, toUpdate, file));
     }
 
     @PatchMapping("/{id}")

@@ -1,6 +1,7 @@
 package coffeebase.api.domain.coffee.model;
 
 import coffeebase.api.audit.Audit;
+import coffeebase.api.domain.file.CoffeeBaseFile;
 import coffeebase.api.domain.tag.model.Tag;
 import coffeebase.api.security.model.User;
 
@@ -57,8 +58,12 @@ public class Coffee {
     )
     private List<Tag> tags;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user.id")
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToOne
+    @JoinColumn(name = "file_id")
+    private CoffeeBaseFile coffeeBaseFile;
 
     @Embedded
     private Audit audit = new Audit();
@@ -197,6 +202,14 @@ public class Coffee {
 
     public void setUser(final User user) {
         this.user = user;
+    }
+
+    public CoffeeBaseFile getCoffeeBaseFile() {
+        return coffeeBaseFile;
+    }
+
+    public void setCoffeeBaseFile(final CoffeeBaseFile coffeeBaseFile) {
+        this.coffeeBaseFile = coffeeBaseFile;
     }
 
     public Audit getAudit() {

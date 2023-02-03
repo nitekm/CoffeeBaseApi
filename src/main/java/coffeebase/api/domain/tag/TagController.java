@@ -1,7 +1,7 @@
 package coffeebase.api.domain.tag;
 
 import coffeebase.api.domain.tag.model.TagDTO;
-import coffeebase.api.exception.IllegalExceptionProcessing;
+import coffeebase.api.exceptions.processing.IllegalExceptionProcessing;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
