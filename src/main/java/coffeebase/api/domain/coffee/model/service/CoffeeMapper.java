@@ -12,6 +12,7 @@ public interface CoffeeMapper {
 
     @Mapping(target = "userId", source = "coffee.user.userId")
     @Mapping(target = "tags.coffees", ignore = true)
+    @Mapping(target = "coffeeImageName", source = "coffee.coffeeBaseFile.name")
     CoffeeDTO coffeeToDTO(Coffee coffee);
 
     @BeanMapping(ignoreByDefault = true)

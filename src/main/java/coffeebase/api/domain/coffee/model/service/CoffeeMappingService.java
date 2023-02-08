@@ -2,12 +2,10 @@ package coffeebase.api.domain.coffee.model.service;
 
 import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
-import coffeebase.api.domain.file.CoffeeBaseFile;
 import coffeebase.api.domain.file.CoffeeBaseFileService;
 import coffeebase.api.domain.tag.model.Tag;
 import coffeebase.api.domain.tag.model.TagMapper;
 import coffeebase.api.security.model.User;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,23 +28,11 @@ public class CoffeeMappingService {
 
     public CoffeeDTO mapSingleWithImage(Coffee coffee) {
         var coffeeDTO = coffeeMapper.coffeeToDTO(coffee);
-
-        final CoffeeBaseFile coffeeBaseFile = coffee.getCoffeeBaseFile();
-        if (coffeeBaseFile != null) {
-            final Resource resource = fileService.load(coffeeBaseFile.getName());
-            coffeeDTO.setImageResource(resource);
-        }
         return coffeeDTO;
     }
 
     public CoffeeDTO mapForList(Coffee coffee) {
         var coffeeDTO = coffeeMapper.dtoForCoffeeList(coffee);
-
-        final CoffeeBaseFile coffeeBaseFile = coffee.getCoffeeBaseFile();
-        if (coffeeBaseFile != null) {
-            final Resource resource = fileService.load(coffeeBaseFile.getName());
-            coffeeDTO.setImageResource(resource);
-        }
         return coffeeDTO;
     }
 
@@ -87,7 +73,6 @@ public class CoffeeMappingService {
                 .map(tagMapper::toTag)
                 .collect(Collectors.toList());
         coffee.setTags(tags);
-        Optional.ofNullable(update.getImageUrl()).ifPresent(coffee::setImageUrl);
 
         final var savedImage = fileService.save(image);
         coffee.setCoffeeBaseFile(savedImage);

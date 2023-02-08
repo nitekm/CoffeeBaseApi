@@ -26,8 +26,6 @@ public class Coffee {
 
     private Boolean favourite;
 
-    private String imageUrl;
-
     private String origin;
 
     private String roaster;
@@ -98,14 +96,6 @@ public class Coffee {
 
     public void setFavourite(final boolean favourite) {
         this.favourite = favourite;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(final String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public String getOrigin() {

@@ -39,8 +39,8 @@ public class CoffeeController {
     }
 
     @PostMapping
-    public ResponseEntity<CoffeeDTO> addCoffee(@RequestBody @Valid CoffeeDTO coffee,
-                                               @RequestParam("coffeeImage") MultipartFile file) {
+    public ResponseEntity<CoffeeDTO> addCoffee(@RequestPart("coffee") @Valid CoffeeDTO coffee,
+                                               @RequestPart("image") MultipartFile file) {
         var result = coffeeService.addCoffee(coffee, file);
         return ResponseEntity.created(URI.create("/")).body(result);
     }
