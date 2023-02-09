@@ -1,5 +1,6 @@
 package coffeebase.api.exceptions.processing;
 
+import coffeebase.api.exceptions.exception.FileLoadException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,7 @@ import javax.validation.ConstraintViolationException;
 @RestControllerAdvice(annotations = IllegalExceptionProcessing.class)
 public class IllegalExceptionControllerAdvice {
 
-    private Logger logger = LoggerFactory.getLogger(IllegalExceptionControllerAdvice.class);
+    private final Logger logger = LoggerFactory.getLogger(IllegalExceptionControllerAdvice.class);
 
     @ExceptionHandler(IllegalArgumentException.class)
     ResponseEntity<?> handleIllegalArgument(IllegalArgumentException e) {
@@ -34,6 +35,12 @@ public class IllegalExceptionControllerAdvice {
 
     @ExceptionHandler(SizeLimitExceededException.class)
     ResponseEntity<String> handleSizeLimitExceededException(SizeLimitExceededException e) {
+        logger.error(e.getMessage());
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(FileLoadException.class)
+    ResponseEntity<String> handleFileLoadException(FileLoadException e) {
         logger.error(e.getMessage());
         return ResponseEntity.badRequest().body(e.getMessage());
     }
