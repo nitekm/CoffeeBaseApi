@@ -1,4 +1,4 @@
-package coffeebase.api.domain.coffee.model.service;
+package coffeebase.api.domain.coffee.service;
 
 import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;

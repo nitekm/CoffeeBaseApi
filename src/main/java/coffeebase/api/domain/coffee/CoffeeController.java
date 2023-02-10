@@ -1,7 +1,7 @@
 package coffeebase.api.domain.coffee;
 
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
-import coffeebase.api.domain.coffee.model.service.CoffeeService;
+import coffeebase.api.domain.coffee.service.CoffeeService;
 import coffeebase.api.exceptions.processing.IllegalExceptionProcessing;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;

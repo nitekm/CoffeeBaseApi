@@ -1,4 +1,4 @@
-package coffeebase.api.domain.coffee.model.service;
+package coffeebase.api.domain.coffee.service;
 
 import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
@@ -18,6 +18,8 @@ public interface CoffeeMapper {
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "name", ignore = false)
     @Mapping(target = "favourite", ignore = false)
+    @Mapping(target = "id", ignore = false)
+    @Mapping(target = "coffeeImageName", ignore = false, source = "coffee.coffeeBaseFile.name")
     CoffeeDTO dtoForCoffeeList(Coffee coffee);
 
     @Mapping(target = "id", ignore = true)

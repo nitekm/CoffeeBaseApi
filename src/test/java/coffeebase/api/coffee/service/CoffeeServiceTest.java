@@ -2,8 +2,8 @@ package coffeebase.api.coffee.service;
 
 import coffeebase.api.domain.coffee.CoffeeRepository;
 import coffeebase.api.domain.coffee.model.Coffee;
-import coffeebase.api.domain.coffee.model.service.CoffeeMapper;
-import coffeebase.api.domain.coffee.model.service.CoffeeService;
+import coffeebase.api.domain.coffee.service.CoffeeMapper;
+import coffeebase.api.domain.coffee.service.CoffeeService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
