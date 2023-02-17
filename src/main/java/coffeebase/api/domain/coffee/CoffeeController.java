@@ -40,15 +40,15 @@ public class CoffeeController {
 
     @PostMapping
     public ResponseEntity<CoffeeDTO> addCoffee(@RequestPart("coffee") @Valid CoffeeDTO coffee,
-                                               @RequestPart("image") MultipartFile file) {
+                                               @RequestPart(value = "image", required = false) MultipartFile file) {
         var result = coffeeService.addCoffee(coffee, file);
         return ResponseEntity.created(URI.create("/")).body(result);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CoffeeDTO> updateCoffee(@PathVariable int id,
-                                                  @RequestBody @Valid CoffeeDTO toUpdate,
-                                                  @RequestParam("coffeeImage") MultipartFile file) {
+                                                  @RequestPart("coffee") @Valid CoffeeDTO toUpdate,
+                                                  @RequestPart(value = "image", required = false) MultipartFile file) {
         return ResponseEntity.ok(coffeeService.updateCoffee(id, toUpdate, file));
     }
 

@@ -51,20 +51,19 @@ public class CoffeeService {
     public CoffeeDTO getCoffeeById(int id) {
         log.debug("Getting coffee with id: " + id + " CALLED!");
         return coffeeRepository.findById(id)
-                .map(mappingService::mapSingleWithImage)
+                .map(mappingService::mapCoffee)
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
     }
 
     public CoffeeDTO addCoffee(CoffeeDTO source, MultipartFile image) {
         var user = getUserFromRequest();
 
-        var mappedCoffee = mappingService.mapUserToCoffee(source, user);
-        var withImage = mappingService.mapImageToCoffee(mappedCoffee, image);
+        var coffee = mappingService.mapCoffeeToSave(source, user, image);
 
-        var savedCoffee = coffeeRepository.save(withImage);
+        var savedCoffee = coffeeRepository.save(coffee);
         log.info("Saving new coffee for user: " + user.getUserId() + " CALLED");
 
-        var coffeeDTO = mappingService.mapSingleWithImage(savedCoffee);
+        var coffeeDTO = mappingService.mapCoffee(savedCoffee);
 
         return coffeeDTO;
     }
@@ -77,7 +76,7 @@ public class CoffeeService {
         var savedUpdate = coffeeRepository.save(updatedCoffee);
 
         log.info("Updating coffee with id: " + id + " CALLED!");
-        var coffeeDTO = mappingService.mapSingleWithImage(savedUpdate);
+        var coffeeDTO = mappingService.mapCoffee(savedUpdate);
 
         return coffeeDTO;
     }
@@ -93,7 +92,7 @@ public class CoffeeService {
 
         log.info("Switching favourites for coffee id: " + id + " CALLED!");
 
-        var coffeeDTO = mappingService.mapSingleWithImage(updatedCoffee);
+        var coffeeDTO = mappingService.mapCoffee(updatedCoffee);
 
         return coffeeDTO;
     }

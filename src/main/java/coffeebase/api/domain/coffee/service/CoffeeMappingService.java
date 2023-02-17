@@ -26,7 +26,7 @@ public class CoffeeMappingService {
         this.tagMapper = tagMapper;
     }
 
-    public CoffeeDTO mapSingleWithImage(Coffee coffee) {
+    public CoffeeDTO mapCoffee(Coffee coffee) {
         var coffeeDTO = coffeeMapper.coffeeToDTO(coffee);
         return coffeeDTO;
     }
@@ -36,7 +36,18 @@ public class CoffeeMappingService {
         return coffeeDTO;
     }
 
-    public Coffee mapUserToCoffee(CoffeeDTO coffeeDTO, User user) {
+    public Coffee mapCoffeeToSave(CoffeeDTO coffeeDTO, User user, MultipartFile image) {
+        var coffee = new Coffee();
+        coffee = mapUserToCoffee(coffeeDTO, user);
+        if (image != null && !image.isEmpty()) {
+            coffee = mapImageToCoffee(coffee, image);
+        }
+
+        return coffee;
+    }
+
+
+    private Coffee mapUserToCoffee(CoffeeDTO coffeeDTO, User user) {
         coffeeDTO.setUser(user);
         coffeeDTO.setUserId(user.getUserId());
         coffeeDTO.getTags().forEach(tag -> {
@@ -49,7 +60,7 @@ public class CoffeeMappingService {
         return coffee;
     }
 
-    public Coffee mapImageToCoffee(Coffee coffee, MultipartFile image) {
+    private Coffee mapImageToCoffee(Coffee coffee, MultipartFile image) {
         final var savedImage = fileService.save(image);
         coffee.setCoffeeBaseFile(savedImage);
 

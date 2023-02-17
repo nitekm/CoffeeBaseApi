@@ -69,6 +69,6 @@ public class CoffeeBaseFileService {
         var dateTimeFormat = new SimpleDateFormat(dateTimePattern);
         var date = dateTimeFormat.format(new Date());
 
-        return originalFileName + "_" + date;
+        return date + "_" + originalFileName;
     }
 }
