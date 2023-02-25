@@ -1,9 +1,9 @@
 package coffeebase.api.security.jwt;
 
+import coffeebase.api.security.google.GoogleTokenVerifier;
 import coffeebase.api.security.model.User;
-import coffeebase.api.security.service.UserService;
-import io.jsonwebtoken.ExpiredJwtException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -15,15 +15,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private final GoogleTokenVerifier googleTokenVerifier;
 
-    @Autowired
-    private UserService userService;
+    public JwtRequestFilter(final GoogleTokenVerifier googleTokenVerifier) {
+        this.googleTokenVerifier = googleTokenVerifier;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -31,42 +32,30 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         final String requestTokenHeader = request.getHeader("Authorization");
 
-        String userId = null;
-        String jwtToken = null;
-        // JWT Token is in the form "Bearer token". Remove Bearer word and get
-        // only the Token
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            jwtToken = requestTokenHeader.substring(7);
-            try {
-                userId = jwtTokenUtil.getUserIdFromToken(jwtToken);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Unable to get JWT Token");
-            } catch (ExpiredJwtException e) {
-                System.out.println("JWT Token has expired");
-            }
-        } else {
+        if (requestTokenHeader == null || !requestTokenHeader.startsWith("Bearer ")) {
             logger.warn("JWT Token does not begin with Bearer String");
         }
 
-        // Once we get the token validate it.
-        if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-            User user = userService.findByUserId(userId);
+        try {
+            String jwtToken = requestTokenHeader.substring(7);
+            final User user = googleTokenVerifier.verifyGoogleToken(new NetHttpTransport(), GsonFactory.getDefaultInstance(), jwtToken);
 
             // if token is valid configure Spring Security to manually set
             // authentication
-            if (jwtTokenUtil.validateToken(jwtToken, user)) {
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                    user, null, null);
+            usernamePasswordAuthenticationToken
+                    .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                        user, null, null);
-                usernamePasswordAuthenticationToken
-                        .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                // After setting the Authentication in the context, we specify
-                // that the current user is authenticated. So it passes the
-                // Spring Security Configurations successfully.
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            }
+            // After setting the Authentication in the context, we specify
+            // that the current user is authenticated. So it passes the
+            // Spring Security Configurations successfully.
+            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+
+        } catch (GeneralSecurityException | IllegalAccessException e) {
+            logger.error("Access denied: " + e);
         }
+
         chain.doFilter(request, response);
     }
 

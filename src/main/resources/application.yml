@@ -7,8 +7,5 @@ spring:
     multipart:
       max-file-size: 3MB
       max-request-size: 5MB
-
 jwt:
-  expirationTime: 3600000
-  secret: ${secret}
   clientId: ${clientId}

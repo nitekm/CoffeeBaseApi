@@ -1,7 +1,5 @@
 package coffeebase.api.security.google;
 
-import coffeebase.api.security.jwt.JwtTokenUtil;
-import coffeebase.api.security.model.Token;
 import coffeebase.api.security.model.User;
 import coffeebase.api.security.service.UserService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -20,21 +18,22 @@ public class GoogleTokenVerifier {
 
     private UserService userService;
 
-    private JwtTokenUtil jwtTokenUtil;
-
     @Value("${jwt.clientId}")
     private String clientID;
 
-    public GoogleTokenVerifier(final UserService userService, final JwtTokenUtil jwtTokenUtil) {
+    public GoogleTokenVerifier(final UserService userService) {
         this.userService = userService;
-        this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    public Token verifyGoogleToken(NetHttpTransport transport, GsonFactory jsonFactory, String idTokenString) throws GeneralSecurityException, IOException, IllegalAccessException {
+    public User verifyGoogleToken(NetHttpTransport transport, GsonFactory jsonFactory, String idTokenString)
+            throws GeneralSecurityException, IOException, IllegalAccessException {
+
+        //build google token verifier
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
                 .setAudience(Collections.singleton(clientID))
                 .build();
 
+        //verify token from request
         GoogleIdToken idToken = verifier.verify(idTokenString);
         if (idToken == null) {
             throw new IllegalAccessException("Invalid token");
@@ -42,10 +41,8 @@ public class GoogleTokenVerifier {
 
         GoogleIdToken.Payload payload = idToken.getPayload();
 
-        User user = createUser(payload);
-
-        final String token = jwtTokenUtil.generateToken(user);
-        return new Token(token);
+        //create User object from token payload
+        return createUser(payload);
     }
 
     private User createUser(GoogleIdToken.Payload payload) {
@@ -54,6 +51,6 @@ public class GoogleTokenVerifier {
         String email = payload.getEmail();
         String name = (String) payload.get("name");
 
-        return userService.checkUser(new User(userId, name, email));
+        return userService.findExistingOrSaveNew(new User(userId, name, email));
     }
 }
