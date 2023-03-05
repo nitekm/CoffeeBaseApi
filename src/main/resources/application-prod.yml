@@ -1,9 +1,11 @@
 spring:
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
+  cloud:
+    gcp:
+      logging:
+        enabled: true
+      sql:
+        instance-connection-name: coffeebase-379621:europe-central2:coffeebase-db
+        database-name: coffeebase-db
   datasource:
-    url: 'jdbc:mysql://localhost:3306/coffeebase_db'
-    username: 'user'
-    password: 'password'
+    username: ${dbUser}
+    password: ${dbPass}
