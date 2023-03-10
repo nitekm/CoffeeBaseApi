@@ -3,9 +3,3 @@ spring:
     console:
       enabled: true
       path: '/console'
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-
-

@@ -18,8 +18,8 @@ public class GoogleTokenVerifier {
 
     private UserService userService;
 
-    @Value("${jwt.clientId}")
-    private String clientID;
+    @Value("${clientId}")
+    private String clientId;
 
     public GoogleTokenVerifier(final UserService userService) {
         this.userService = userService;
@@ -30,7 +30,7 @@ public class GoogleTokenVerifier {
 
         //build google token verifier
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-                .setAudience(Collections.singleton(clientID))
+                .setAudience(Collections.singleton(clientId))
                 .build();
 
         //verify token from request
