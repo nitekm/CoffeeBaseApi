@@ -10,5 +10,3 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-#jwt:
-#  clientId: ${clientId}

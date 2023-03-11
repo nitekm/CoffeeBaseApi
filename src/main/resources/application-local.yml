@@ -5,3 +5,5 @@ spring:
     url: 'jdbc:mysql://localhost:3306/coffeebase_db'
     username: 'user'
     password: 'password'
+
+clientId: ${clientId}
