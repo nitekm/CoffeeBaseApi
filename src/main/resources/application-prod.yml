@@ -7,6 +7,7 @@ spring:
     password: ${sm://dbPassword}
     driver-class-name: com.mysql.cj.jdbc.Driver
   cloud:
+    appId: coffeebase-379621
     gcp:
       logging:
         enabled: true
