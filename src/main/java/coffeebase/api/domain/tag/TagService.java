@@ -33,7 +33,7 @@ public class TagService {
 
     public List<TagDTO> search(String name) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return tagRepository.findByName(name).stream()
+        return tagRepository.findByName(name, user.getId()).stream()
                 .filter(coffee -> coffee.getUser() != null)
                 .filter(coffee -> coffee.getUser().getUserId().equalsIgnoreCase(user.getUserId()))
                 .map(tagMapper::toDTO)

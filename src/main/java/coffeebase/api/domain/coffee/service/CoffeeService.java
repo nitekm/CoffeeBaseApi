@@ -3,6 +3,7 @@ package coffeebase.api.domain.coffee.service;
 import coffeebase.api.domain.coffee.CoffeeController;
 import coffeebase.api.domain.coffee.CoffeeRepository;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
+import coffeebase.api.domain.tag.TagRepository;
 import coffeebase.api.security.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,12 +18,14 @@ import java.util.stream.Collectors;
 public class CoffeeService {
     private final CoffeeRepository coffeeRepository;
     private final CoffeeMappingService mappingService;
+    private final TagRepository tagRepository;
 
     private static final Logger log = LoggerFactory.getLogger(CoffeeController.class);
 
-    public CoffeeService(final CoffeeRepository coffeeRepository, final CoffeeMappingService mappingService) {
+    public CoffeeService(final CoffeeRepository coffeeRepository, final CoffeeMappingService mappingService, TagRepository tagRepository) {
         this.coffeeRepository = coffeeRepository;
         this.mappingService = mappingService;
+        this.tagRepository = tagRepository;
     }
 
     public List<CoffeeDTO> getAllCoffees() {
@@ -40,7 +43,7 @@ public class CoffeeService {
     public List<CoffeeDTO> search(String content) {
         var user = getUserFromRequest();
         log.debug("Searching by" + content + " CALLED!");
-        var searchResult = coffeeRepository.findByFields(content, user)
+        var searchResult = coffeeRepository.findByFields(content, user.getId())
                 .stream()
                 .map(mappingService::mapForList)
                 .collect(Collectors.toList());
@@ -60,6 +63,7 @@ public class CoffeeService {
 
         var coffee = mappingService.mapCoffeeToSave(source, user, image);
 
+        tagRepository.saveAll(coffee.getTags());
         var savedCoffee = coffeeRepository.save(coffee);
         log.info("Saving new coffee for user: " + user.getUserId() + " CALLED");
 

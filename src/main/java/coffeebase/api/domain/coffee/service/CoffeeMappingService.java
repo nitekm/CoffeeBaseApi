@@ -39,10 +39,7 @@ public class CoffeeMappingService {
     public Coffee mapCoffeeToSave(CoffeeDTO coffeeDTO, User user, MultipartFile image) {
         var coffee = new Coffee();
         coffee = mapUserToCoffee(coffeeDTO, user);
-        if (image != null && !image.isEmpty()) {
-            coffee = mapImageToCoffee(coffee, image);
-        }
-
+        mapImageToCoffee(coffee, image);
         return coffee;
     }
 
@@ -61,6 +58,9 @@ public class CoffeeMappingService {
     }
 
     private Coffee mapImageToCoffee(Coffee coffee, MultipartFile image) {
+        if (image == null || image.isEmpty()) {
+            return coffee;
+        }
         final var savedImage = fileService.save(image);
         coffee.setCoffeeBaseFile(savedImage);
 
@@ -85,8 +85,7 @@ public class CoffeeMappingService {
                 .collect(Collectors.toList());
         coffee.setTags(tags);
 
-        final var savedImage = fileService.save(image);
-        coffee.setCoffeeBaseFile(savedImage);
+        mapImageToCoffee(coffee, image);
 
         return coffee;
     }

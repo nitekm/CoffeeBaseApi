@@ -16,7 +16,9 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
     Optional<Tag> findById(Integer id);
     void deleteById(Integer id);
 
-    @Query(value = "SELECT * FROM TAGS t " +
-            "WHERE UPPER(t.name) LIKE UPPER(CONCAT('%',:name,'%'))", nativeQuery = true)
-    List<Tag> findByName(@Param("name") String name);
+    @Query(value = "SELECT * FROM tags t " +
+            "WHERE UPPER(t.name) LIKE UPPER(CONCAT('%',:name,'%')) " +
+            "AND t.user_id = :userId",
+            nativeQuery = true)
+    List<Tag> findByName(@Param("name") String name, @Param("userId") Integer userId);
 }
