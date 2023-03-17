@@ -23,18 +23,18 @@ public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
 
     void deleteById(Integer id);
 
-    @Query(value = "SELECT * FROM coffees c " +
-            "WHERE UPPER(c.name) LIKE UPPER(CONCAT('%',:content,'%')) " +
-            "OR UPPER(c.rating) LIKE UPPER(CONCAT('%',:content,'%')) " +
-            "OR UPPER(c.origin) LIKE UPPER(CONCAT('%',:content,'%')) " +
-            "OR UPPER(c.roaster) LIKE UPPER(CONCAT('%',:content,'%')) " +
-            "OR UPPER(c.processing) LIKE UPPER(CONCAT('%',:content,'%')) " +
-            "OR UPPER(c.roast_profile) LIKE UPPER(CONCAT('%',:content,'%')) " +
-            "OR UPPER(c.region) LIKE UPPER(CONCAT('%',:content,'%')) " +
-            "OR UPPER(c.continent) LIKE UPPER(CONCAT('%',:content,'%')) " +
-            "OR UPPER(c.farm) LIKE UPPER(CONCAT('%',:content,'%')) " +
-            "OR UPPER(c.crop_height) LIKE UPPER(CONCAT('%',:content,'%')) " +
-            "AND c.user_id = :userId",
-            nativeQuery = true)
+    @Query(nativeQuery = true,
+            value = "select * from coffees c " +
+                    "where c.user_id = :userId " +
+                    "and upper(c.name) like upper(concat('%',:content,'%')) " +
+                    "or upper(c.rating) like upper(concat('%',:content,'%')) " +
+                    "or upper(c.origin) like upper(concat('%',:content,'%')) " +
+                    "or upper(c.roaster) like upper(concat('%',:content,'%')) " +
+                    "or upper(c.processing) like upper(concat('%',:content,'%')) " +
+                    "or upper(c.roast_profile) like upper(concat('%',:content,'%')) " +
+                    "or upper(c.region) like upper(concat('%',:content,'%')) " +
+                    "or upper(c.continent) like upper(concat('%',:content,'%')) " +
+                    "or upper(c.farm) like upper(concat('%',:content,'%')) " +
+                    "or upper(c.crop_height) like upper(concat('%',:content,'%'))")
     List<Coffee> findByFields(@Param("content") String content, @Param("userId") Integer userId);
 }

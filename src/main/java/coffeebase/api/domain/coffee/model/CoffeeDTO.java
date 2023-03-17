@@ -41,7 +41,7 @@ public class CoffeeDTO {
     private Integer cropHeight;
 
     @Min(value = 0)
-    @Min(value = 100)
+    @Max(value = 100)
     private Integer scaRating;
 
     private String userId;

@@ -12,13 +12,16 @@ import java.util.Optional;
 @Repository
 public interface TagRepository extends JpaRepository<Tag, Integer> {
     Tag save(Tag tag);
+
     boolean existsByName(String name);
+
     Optional<Tag> findById(Integer id);
+
     void deleteById(Integer id);
 
-    @Query(value = "SELECT * FROM tags t " +
-            "WHERE UPPER(t.name) LIKE UPPER(CONCAT('%',:name,'%')) " +
-            "AND t.user_id = :userId",
-            nativeQuery = true)
+    @Query(nativeQuery = true,
+            value = "select * from tags t " +
+                    "where t.user_id = :userId " +
+                    "and upper(t.name) like upper(concat('%',:name,'%'))")
     List<Tag> findByName(@Param("name") String name, @Param("userId") Integer userId);
 }

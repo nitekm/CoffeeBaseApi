@@ -41,14 +41,10 @@ public class CoffeeService {
     }
 
     public List<CoffeeDTO> search(String content) {
-        var user = getUserFromRequest();
-        log.debug("Searching by" + content + " CALLED!");
-        var searchResult = coffeeRepository.findByFields(content, user.getId())
-                .stream()
-                .map(mappingService::mapForList)
-                .collect(Collectors.toList());
-
-        return searchResult;
+        if (content.isBlank()) {
+            return getAllCoffees();
+        }
+        return searchByContent(content);
     }
 
     public CoffeeDTO getCoffeeById(int id) {
@@ -113,5 +109,16 @@ public class CoffeeService {
 
     private User getUserFromRequest() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    private List<CoffeeDTO> searchByContent(String content) {
+        var user = getUserFromRequest();
+        log.debug("Searching by" + content + " CALLED!");
+        var searchResult = coffeeRepository.findByFields(content, user.getId())
+                .stream()
+                .map(mappingService::mapForList)
+                .collect(Collectors.toList());
+
+        return searchResult;
     }
 }

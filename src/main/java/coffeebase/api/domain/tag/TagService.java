@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,12 +33,10 @@ public class TagService {
     }
 
     public List<TagDTO> search(String name) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return tagRepository.findByName(name, user.getId()).stream()
-                .filter(coffee -> coffee.getUser() != null)
-                .filter(coffee -> coffee.getUser().getUserId().equalsIgnoreCase(user.getUserId()))
-                .map(tagMapper::toDTO)
-                .collect(Collectors.toList());
+        if (name.isBlank()) {
+            return new ArrayList<>();
+        }
+        return searchByName(name);
     }
 
     public void deleteTag(int id) {
@@ -48,5 +47,14 @@ public class TagService {
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Tag with given id not found"));
         log.info("Delete tag with id: " + id + "CALLED!");
+    }
+
+    private List<TagDTO> searchByName(String name) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return tagRepository.findByName(name, user.getId()).stream()
+                .filter(coffee -> coffee.getUser() != null)
+                .filter(coffee -> coffee.getUser().getUserId().equalsIgnoreCase(user.getUserId()))
+                .map(tagMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

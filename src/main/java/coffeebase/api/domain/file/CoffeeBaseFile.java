@@ -2,10 +2,15 @@ package coffeebase.api.domain.file;
 
 import coffeebase.api.audit.Audit;
 
-import javax.persistence.*;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "FILES")
+@Table(name = "files")
 public class CoffeeBaseFile {
 
     @Id
