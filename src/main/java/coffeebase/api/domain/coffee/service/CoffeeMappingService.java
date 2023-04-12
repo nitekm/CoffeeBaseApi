@@ -45,14 +45,16 @@ public class CoffeeMappingService {
 
 
     private Coffee mapUserToCoffee(CoffeeDTO coffeeDTO, User user) {
-        coffeeDTO.setUser(user);
-        coffeeDTO.setUserId(user.getUserId());
-        coffeeDTO.getTags().forEach(tag -> {
-            tag.setUser(user);
-            tag.setUserId(user.getUserId());
-        });
+//        coffeeDTO.user(user);
+//        coffeeDTO.setUserId(user.getUserId());
+//        coffeeDTO.getTags().forEach(tag -> {
+//            tag.setUser(user);
+//            tag.setUserId(user.getUserId());
+//        });
 
         final var coffee = coffeeMapper.dtoToCoffee(coffeeDTO);
+        coffee.setUser(user);
+        coffee.getTags().forEach(tag -> tag.setUser(user));
 
         return coffee;
     }
@@ -68,20 +70,21 @@ public class CoffeeMappingService {
     }
 
     public Coffee mapUpdateCoffeeData(Coffee coffee, CoffeeDTO update, MultipartFile image) {
-        Optional.ofNullable(update.getName()).ifPresent(coffee::setName);
-        Optional.ofNullable(update.getOrigin()).ifPresent(coffee::setOrigin);
-        Optional.ofNullable(update.getRoaster()).ifPresent(coffee::setRoaster);
-        Optional.of(update.getRating()).ifPresent(coffee::setRating);
-        Optional.ofNullable(update.getProcessing()).ifPresent(coffee::setProcessing);
-        Optional.ofNullable(update.getRoastProfile()).ifPresent(coffee::setRoastProfile);
-        Optional.ofNullable(update.getRegion()).ifPresent(coffee::setRegion);
-        Optional.ofNullable(update.getContinent()).ifPresent(coffee::setContinent);
-        Optional.ofNullable(update.getFarm()).ifPresent(coffee::setFarm);
-        Optional.ofNullable(update.getCropHeight()).ifPresent(coffee::setCropHeight);
-        Optional.ofNullable(update.getScaRating()).ifPresent(coffee::setScaRating);
-        final List<Tag> tags = update.getTags().stream()
-                .peek(tagDTO -> tagDTO.setUser(coffee.getUser()))
+        Optional.ofNullable(update.name()).ifPresent(coffee::setName);
+        Optional.ofNullable(update.origin()).ifPresent(coffee::setOrigin);
+        Optional.ofNullable(update.roaster()).ifPresent(coffee::setRoaster);
+        Optional.of(update.rating()).ifPresent(coffee::setRating);
+        Optional.ofNullable(update.processing()).ifPresent(coffee::setProcessing);
+        Optional.ofNullable(update.roastProfile()).ifPresent(coffee::setRoastProfile);
+        Optional.ofNullable(update.region()).ifPresent(coffee::setRegion);
+        Optional.ofNullable(update.continent()).ifPresent(coffee::setContinent);
+        Optional.ofNullable(update.farm()).ifPresent(coffee::setFarm);
+        Optional.ofNullable(update.cropHeight()).ifPresent(coffee::setCropHeight);
+        Optional.ofNullable(update.scaRating()).ifPresent(coffee::setScaRating);
+        final List<Tag> tags = update.tags().stream()
+//                .peek(tagDTO -> tagDTO.setUser(coffee.getUser()))
                 .map(tagMapper::toTag)
+                .peek(tag -> tag.setUser(coffee.getUser()))
                 .collect(Collectors.toList());
         coffee.setTags(tags);
 
