@@ -1,8 +1,10 @@
 package coffeebase.api.audit;
 
-import javax.persistence.Embeddable;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+
 import java.time.LocalDateTime;
 
 @Embeddable

@@ -2,8 +2,8 @@ package coffeebase.api.domain.tag.model;
 
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
 import coffeebase.api.security.model.User;
+import jakarta.validation.constraints.NotBlank;
 
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 public class TagDTO {

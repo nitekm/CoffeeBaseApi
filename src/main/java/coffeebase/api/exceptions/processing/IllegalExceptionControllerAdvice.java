@@ -1,6 +1,7 @@
 package coffeebase.api.exceptions.processing;
 
 import coffeebase.api.exceptions.exception.FileLoadException;
+import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.naming.SizeLimitExceededException;
-import javax.validation.ConstraintViolationException;
+
 
 @RestControllerAdvice(annotations = IllegalExceptionProcessing.class)
 public class IllegalExceptionControllerAdvice {

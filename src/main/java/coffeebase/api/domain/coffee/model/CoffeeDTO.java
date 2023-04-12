@@ -2,10 +2,10 @@ package coffeebase.api.domain.coffee.model;
 
 import coffeebase.api.domain.tag.model.TagDTO;
 import coffeebase.api.security.model.User;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 public class CoffeeDTO {

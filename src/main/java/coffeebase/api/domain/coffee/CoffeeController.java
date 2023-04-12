@@ -3,12 +3,12 @@ package coffeebase.api.domain.coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
 import coffeebase.api.domain.coffee.service.CoffeeService;
 import coffeebase.api.exceptions.processing.IllegalExceptionProcessing;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
