@@ -8,12 +8,18 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "coffees")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Coffee {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -65,148 +71,4 @@ public class Coffee {
 
     @Embedded
     private Audit audit = new Audit();
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(final Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(final Double rating) {
-        this.rating = rating;
-    }
-
-    public boolean isFavourite() {
-        return favourite;
-    }
-
-    public void setFavourite(final boolean favourite) {
-        this.favourite = favourite;
-    }
-
-    public String getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(final String origin) {
-        this.origin = origin;
-    }
-
-    public String getRoaster() {
-        return roaster;
-    }
-
-    public void setRoaster(final String roaster) {
-        this.roaster = roaster;
-    }
-
-    public String getProcessing() {
-        return processing;
-    }
-
-    public void setProcessing(final String processing) {
-        this.processing = processing;
-    }
-
-    public String getRoastProfile() {
-        return roastProfile;
-    }
-
-    public void setRoastProfile(final String roastProfile) {
-        this.roastProfile = roastProfile;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(final String region) {
-        this.region = region;
-    }
-
-    public String getContinent() {
-        return continent;
-    }
-
-    public void setContinent(final String continent) {
-        this.continent = continent;
-    }
-
-    public String getFarm() {
-        return farm;
-    }
-
-    public void setFarm(final String farm) {
-        this.farm = farm;
-    }
-
-    public Integer getCropHeight() {
-        return cropHeight;
-    }
-
-    public void setCropHeight(final Integer cropHeight) {
-        this.cropHeight = cropHeight;
-    }
-
-    public Boolean getFavourite() {
-        return favourite;
-    }
-
-    public void setFavourite(final Boolean favourite) {
-        this.favourite = favourite;
-    }
-
-    public Integer getScaRating() {
-        return scaRating;
-    }
-
-    public void setScaRating(final Integer scaRating) {
-        this.scaRating = scaRating;
-    }
-
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(final List<Tag> tags) {
-        this.tags = tags;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(final User user) {
-        this.user = user;
-    }
-
-    public CoffeeBaseFile getCoffeeBaseFile() {
-        return coffeeBaseFile;
-    }
-
-    public void setCoffeeBaseFile(final CoffeeBaseFile coffeeBaseFile) {
-        this.coffeeBaseFile = coffeeBaseFile;
-    }
-
-    public Audit getAudit() {
-        return audit;
-    }
-
-    public void setAudit(final Audit audit) {
-        this.audit = audit;
-    }
 }

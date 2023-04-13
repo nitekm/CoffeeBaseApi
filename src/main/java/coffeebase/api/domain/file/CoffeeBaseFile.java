@@ -2,10 +2,15 @@ package coffeebase.api.domain.file;
 
 import coffeebase.api.audit.Audit;
 import jakarta.persistence.*;
+import lombok.*;
 
 
 @Entity
 @Table(name = "files")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CoffeeBaseFile {
 
     @Id
@@ -17,44 +22,4 @@ public class CoffeeBaseFile {
 
     private String name;
     private String path;
-
-
-    public CoffeeBaseFile() {}
-
-    public CoffeeBaseFile(final String name, final String path) {
-        this.name = name;
-        this.path = path;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(final Integer id) {
-        this.id = id;
-    }
-
-    public Audit getAudit() {
-        return audit;
-    }
-
-    public void setAudit(final Audit audit) {
-        this.audit = audit;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(final String path) {
-        this.path = path;
-    }
 }

@@ -2,23 +2,17 @@ package coffeebase.api.security.service;
 
 import coffeebase.api.security.model.User;
 import coffeebase.api.security.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserService(final UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     public User findExistingOrSaveNew(User user) {
-        if (userRepository.existsByUserId(user.getUserId())) {
-            return userRepository.findByUserId(user.getUserId());
-        }
-        else {
-            return userRepository.save(user);
-        }
+        return userRepository.findByUserId(user.getUserId())
+                .orElseGet(() -> userRepository.save(user));
     }
 }

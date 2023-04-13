@@ -1,12 +1,11 @@
 package coffeebase.api.domain.coffee.service;
 
-import coffeebase.api.domain.coffee.CoffeeController;
 import coffeebase.api.domain.coffee.CoffeeRepository;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
 import coffeebase.api.domain.tag.TagRepository;
 import coffeebase.api.security.model.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,18 +14,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class CoffeeService {
+
     private final CoffeeRepository coffeeRepository;
     private final CoffeeMappingService mappingService;
     private final TagRepository tagRepository;
-
-    private static final Logger log = LoggerFactory.getLogger(CoffeeController.class);
-
-    public CoffeeService(final CoffeeRepository coffeeRepository, final CoffeeMappingService mappingService, TagRepository tagRepository) {
-        this.coffeeRepository = coffeeRepository;
-        this.mappingService = mappingService;
-        this.tagRepository = tagRepository;
-    }
 
     public List<CoffeeDTO> getAllCoffees() {
         var user = getUserFromRequest();
@@ -84,7 +78,7 @@ public class CoffeeService {
     public CoffeeDTO switchFavourite(int id) {
         var coffee = coffeeRepository.findById(id)
                 .map(dbCoffee -> {
-                    dbCoffee.setFavourite(!dbCoffee.isFavourite());
+                    dbCoffee.setFavourite(!dbCoffee.getFavourite());
                     return dbCoffee;
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));

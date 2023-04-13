@@ -2,21 +2,19 @@ package coffeebase.api.domain.tag;
 
 import coffeebase.api.domain.tag.model.TagDTO;
 import coffeebase.api.exceptions.processing.IllegalExceptionProcessing;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @IllegalExceptionProcessing
 @RequestMapping("/tags")
 public class TagController {
 
     private final TagService tagService;
-
-    public TagController(final TagService tagService) {
-        this.tagService = tagService;
-    }
 
     @GetMapping
     public ResponseEntity<List<TagDTO>> getAll() {

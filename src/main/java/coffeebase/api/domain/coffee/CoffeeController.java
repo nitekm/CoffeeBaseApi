@@ -4,6 +4,7 @@ import coffeebase.api.domain.coffee.model.CoffeeDTO;
 import coffeebase.api.domain.coffee.service.CoffeeService;
 import coffeebase.api.exceptions.processing.IllegalExceptionProcessing;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +17,10 @@ import java.util.List;
 @IllegalExceptionProcessing
 @RequestMapping("/coffees")
 @Transactional
+@RequiredArgsConstructor
 public class CoffeeController {
 
     private final CoffeeService coffeeService;
-    public CoffeeController(final CoffeeService coffeeService) {
-        this.coffeeService = coffeeService;
-    }
 
     @GetMapping
     public ResponseEntity<List<CoffeeDTO>> getAllCoffees() {

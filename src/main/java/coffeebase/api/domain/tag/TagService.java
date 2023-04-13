@@ -3,8 +3,8 @@ package coffeebase.api.domain.tag;
 import coffeebase.api.domain.tag.model.TagDTO;
 import coffeebase.api.domain.tag.model.TagMapper;
 import coffeebase.api.security.model.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
+@RequiredArgsConstructor
 @Service
 public class TagService {
 
-    private static final Logger log = LoggerFactory.getLogger(TagService.class);
     private final TagRepository tagRepository;
     private final TagMapper tagMapper;
 
-    public TagService(final TagRepository tagRepository, final TagMapper tagMapper) {
-        this.tagRepository = tagRepository;
-        this.tagMapper = tagMapper;
-    }
     public List<TagDTO> getAll() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return tagRepository.findAll().stream()

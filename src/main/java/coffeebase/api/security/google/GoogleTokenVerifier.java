@@ -6,6 +6,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,16 +15,13 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 
 @Component
+@RequiredArgsConstructor
 public class GoogleTokenVerifier {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Value("${clientId}")
     private String clientId;
-
-    public GoogleTokenVerifier(final UserService userService) {
-        this.userService = userService;
-    }
 
     public User verifyGoogleToken(NetHttpTransport transport, GsonFactory jsonFactory, String idTokenString)
             throws GeneralSecurityException, IOException, IllegalAccessException {
@@ -46,11 +44,12 @@ public class GoogleTokenVerifier {
     }
 
     private User createUser(GoogleIdToken.Payload payload) {
+        User user = User.builder()
+                .userId(payload.getSubject())
+                .email(payload.getEmail())
+                .username((String) payload.get("name"))
+                .build();
 
-        String userId = payload.getSubject();
-        String email = payload.getEmail();
-        String name = (String) payload.get("name");
-
-        return userService.findExistingOrSaveNew(new User(userId, name, email));
+        return userService.findExistingOrSaveNew(user);
     }
 }

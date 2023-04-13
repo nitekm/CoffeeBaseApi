@@ -6,6 +6,7 @@ import coffeebase.api.domain.file.CoffeeBaseFileService;
 import coffeebase.api.domain.tag.model.Tag;
 import coffeebase.api.domain.tag.model.TagMapper;
 import coffeebase.api.security.model.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,17 +15,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class CoffeeMappingService {
 
     private final CoffeeMapper coffeeMapper;
     private final CoffeeBaseFileService fileService;
     private final TagMapper tagMapper;
-
-    public CoffeeMappingService(final CoffeeMapper coffeeMapper, final CoffeeBaseFileService fileService, final TagMapper tagMapper) {
-        this.coffeeMapper = coffeeMapper;
-        this.fileService = fileService;
-        this.tagMapper = tagMapper;
-    }
 
     public CoffeeDTO mapCoffee(Coffee coffee) {
         var coffeeDTO = coffeeMapper.coffeeToDTO(coffee);
@@ -45,13 +41,6 @@ public class CoffeeMappingService {
 
 
     private Coffee mapUserToCoffee(CoffeeDTO coffeeDTO, User user) {
-//        coffeeDTO.user(user);
-//        coffeeDTO.setUserId(user.getUserId());
-//        coffeeDTO.getTags().forEach(tag -> {
-//            tag.setUser(user);
-//            tag.setUserId(user.getUserId());
-//        });
-
         final var coffee = coffeeMapper.dtoToCoffee(coffeeDTO);
         coffee.setUser(user);
         coffee.getTags().forEach(tag -> tag.setUser(user));
@@ -82,7 +71,6 @@ public class CoffeeMappingService {
         Optional.ofNullable(update.cropHeight()).ifPresent(coffee::setCropHeight);
         Optional.ofNullable(update.scaRating()).ifPresent(coffee::setScaRating);
         final List<Tag> tags = update.tags().stream()
-//                .peek(tagDTO -> tagDTO.setUser(coffee.getUser()))
                 .map(tagMapper::toTag)
                 .peek(tag -> tag.setUser(coffee.getUser()))
                 .collect(Collectors.toList());

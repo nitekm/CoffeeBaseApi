@@ -1,8 +1,8 @@
 package coffeebase.api.domain.file;
 
 import coffeebase.api.exceptions.exception.FileLoadException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -15,22 +15,19 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Slf4j
+@RequiredArgsConstructor
 @Service
 public class CoffeeBaseFileService {
-
-    private static final Logger logger = LoggerFactory.getLogger(CoffeeBaseFileService.class);
     private final Path root = Paths.get("storage").toAbsolutePath().normalize();
-    private final CoffeeBaseFileRepository coffeeBaseFileRepository;
 
-    public CoffeeBaseFileService(final CoffeeBaseFileRepository coffeeBaseFileRepository) {
-        this.coffeeBaseFileRepository = coffeeBaseFileRepository;
-    }
+    private final CoffeeBaseFileRepository coffeeBaseFileRepository;
 
     public void createDir() {
         try {
             Files.createDirectories(root);
         } catch (IOException e) {
-            logger.error("Unable to create directories for file storage");
+            log.error("Unable to create directories for file storage");
         }
     }
 
@@ -40,10 +37,13 @@ public class CoffeeBaseFileService {
             Path path = this.root.resolve(fileName);
             Files.copy(file.getInputStream(), path);
 
-            var storedFile = new CoffeeBaseFile(fileName, path.toString());
+            var storedFile = CoffeeBaseFile.builder()
+                    .name(fileName)
+                    .path(path.toString())
+                    .build();
             return coffeeBaseFileRepository.save(storedFile);
         } catch (Exception e) {
-            logger.error("Error while saving image: " + e.getMessage());
+            log.error("Error while saving image: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
