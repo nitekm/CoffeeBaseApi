@@ -4,6 +4,7 @@ import coffeebase.api.security.model.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @NoArgsConstructor
 @Data
+@SuperBuilder
 public abstract class BaseEntity<ID extends Serializable> {
 
     @Id
