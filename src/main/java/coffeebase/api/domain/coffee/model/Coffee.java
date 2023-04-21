@@ -1,9 +1,8 @@
 package coffeebase.api.domain.coffee.model;
 
-import coffeebase.api.audit.Audit;
+import coffeebase.api.domain.base.model.BaseEntity;
 import coffeebase.api.domain.file.CoffeeBaseFile;
 import coffeebase.api.domain.tag.model.Tag;
-import coffeebase.api.security.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -18,11 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Coffee {
+public class Coffee extends BaseEntity<Long> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     @NotBlank(message = "Name cannot be empty")
     private String name;
 
@@ -54,21 +50,15 @@ public class Coffee {
     @Max(value = 100)
     private Integer scaRating;
 
-    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "coffee_tag",
             joinColumns = @JoinColumn(name = "coffee_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private List<Tag> tags;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @OneToOne
     @JoinColumn(name = "file_id")
     private CoffeeBaseFile coffeeBaseFile;
-
-    @Embedded
-    private Audit audit = new Audit();
 }

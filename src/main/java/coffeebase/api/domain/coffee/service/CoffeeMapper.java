@@ -10,7 +10,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = {TagMapper.class})
 public interface CoffeeMapper {
 
-    @Mapping(target = "userId", source = "coffee.user.userId")
     @Mapping(target = "tags.coffees", ignore = true)
     @Mapping(target = "coffeeImageName", source = "coffee.coffeeBaseFile.name")
     CoffeeDTO coffeeToDTO(Coffee coffee);
@@ -22,6 +21,5 @@ public interface CoffeeMapper {
     @Mapping(target = "coffeeImageName", ignore = false, source = "coffee.coffeeBaseFile.name")
     CoffeeDTO dtoForCoffeeList(Coffee coffee);
 
-    @Mapping(target = "id", ignore = true)
     Coffee dtoToCoffee(CoffeeDTO coffeeDTO);
 }

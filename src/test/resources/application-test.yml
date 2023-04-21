@@ -1,14 +1,8 @@
 spring:
-  h2:
-    console:
-      enabled: true
-      path: '/console'
   jpa:
     hibernate:
       ddl-auto: 'create-drop'
     show-sql: true
-jwt:
-  expirationTime: 3600000
-  secret: '53cr3t'
-  clientId: 'qwerty12345'
+
+clientId: clientId
 

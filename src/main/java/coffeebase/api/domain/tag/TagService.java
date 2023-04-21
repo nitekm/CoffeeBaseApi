@@ -22,9 +22,7 @@ public class TagService {
 
     public List<TagDTO> getAll() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return tagRepository.findAll().stream()
-                .filter(coffee -> coffee.getUser() != null)
-                .filter(coffee -> coffee.getUser().getUserId().equalsIgnoreCase(user.getUserId()))
+        return tagRepository.findAllByCreatedByUserId(user.getUserId()).stream()
                 .map(tagMapper::toDTO)
                 .collect(Collectors.toList());
     }
@@ -36,7 +34,7 @@ public class TagService {
         return searchByName(name);
     }
 
-    public void deleteTag(int id) {
+    public void deleteTag(Long id) {
         tagRepository.findById(id)
                 .map(tag -> {
                     tagRepository.deleteById(id);
@@ -48,9 +46,7 @@ public class TagService {
 
     private List<TagDTO> searchByName(String name) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return tagRepository.findByName(name, user.getId()).stream()
-                .filter(coffee -> coffee.getUser() != null)
-                .filter(coffee -> coffee.getUser().getUserId().equalsIgnoreCase(user.getUserId()))
+        return tagRepository.findByName(name, user.getUserId()).stream()
                 .map(tagMapper::toDTO)
                 .collect(Collectors.toList());
     }

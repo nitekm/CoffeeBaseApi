@@ -1,9 +1,11 @@
 package coffeebase.api.domain.coffee.service;
 
 import coffeebase.api.domain.coffee.CoffeeRepository;
+import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
-import coffeebase.api.domain.tag.TagRepository;
+import coffeebase.api.domain.file.CoffeeBaseFileService;
 import coffeebase.api.security.model.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,22 +18,21 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class CoffeeService {
 
     private final CoffeeRepository coffeeRepository;
-    private final CoffeeMappingService mappingService;
-    private final TagRepository tagRepository;
+    private final CoffeeBaseFileService coffeeBaseFileService;
+    private final CoffeeMapper coffeeMapper;
 
     public List<CoffeeDTO> getAllCoffees() {
         var user = getUserFromRequest();
         log.debug("Getting all coffees for user" + user.getUserId() + " CALLED!");
 
-        var allUserCoffees = coffeeRepository.findAllByUser(user)
+        return coffeeRepository.findAllByCreatedByUserId(user.getUserId())
                 .stream()
-                .map(mappingService::mapForList)
+                .map(coffeeMapper::dtoForCoffeeList)
                 .collect(Collectors.toList());
-
-        return allUserCoffees;
     }
 
     public List<CoffeeDTO> search(String content) {
@@ -41,57 +42,61 @@ public class CoffeeService {
         return searchByContent(content);
     }
 
-    public CoffeeDTO getCoffeeById(int id) {
+    public CoffeeDTO getCoffeeById(Long id) {
         log.debug("Getting coffee with id: " + id + " CALLED!");
         return coffeeRepository.findById(id)
-                .map(mappingService::mapCoffee)
+                .map(coffeeMapper::coffeeToDTO)
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
     }
 
     public CoffeeDTO addCoffee(CoffeeDTO source, MultipartFile image) {
-        var user = getUserFromRequest();
+        var coffee = coffeeMapper.dtoToCoffee(source);
 
-        var coffee = mappingService.mapCoffeeToSave(source, user, image);
+        saveImage(coffee, image);
 
-        tagRepository.saveAll(coffee.getTags());
         var savedCoffee = coffeeRepository.save(coffee);
-        log.info("Saving new coffee for user: " + user.getUserId() + " CALLED");
+        log.info("Saved new coffee");
 
-        var coffeeDTO = mappingService.mapCoffee(savedCoffee);
-
-        return coffeeDTO;
+        return coffeeMapper.coffeeToDTO(savedCoffee);
     }
 
-    public CoffeeDTO updateCoffee(int id, CoffeeDTO update, MultipartFile image) {
-        var updatedCoffee = coffeeRepository.findById(id)
-                .map(coffee -> mappingService.mapUpdateCoffeeData(coffee, update, image))
-                .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
+    private void saveImage(Coffee coffee, MultipartFile image) {
+        if (image == null || image.isEmpty()) {
+            return;
+        }
+        coffee.setCoffeeBaseFile(coffeeBaseFileService.save(image));
+    }
 
-        var savedUpdate = coffeeRepository.save(updatedCoffee);
-
+    public CoffeeDTO updateCoffee(Long id, CoffeeDTO update, MultipartFile image) {
         log.info("Updating coffee with id: " + id + " CALLED!");
-        var coffeeDTO = mappingService.mapCoffee(savedUpdate);
-
-        return coffeeDTO;
-    }
-
-    public CoffeeDTO switchFavourite(int id) {
-        var coffee = coffeeRepository.findById(id)
-                .map(dbCoffee -> {
-                    dbCoffee.setFavourite(!dbCoffee.getFavourite());
-                    return dbCoffee;
-                })
+        return coffeeRepository.findById(id)
+                .map(coffee -> updateCoffee(coffee, update, image))
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
-        var updatedCoffee = coffeeRepository.save(coffee);
-
-        log.info("Switching favourites for coffee id: " + id + " CALLED!");
-
-        var coffeeDTO = mappingService.mapCoffee(updatedCoffee);
-
-        return coffeeDTO;
     }
 
-    public void deleteCoffee(int id) {
+    private CoffeeDTO updateCoffee(Coffee coffee, CoffeeDTO updated, MultipartFile image) {
+        var updatedCoffee = coffeeMapper.dtoToCoffee(updated);
+        updatedCoffee.setId(coffee.getId());
+
+        saveImage(updatedCoffee, image);
+
+        return coffeeMapper.coffeeToDTO(coffeeRepository.save(updatedCoffee));
+    }
+
+    public CoffeeDTO switchFavourite(Long id) {
+        log.info("Switching favourites for coffee id: " + id + " CALLED!");
+        return coffeeRepository.findById(id)
+                .map(this::switchFavouriteSaveAndMap)
+                .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
+    }
+
+    private CoffeeDTO switchFavouriteSaveAndMap(Coffee coffee) {
+        coffee.setFavourite(!coffee.getFavourite());
+        final var updatedCoffee = coffeeRepository.save(coffee);
+        return coffeeMapper.coffeeToDTO(updatedCoffee);
+    }
+
+    public void deleteCoffee(Long id) {
         coffeeRepository.findById(id)
                 .map(coffee -> {
                     coffeeRepository.deleteById(id);
@@ -101,18 +106,16 @@ public class CoffeeService {
         log.info("Delete coffee with id: " + id + "CALLED!");
     }
 
-    private User getUserFromRequest() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-
     private List<CoffeeDTO> searchByContent(String content) {
         var user = getUserFromRequest();
         log.debug("Searching by" + content + " CALLED!");
-        var searchResult = coffeeRepository.findByFields(content, user.getId())
+        return coffeeRepository.findByFields(content, user.getUserId())
                 .stream()
-                .map(mappingService::mapForList)
+                .map(coffeeMapper::dtoForCoffeeList)
                 .collect(Collectors.toList());
+    }
 
-        return searchResult;
+    private User getUserFromRequest() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

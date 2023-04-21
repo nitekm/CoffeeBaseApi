@@ -28,7 +28,7 @@ public class CoffeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CoffeeDTO> getCoffeeById(@PathVariable int id) {
+    public ResponseEntity<CoffeeDTO> getCoffeeById(@PathVariable Long id) {
         return ResponseEntity.ok(coffeeService.getCoffeeById(id));
     }
 
@@ -45,19 +45,19 @@ public class CoffeeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CoffeeDTO> updateCoffee(@PathVariable int id,
+    public ResponseEntity<CoffeeDTO> updateCoffee(@PathVariable Long id,
                                                   @RequestPart("coffee") @Valid CoffeeDTO toUpdate,
                                                   @RequestPart(value = "image", required = false) MultipartFile file) {
         return ResponseEntity.ok(coffeeService.updateCoffee(id, toUpdate, file));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<CoffeeDTO> switchFavourite(@PathVariable int id) {
+    public ResponseEntity<CoffeeDTO> switchFavourite(@PathVariable Long id) {
         return ResponseEntity.ok(coffeeService.switchFavourite(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCoffee(@PathVariable int id) {
+    public ResponseEntity<Void> deleteCoffee(@PathVariable Long id) {
         coffeeService.deleteCoffee(id);
         return ResponseEntity.noContent().build();
     }
