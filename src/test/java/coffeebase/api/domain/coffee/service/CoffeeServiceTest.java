@@ -192,6 +192,84 @@ class CoffeeServiceTest {
                 IllegalArgumentException.class,
                 () -> coffeeService.deleteCoffee(100L)
         );
+    }
 
+    @Test
+    @DisplayName("Should find coffee by name")
+    void givenStringCoffee_whenSearch_returnAllCoffeesContainingThisString() {
+        //given
+        var coffees = Arrays.asList(
+                createRandomCoffee("coffee1"),
+                createRandomCoffee("coffee2"),
+                createRandomCoffee("coffee3"),
+                createRandomCoffee("other1"),
+                createRandomCoffee("other2"),
+                createRandomCoffee("other3")
+        );
+        coffeeRepository.saveAll(coffees);
+
+        //when
+        final var searchResult = coffeeService.search("coffee");
+
+        //then
+        assertEquals(3, searchResult.size());
+    }
+
+    @Test
+    @DisplayName("Should return all coffees on search by empty string")
+    void givenEmptyString_whenSearch_returnAllCoffees() {
+        //given
+        var coffees = Arrays.asList(
+                createRandomCoffee("coffee1"),
+                createRandomCoffee("coffee2"),
+                createRandomCoffee("coffee3"),
+                createRandomCoffee("other1"),
+                createRandomCoffee("other2"),
+                createRandomCoffee("other3")
+        );
+        coffeeRepository.saveAll(coffees);
+
+        //when
+        final var searchResult = coffeeService.search("");
+
+        //then
+        assertEquals(6, searchResult.size());
+    }
+
+    @Test
+    @DisplayName("Should switch favourite field on coffee")
+    void givenNonFavouriteCoffee_whenSwitchFavourite_thenReturnFavouriteCoffee() {
+        //given
+        var coffees = Arrays.asList(
+                createRandomCoffee("c1"),
+                createRandomCoffee("c2"),
+                createRandomCoffee("c3")
+        );
+        coffeeRepository.saveAll(coffees);
+
+        //when
+        final var favouriteCoffee = coffeeService.switchFavourite(1L);
+
+        //then
+        assertEquals(true, favouriteCoffee.favourite());
+    }
+
+    @Test
+    @DisplayName("Should throw exception when switch favourite is called with non existing id")
+    void givenNoExistingId_whenSwitchFavourite_thenThrowException() {
+        //given
+        var coffees = Arrays.asList(
+                createRandomCoffee("c1"),
+                createRandomCoffee("c2"),
+                createRandomCoffee("c3")
+        );
+        coffeeRepository.saveAll(coffees);
+
+        //when
+        //then
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> coffeeService.switchFavourite(100L)
+        );
     }
 }

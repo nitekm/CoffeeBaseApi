@@ -1,14 +1,13 @@
-package coffeebase.api.domain.tag;
+package coffeebase.api.domain.tag.service;
 
+import coffeebase.api.domain.tag.TagRepository;
 import coffeebase.api.domain.tag.model.TagDTO;
-import coffeebase.api.domain.tag.model.TagMapper;
 import coffeebase.api.security.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +28,7 @@ public class TagService {
 
     public List<TagDTO> search(String name) {
         if (name.isBlank()) {
-            return new ArrayList<>();
+            return getAll();
         }
         return searchByName(name);
     }

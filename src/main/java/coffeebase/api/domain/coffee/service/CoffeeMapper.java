@@ -2,7 +2,7 @@ package coffeebase.api.domain.coffee.service;
 
 import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
-import coffeebase.api.domain.tag.model.TagMapper;
+import coffeebase.api.domain.tag.service.TagMapper;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

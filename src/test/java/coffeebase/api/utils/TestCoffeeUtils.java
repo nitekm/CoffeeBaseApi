@@ -11,6 +11,7 @@ import static coffeebase.api.authentication.AuthenticationHelper.getUserId;
 public class TestCoffeeUtils {
     public static Coffee createRandomCoffee(String name) {
         return Coffee.builder()
+                .favourite(false)
                 .name(name)
                 .createdByUserId(getUserId())
                 .build();

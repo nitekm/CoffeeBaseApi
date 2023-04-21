@@ -1,6 +1,7 @@
 package coffeebase.api.domain.tag;
 
 import coffeebase.api.domain.tag.model.TagDTO;
+import coffeebase.api.domain.tag.service.TagService;
 import coffeebase.api.exceptions.processing.IllegalExceptionProcessing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
