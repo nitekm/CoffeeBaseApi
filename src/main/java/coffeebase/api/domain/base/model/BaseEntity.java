@@ -36,5 +36,7 @@ public abstract class BaseEntity<ID extends Serializable> {
     @PreUpdate
     public void preUpdate() {
         updatedAt = LocalDateTime.now();
+        final User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        createdByUserId = loggedUser.getUserId();
     }
 }
