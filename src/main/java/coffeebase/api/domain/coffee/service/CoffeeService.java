@@ -3,7 +3,7 @@ package coffeebase.api.domain.coffee.service;
 import coffeebase.api.domain.coffee.CoffeeRepository;
 import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
-import coffeebase.api.domain.file.CoffeeBaseFileService;
+import coffeebase.api.domain.file.LocalCoffeeBaseFileService;
 import coffeebase.api.security.model.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class CoffeeService {
 
     private final CoffeeRepository coffeeRepository;
-    private final CoffeeBaseFileService coffeeBaseFileService;
+    private final LocalCoffeeBaseFileService localCoffeeBaseFileService;
     private final CoffeeMapper coffeeMapper;
 
     public List<CoffeeDTO> getAllCoffees() {
@@ -64,7 +64,7 @@ public class CoffeeService {
         if (image == null || image.isEmpty()) {
             return;
         }
-        coffee.setCoffeeBaseFile(coffeeBaseFileService.save(image));
+        coffee.setCoffeeBaseFile(localCoffeeBaseFileService.save(image));
     }
 
     public CoffeeDTO updateCoffee(Long id, CoffeeDTO update, MultipartFile image) {

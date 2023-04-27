@@ -26,20 +26,20 @@ import static org.mockito.Mockito.when;
 
 @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @ExtendWith(SpringExtension.class)
-@Import({CoffeeBaseFileService.class})
-class CoffeeBaseFileServiceTest {
+@Import({LocalCoffeeBaseFileService.class})
+class LocalCoffeeBaseFileServiceTest {
 
     @Autowired
-    private CoffeeBaseFileService coffeeBaseFileService;
+    private LocalCoffeeBaseFileService localCoffeeBaseFileService;
 
     @MockBean
     private CoffeeBaseFileRepository coffeeBaseFileRepository;
 
     @BeforeEach
     void setup() throws IOException, NoSuchFieldException, IllegalAccessException {
-        var root = CoffeeBaseFileService.class.getDeclaredField("root");
+        var root = LocalCoffeeBaseFileService.class.getDeclaredField("root");
         root.setAccessible(true);
-        root.set(coffeeBaseFileService, Paths.get("test-dir").toAbsolutePath().normalize());
+        root.set(localCoffeeBaseFileService, Paths.get("test-dir").toAbsolutePath().normalize());
         Files.createDirectories(Paths.get("test-dir").toAbsolutePath().normalize());
         var file = CoffeeBaseFile.builder()
                 .name("fileName")
@@ -64,7 +64,7 @@ class CoffeeBaseFileServiceTest {
         final var file = new MockMultipartFile("fileName", "fileName".getBytes());
 
         //when
-        final var savedFile = coffeeBaseFileService.save(file);
+        final var savedFile = localCoffeeBaseFileService.save(file);
 
         //then
         assertNotNull(savedFile);
@@ -85,7 +85,7 @@ class CoffeeBaseFileServiceTest {
         //then
         assertThrows(
                 RuntimeException.class,
-                () -> coffeeBaseFileService.save(file)
+                () -> localCoffeeBaseFileService.save(file)
         );
     }
 
@@ -96,7 +96,7 @@ class CoffeeBaseFileServiceTest {
         Files.write(file, "test content".getBytes());
 
         // When
-        Resource resource = coffeeBaseFileService.load("file.txt");
+        Resource resource = localCoffeeBaseFileService.load("file.txt");
 
         // Then
         assertTrue(resource instanceof UrlResource);
@@ -113,7 +113,7 @@ class CoffeeBaseFileServiceTest {
         // When, Then
         assertThrows(
                 FileLoadException.class,
-                () -> coffeeBaseFileService.load(filename)
+                () -> localCoffeeBaseFileService.load(filename)
         );
     }
 }

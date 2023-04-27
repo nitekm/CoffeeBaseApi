@@ -3,8 +3,8 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
   datasource:
-    username: root
-    password: c9d:,4D/MEoV#3>;
+    username: ${sm://dbUser}
+    password: ${sm://dbPassword}
     driver-class-name: com.mysql.cj.jdbc.Driver
   cloud:
     appId: coffeebase-379621
@@ -15,4 +15,4 @@ spring:
         instance-connection-name: coffeebase-379621:europe-central2:coffeebase-db
         database-name: coffeebase_db
 
-clientId: 109227410439-s9rm44ipthcsurgaoi6bau45i64itglo.apps.googleusercontent.com
+clientId: ${sm://clientId}
