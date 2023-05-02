@@ -3,33 +3,33 @@ package coffeebase.api.domain.file;
 import coffeebase.api.exceptions.exception.FileLoadException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Slf4j
 @RequiredArgsConstructor
-@Service
-@Profile("test")
 public class LocalCoffeeBaseFileService implements CoffeeBaseFileService {
     private final Path root = Paths.get("storage").toAbsolutePath().normalize();
 
     private final CoffeeBaseFileRepository coffeeBaseFileRepository;
 
-    public void createDir() {
-        try {
-            Files.createDirectories(root);
-        } catch (IOException e) {
-            log.error("Unable to create directories for file storage");
+    @Override
+    public void checkStorageLocation() {
+        if (Files.exists(root)) {
+            log.info("Storage directory on path " + root + " already exists");
+        } else {
+            try {
+                Files.createDirectories(root);
+                log.info("Created storage directory on " + root);
+            } catch (IOException e) {
+                log.error("Unable to create directories for file storage");
+            }
         }
     }
 
@@ -60,10 +60,10 @@ public class LocalCoffeeBaseFileService implements CoffeeBaseFileService {
             if (urlResource.exists() && urlResource.isReadable()) {
                 return urlResource;
             } else {
-                throw new FileLoadException("Could not load file " + filename);
+                throw new FileLoadException("Could not load file " + filename + " because it does not exists or is not readable");
             }
         } catch (IOException e) {
-            throw new FileLoadException("Unable to load file " + filename);
+            throw new FileLoadException("Unable to load file " + filename + " with cause " + e.getMessage());
         }
     }
 }

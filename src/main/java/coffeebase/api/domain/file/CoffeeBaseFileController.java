@@ -18,11 +18,11 @@ import java.io.IOException;
 @RestController
 public class CoffeeBaseFileController {
 
-    private final LocalCoffeeBaseFileService localCoffeeBaseFileService;
+    private final CoffeeBaseFileService coffeeBaseFileService;
 
     @GetMapping("/downloadFile/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        Resource resource = localCoffeeBaseFileService.load(fileName);
+        Resource resource = coffeeBaseFileService.load(fileName);
         String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());

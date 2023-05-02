@@ -16,3 +16,4 @@ spring:
         database-name: coffeebase_db
 
 clientId: ${sm://clientId}
+fileService: gcp

@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public interface CoffeeBaseFileService {
+
+    void checkStorageLocation();
     CoffeeBaseFile save(MultipartFile file);
     Resource load(String fileName);
 

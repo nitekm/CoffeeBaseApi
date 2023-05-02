@@ -1,7 +1,7 @@
 package coffeebase.api.domain.coffee.service;
 
 import coffeebase.api.domain.coffee.CoffeeRepository;
-import coffeebase.api.domain.file.LocalCoffeeBaseFileService;
+import coffeebase.api.domain.file.CoffeeBaseFileService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,7 +30,7 @@ class CoffeeServiceTest {
     private CoffeeRepository coffeeRepository;
 
     @Autowired
-    private LocalCoffeeBaseFileService localCoffeeBaseFileService;
+    private CoffeeBaseFileService coffeeBaseFileService;
 
     @Autowired
     private CoffeeMapper coffeeMapper;

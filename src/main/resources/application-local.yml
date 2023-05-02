@@ -9,3 +9,4 @@ spring:
     password: 'password'
 
 clientId: ${clientId}
+fileService: local
