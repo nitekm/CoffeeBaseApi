@@ -3,6 +3,7 @@ package coffeebase.api.domain.file;
 import coffeebase.api.exceptions.exception.FileLoadException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.Date;
 @Slf4j
 @RequiredArgsConstructor
 @Service
+@Profile("test")
 public class LocalCoffeeBaseFileService implements CoffeeBaseFileService {
     private final Path root = Paths.get("storage").toAbsolutePath().normalize();
 
@@ -51,7 +53,6 @@ public class LocalCoffeeBaseFileService implements CoffeeBaseFileService {
 
     @Override
     public Resource load(String filename) {
-
         try {
             Path filePath = root.resolve(filename).normalize();
             var urlResource = new UrlResource(filePath.toUri());
