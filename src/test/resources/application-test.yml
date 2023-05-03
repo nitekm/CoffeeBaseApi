@@ -6,3 +6,6 @@ spring:
 
 clientId: clientId
 fileService: local
+gcp:
+  bucket:
+    name: 'bucket-name'

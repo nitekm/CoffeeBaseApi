@@ -58,6 +58,14 @@ class LocalCoffeeBaseFileServiceTest {
     }
 
     @Test
+    @DisplayName("test-dir should exists when checkStorageLocation is called")
+    public void testCheckStorageLocation() {
+        localCoffeeBaseFileService.checkStorageLocation();
+        Path root = Paths.get("test-dir").toAbsolutePath().normalize();
+        assertTrue(Files.exists(root));
+    }
+
+    @Test
     @DisplayName("Should save passed MultiPartFile and return CoffeeBaseFile")
     void givenMultiPartFile_whenSave_returnCoffeeBaseFile() {
         //given
