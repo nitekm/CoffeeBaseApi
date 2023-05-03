@@ -10,6 +10,3 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-gcp:
-  bucket:
-    name: 'coffeebase-file-storage'

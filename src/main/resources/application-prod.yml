@@ -17,3 +17,6 @@ spring:
 
 clientId: ${sm://clientId}
 fileService: gcp
+gcp:
+  bucket:
+    name: 'coffeebase-file-storage'

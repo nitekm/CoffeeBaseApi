@@ -89,11 +89,6 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-gcp-starter-storage</artifactId>
-            <version>${cloud.gcp.version}</version>
-        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -165,6 +160,11 @@
                 <dependency>
                     <groupId>org.springframework.cloud</groupId>
                     <artifactId>spring-cloud-gcp-starter-secretmanager</artifactId>
+                    <version>${cloud.gcp.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-gcp-starter-storage</artifactId>
                     <version>${cloud.gcp.version}</version>
                 </dependency>
             </dependencies>
