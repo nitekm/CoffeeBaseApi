@@ -58,7 +58,7 @@ class LocalCoffeeBaseFileServiceTest {
     }
 
     @Test
-    @DisplayName("test-dir should exists when checkStorageLocation is called")
+    @DisplayName("test-dir should exists after checkStorageLocation is called")
     public void testCheckStorageLocation() {
         localCoffeeBaseFileService.checkStorageLocation();
         Path root = Paths.get("test-dir").toAbsolutePath().normalize();
