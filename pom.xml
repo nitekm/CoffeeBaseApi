@@ -12,7 +12,7 @@
 
     <groupId>coffeebase</groupId>
     <artifactId>coffeebaseapi</artifactId>
-    <version>1.0</version>
+    <version>1.4</version>
     <name>CoffeeBaseApi</name>
     <description>REST API for CoffeeBase Application</description>
 
@@ -89,6 +89,11 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-gcp-starter-storage</artifactId>
+            <version>${cloud.gcp.version}</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -160,11 +165,6 @@
                 <dependency>
                     <groupId>org.springframework.cloud</groupId>
                     <artifactId>spring-cloud-gcp-starter-secretmanager</artifactId>
-                    <version>${cloud.gcp.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-gcp-starter-storage</artifactId>
                     <version>${cloud.gcp.version}</version>
                 </dependency>
             </dependencies>

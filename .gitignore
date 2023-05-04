@@ -183,3 +183,6 @@ $RECYCLE.BIN/
 /.idea/modules.xml
 /.idea/vcs.xml
 /gcp config.txt
+
+# Custom
+.env

@@ -1,34 +1,18 @@
-version: '2'
+version: '3.8'
 
 services:
-  flyway:
-    image: flyway/flyway
-    volumes:
-    - .:/flyway/db/migration
-    depends_on:
-      - coffeebasedb
-
-  coffeebasedb:
-    image: mysql
-    restart: always
-    container_name: coffeebasedb
-    environment:
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    ports:
-      - '3306:3306'
-    expose:
-      - '3306'
-
   coffeebaseapi:
     container_name: coffeebaseapi
     build:
-      context: .
-    depends_on:
-      - coffeebasedb
+      context: ./
     image: coffeebaseapi
-    links:
-      - coffeebasedb
     ports:
       - "8080:80"
+    environment:
+      spring.datasource.url: jdbc:mysql://host.docker.internal:3306/coffeebase_db
+      spring.datasource.username: ${DB_USERNAME}
+      spring.datasource.password: ${DB_PASSWORD}
+      clientId: ${GOOGLE_API_CLIENT_ID}
+      fileService: local
+    env_file:
+      - .env
