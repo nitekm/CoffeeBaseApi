@@ -1,4 +1,4 @@
-package coffeebase.api.interceptor;
+package coffeebase.api.aspect.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,12 +13,12 @@ public class LoggerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
-        logger.info("[preHandle] " + request.getMethod() + ":" + request.getRequestURI());
+        logger.info("[preHandle: " + request.getMethod() + " for " + request.getRequestURI() + "]");
         return true;
     }
 
     @Override
     public void afterCompletion(final HttpServletRequest request, final HttpServletResponse response, final Object handler, final Exception ex){
-        logger.info("[Completed] " + request.getMethod() + ":" + request.getRequestURI());
+        logger.info("[Completed: " + request.getMethod() + " for " + request.getRequestURI() + "]");
     }
 }

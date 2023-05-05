@@ -7,11 +7,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
 
     List<Coffee> findAllByCreatedByUserId(String userId);
+
+    Optional<String> findCreatedByUserIdById(Long id);
 
     @Query(nativeQuery = true,
             value = "select * from coffees c " +

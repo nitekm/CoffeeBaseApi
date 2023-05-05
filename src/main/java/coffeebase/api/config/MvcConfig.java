@@ -1,6 +1,6 @@
 package coffeebase.api.config;
 
-import coffeebase.api.interceptor.LoggerInterceptor;
+import coffeebase.api.aspect.interceptor.LoggerInterceptor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,19 +1,20 @@
 package coffeebase.api.domain.coffee.service;
 
+import coffeebase.api.aspect.accesscheck.AccessCheck;
 import coffeebase.api.domain.coffee.CoffeeRepository;
 import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
 import coffeebase.api.domain.file.CoffeeBaseFileService;
-import coffeebase.api.security.model.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static coffeebase.api.utils.SecurityContextHelper.getUserFromSecurityContext;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +27,7 @@ public class CoffeeService {
     private final CoffeeMapper coffeeMapper;
 
     public List<CoffeeDTO> getAllCoffees() {
-        var user = getUserFromRequest();
+        var user = getUserFromSecurityContext();
         log.debug("Getting all coffees for user" + user.getUserId() + " CALLED!");
 
         return coffeeRepository.findAllByCreatedByUserId(user.getUserId())
@@ -42,6 +43,7 @@ public class CoffeeService {
         return searchByContent(content);
     }
 
+    @AccessCheck
     public CoffeeDTO getCoffeeById(Long id) {
         log.debug("Getting coffee with id: " + id + " CALLED!");
         return coffeeRepository.findById(id)
@@ -67,6 +69,7 @@ public class CoffeeService {
         coffee.setCoffeeBaseFile(coffeeBaseFileService.save(image));
     }
 
+    @AccessCheck
     public CoffeeDTO updateCoffee(Long id, CoffeeDTO update, MultipartFile image) {
         log.info("Updating coffee with id: " + id + " CALLED!");
         return coffeeRepository.findById(id)
@@ -83,6 +86,7 @@ public class CoffeeService {
         return coffeeMapper.coffeeToDTO(coffeeRepository.save(updatedCoffee));
     }
 
+    @AccessCheck
     public CoffeeDTO switchFavourite(Long id) {
         log.info("Switching favourites for coffee id: " + id + " CALLED!");
         return coffeeRepository.findById(id)
@@ -96,6 +100,7 @@ public class CoffeeService {
         return coffeeMapper.coffeeToDTO(updatedCoffee);
     }
 
+    @AccessCheck
     public void deleteCoffee(Long id) {
         coffeeRepository.findById(id)
                 .map(coffee -> {
@@ -107,15 +112,11 @@ public class CoffeeService {
     }
 
     private List<CoffeeDTO> searchByContent(String content) {
-        var user = getUserFromRequest();
+        var user = getUserFromSecurityContext();
         log.debug("Searching by" + content + " CALLED!");
         return coffeeRepository.findByFields(content, user.getUserId())
                 .stream()
                 .map(coffeeMapper::dtoForCoffeeList)
                 .collect(Collectors.toList());
-    }
-
-    private User getUserFromRequest() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
