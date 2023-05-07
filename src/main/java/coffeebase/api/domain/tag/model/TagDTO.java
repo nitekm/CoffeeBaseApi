@@ -10,5 +10,5 @@ public record TagDTO (
         String createdByUserId,
         @NotBlank String name,
         @NotBlank String color,
-        List<CoffeeDTO>coffees
+        List<CoffeeDTO> coffees
 ) {}

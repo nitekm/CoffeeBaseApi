@@ -5,6 +5,7 @@ import coffeebase.api.domain.coffee.CoffeeRepository;
 import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
 import coffeebase.api.domain.file.CoffeeBaseFileService;
+import coffeebase.api.domain.tag.TagRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ public class CoffeeService {
 
     private final CoffeeRepository coffeeRepository;
     private final CoffeeBaseFileService coffeeBaseFileService;
+    private final TagRepository tagRepository;
     private final CoffeeMapper coffeeMapper;
 
     public List<CoffeeDTO> getAllCoffees() {
@@ -46,9 +48,13 @@ public class CoffeeService {
     @AccessCheck
     public CoffeeDTO getCoffeeById(Long id) {
         log.debug("Getting coffee with id: " + id + " CALLED!");
-        return coffeeRepository.findById(id)
+        var c2 = coffeeRepository.findById(id);
+        var t1 = c2.get().getTags();
+        var c1 = coffeeRepository.findById(id)
                 .map(coffeeMapper::coffeeToDTO)
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
+
+        return c1;
     }
 
     public CoffeeDTO addCoffee(CoffeeDTO source, MultipartFile image) {
@@ -56,6 +62,7 @@ public class CoffeeService {
 
         saveImage(coffee, image);
 
+        tagRepository.saveAll(coffee.getTags());
         var savedCoffee = coffeeRepository.save(coffee);
         log.info("Saved new coffee");
 
@@ -81,6 +88,7 @@ public class CoffeeService {
         var updatedCoffee = coffeeMapper.dtoToCoffee(updated);
         updatedCoffee.setId(coffee.getId());
 
+        tagRepository.saveAll(updatedCoffee.getTags());
         saveImage(updatedCoffee, image);
 
         return coffeeMapper.coffeeToDTO(coffeeRepository.save(updatedCoffee));

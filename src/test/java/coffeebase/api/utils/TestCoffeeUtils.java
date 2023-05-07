@@ -4,6 +4,7 @@ import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
 import coffeebase.api.domain.tag.model.TagDTO;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static coffeebase.api.authentication.AuthenticationHelper.getUserId;
@@ -34,7 +35,7 @@ public class TestCoffeeUtils {
                 null,
                 null,
                 null,
-                null);
+                new ArrayList<>());
     }
 
     public static CoffeeDTO createCoffeeDTOWithTags(String name) {

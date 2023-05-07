@@ -53,7 +53,7 @@ public class Coffee extends BaseEntity<Long> {
     @Max(value = 100)
     private Integer scaRating;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
             name = "coffee_tag",
             joinColumns = @JoinColumn(name = "coffee_id"),

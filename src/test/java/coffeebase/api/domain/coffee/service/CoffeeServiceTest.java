@@ -2,6 +2,8 @@ package coffeebase.api.domain.coffee.service;
 
 import coffeebase.api.domain.coffee.CoffeeRepository;
 import coffeebase.api.domain.file.CoffeeBaseFileService;
+import coffeebase.api.domain.tag.TagRepository;
+import coffeebase.api.utils.TestTagUtils;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,7 +35,11 @@ class CoffeeServiceTest {
     private CoffeeBaseFileService coffeeBaseFileService;
 
     @Autowired
+    private TagRepository tagRepository;
+
+    @Autowired
     private CoffeeMapper coffeeMapper;
+
 
     @BeforeEach
     void setup() {
@@ -271,5 +277,27 @@ class CoffeeServiceTest {
                 IllegalArgumentException.class,
                 () -> coffeeService.switchFavourite(100L)
         );
+    }
+
+    @Test
+    @DisplayName("Should link coffee with existing tags when tags on coffee already exists in DB")
+    public void given_when_then() {
+        //given
+        final var tag1 = TestTagUtils.createRandomTag("tag1");
+        final var tag2 = TestTagUtils.createRandomTag("tag2");
+        final var tag3 = TestTagUtils.createRandomTag("tag3");
+        final var tag4 = TestTagUtils.createRandomTag("tag4");
+        var tags = Arrays.asList(tag1, tag2, tag3, tag4);
+        tagRepository.saveAll(tags);
+
+        final var coffee1 = createRandomCoffee("coffee1");
+        coffee1.setTags(tags);
+
+        //when
+        coffeeRepository.save(coffee1);
+
+        //then
+        assertEquals(4, tagRepository.findAll().size());
+
     }
 }
