@@ -4,6 +4,7 @@ import coffeebase.api.exceptions.exception.FileLoadException;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -44,5 +45,11 @@ public class IllegalExceptionControllerAdvice {
     ResponseEntity<String> handleFileLoadException(FileLoadException e) {
         logger.error(e.getMessage());
         return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(IllegalAccessException.class)
+    ResponseEntity<String> handleIllegalAccess(IllegalArgumentException e) {
+        logger.error(e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 }
