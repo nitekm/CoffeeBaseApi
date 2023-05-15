@@ -6,6 +6,7 @@ spring:
     username: ${sm://dbUser}
     password: ${sm://dbPassword}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://google/coffeebase_db?socketFactory=com.google.cloud.sql.mysql.SocketFactory&cloudSqlInstance=coffeebase-379621:europe-central2:coffeebase-db
   cloud:
     appId: coffeebase-379621
     gcp:
