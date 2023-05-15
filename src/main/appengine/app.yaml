@@ -1,5 +1,5 @@
-runtime: java
-env: flex
+runtime: java17
+env: standard
 runtime_config:
   operating_system: "ubuntu22"
   runtime_version: "17"
@@ -8,6 +8,4 @@ env_variables:
 handlers:
   - url: /.*
     script: this field is required but ignored
-manual_scaling:
-  instances: 1
 
