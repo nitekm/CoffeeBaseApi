@@ -48,13 +48,11 @@ public class CoffeeService {
     @AccessCheck
     public CoffeeDTO getCoffeeById(Long id) {
         log.debug("Getting coffee with id: " + id + " CALLED!");
-        var c2 = coffeeRepository.findById(id);
-        var t1 = c2.get().getTags();
-        var c1 = coffeeRepository.findById(id)
+        var coffee = coffeeRepository.findById(id)
                 .map(coffeeMapper::coffeeToDTO)
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
 
-        return c1;
+        return coffee;
     }
 
     public CoffeeDTO addCoffee(CoffeeDTO source, MultipartFile image) {

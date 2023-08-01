@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class CoffeeServiceTest {
+class CoffeeServiceCoffeeTest {
 
     @Autowired
     private CoffeeService coffeeService;
@@ -96,33 +96,6 @@ class CoffeeServiceTest {
                 () -> assertNotEquals(null, savedMappedCoffee.id()),
                 () -> assertEquals("testCoffee", savedMappedCoffee.name())
         );
-    }
-
-    @Test
-    @DisplayName("Should save coffee with image when image is present")
-    void givenCoffeeWithImage_whenAddCoffee_thenReturnSavedCoffeeWithImage() {
-        //given
-        var coffeeDTO = createCoffeeDTO("withImage");
-        var image = new MockMultipartFile("fileName", "file".getBytes());
-
-        //when
-        final var savedMappedCoffee = coffeeService.addCoffee(coffeeDTO, image);
-
-        //then
-        assertNotNull(savedMappedCoffee.coffeeImageName());
-    }
-
-    @Test
-    @DisplayName("Should save coffee in database with tags")
-    void givenCoffeeDTOWithTags_whenAddCoffee_thenReturnSavedCoffeeMappedToDTOWithTags() {
-        //given
-        var coffeeDTO = createCoffeeDTOWithTags("testCoffee");
-
-        //when
-        final var savedMappedCoffee = coffeeService.addCoffee(coffeeDTO, null);
-
-        //then
-        assertNotNull(savedMappedCoffee.tags());
     }
 
     @Test
@@ -277,27 +250,5 @@ class CoffeeServiceTest {
                 IllegalArgumentException.class,
                 () -> coffeeService.switchFavourite(100L)
         );
-    }
-
-    @Test
-    @DisplayName("Should link coffee with existing tags when tags on coffee already exists in DB")
-    public void given_when_then() {
-        //given
-        final var tag1 = TestTagUtils.createRandomTag("tag1");
-        final var tag2 = TestTagUtils.createRandomTag("tag2");
-        final var tag3 = TestTagUtils.createRandomTag("tag3");
-        final var tag4 = TestTagUtils.createRandomTag("tag4");
-        var tags = Arrays.asList(tag1, tag2, tag3, tag4);
-        tagRepository.saveAll(tags);
-
-        final var coffee1 = createRandomCoffee("coffee1");
-        coffee1.setTags(tags);
-
-        //when
-        coffeeRepository.save(coffee1);
-
-        //then
-        assertEquals(4, tagRepository.findAll().size());
-
     }
 }
