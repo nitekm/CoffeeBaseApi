@@ -1,6 +1,6 @@
 package coffeebase.api.authentication;
 
-import coffeebase.api.security.model.User;
+import coffeebase.api.domain.user.model.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 

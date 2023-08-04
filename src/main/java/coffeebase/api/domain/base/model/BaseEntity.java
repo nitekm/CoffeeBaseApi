@@ -1,6 +1,6 @@
 package coffeebase.api.domain.base.model;
 
-import coffeebase.api.security.model.User;
+import coffeebase.api.domain.user.model.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

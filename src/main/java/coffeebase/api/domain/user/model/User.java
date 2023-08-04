@@ -1,4 +1,4 @@
-package coffeebase.api.security.model;
+package coffeebase.api.domain.user.model;
 
 
 import jakarta.persistence.*;
@@ -20,4 +20,6 @@ public class User {
     @NotEmpty
     private String username;
     private String email;
+    @Embedded
+    private Subscription subscription;
 }

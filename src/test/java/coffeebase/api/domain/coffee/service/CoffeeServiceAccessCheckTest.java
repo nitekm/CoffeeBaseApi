@@ -2,7 +2,7 @@ package coffeebase.api.domain.coffee.service;
 
 import coffeebase.api.aspect.accesscheck.AccessCheckAspect;
 import coffeebase.api.domain.coffee.CoffeeRepository;
-import coffeebase.api.security.model.User;
+import coffeebase.api.domain.user.model.User;
 import org.aspectj.lang.JoinPoint;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

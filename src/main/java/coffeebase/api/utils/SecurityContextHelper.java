@@ -1,6 +1,6 @@
 package coffeebase.api.utils;
 
-import coffeebase.api.security.model.User;
+import coffeebase.api.domain.user.model.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class SecurityContextHelper {

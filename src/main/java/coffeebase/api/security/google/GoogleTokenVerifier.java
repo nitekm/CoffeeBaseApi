@@ -1,7 +1,7 @@
 package coffeebase.api.security.google;
 
-import coffeebase.api.security.model.User;
-import coffeebase.api.security.service.UserService;
+import coffeebase.api.domain.user.model.User;
+import coffeebase.api.domain.user.service.UserService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;

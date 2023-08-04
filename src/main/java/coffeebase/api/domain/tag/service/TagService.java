@@ -2,7 +2,7 @@ package coffeebase.api.domain.tag.service;
 
 import coffeebase.api.domain.tag.TagRepository;
 import coffeebase.api.domain.tag.model.TagDTO;
-import coffeebase.api.security.model.User;
+import coffeebase.api.domain.user.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;

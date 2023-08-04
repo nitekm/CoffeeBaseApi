@@ -1,7 +1,7 @@
 package coffeebase.api.security.jwt;
 
 import coffeebase.api.security.google.GoogleTokenVerifier;
-import coffeebase.api.security.model.User;
+import coffeebase.api.domain.user.model.User;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import jakarta.servlet.FilterChain;

@@ -1,6 +1,6 @@
-package coffeebase.api.security.repository;
+package coffeebase.api.domain.user;
 
-import coffeebase.api.security.model.User;
+import coffeebase.api.domain.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
