@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.Serializable;
@@ -20,23 +23,12 @@ public abstract class BaseEntity<ID extends Serializable> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private ID id;
 
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     private String createdByUserId;
-
-    @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
-        final User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        createdByUserId = loggedUser.getUserId();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        updatedAt = LocalDateTime.now();
-        final User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        createdByUserId = loggedUser.getUserId();
-    }
 }
