@@ -48,7 +48,7 @@ class CoffeeServiceFileTest {
 
 
     @BeforeEach
-    void setup() throws IOException, NoSuchFieldException, IllegalAccessException {
+    void setup() {
         setAuthenticationTestUser();
     }
 
