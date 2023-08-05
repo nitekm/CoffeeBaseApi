@@ -12,6 +12,8 @@ public interface CoffeeBaseFileService {
     CoffeeBaseFile save(MultipartFile file);
     Resource load(String fileName);
 
+    void delete(String fileName);
+
     default String generateFileName(String originalFileName) {
         var timestamp = LocalDateTime.now();
         var dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH-mm-ss");

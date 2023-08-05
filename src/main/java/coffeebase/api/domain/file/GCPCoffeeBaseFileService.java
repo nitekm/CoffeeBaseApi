@@ -1,6 +1,6 @@
 package coffeebase.api.domain.file;
 
-import coffeebase.api.exceptions.exception.FileLoadException;
+import coffeebase.api.exceptions.exception.FileException;
 import com.google.cloud.storage.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +58,16 @@ public class GCPCoffeeBaseFileService implements CoffeeBaseFileService {
             Blob gcpFile = storage.get(gcpFileId);
             return new ByteArrayResource(gcpFile.getContent());
         } catch (RuntimeException e) {
-            throw new FileLoadException("Unable to load file " + fileName + " with cause " + e.getMessage());
+            throw new FileException("Unable to load file " + fileName + " with cause " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void delete(String fileName) {
+        try {
+            storage.delete(BlobId.of(BUCKET_NAME, fileName));
+        } catch (RuntimeException e) {
+            throw new FileException("Unable to delete file " + fileName + " with cause " + e.getMessage());
         }
     }
 }

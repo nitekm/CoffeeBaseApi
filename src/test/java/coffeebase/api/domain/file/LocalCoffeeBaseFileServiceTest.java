@@ -1,6 +1,6 @@
 package coffeebase.api.domain.file;
 
-import coffeebase.api.exceptions.exception.FileLoadException;
+import coffeebase.api.exceptions.exception.FileException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,7 +120,7 @@ class LocalCoffeeBaseFileServiceTest {
 
         // When, Then
         assertThrows(
-                FileLoadException.class,
+                FileException.class,
                 () -> localCoffeeBaseFileService.load(filename)
         );
     }

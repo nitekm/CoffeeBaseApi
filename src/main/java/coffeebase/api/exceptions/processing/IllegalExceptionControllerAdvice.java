@@ -1,6 +1,6 @@
 package coffeebase.api.exceptions.processing;
 
-import coffeebase.api.exceptions.exception.FileLoadException;
+import coffeebase.api.exceptions.exception.FileException;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,8 +41,8 @@ public class IllegalExceptionControllerAdvice {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
-    @ExceptionHandler(FileLoadException.class)
-    ResponseEntity<String> handleFileLoadException(FileLoadException e) {
+    @ExceptionHandler(FileException.class)
+    ResponseEntity<String> handleFileLoadException(FileException e) {
         logger.error(e.getMessage());
         return ResponseEntity.badRequest().body(e.getMessage());
     }

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static coffeebase.api.utils.SecurityContextHelper.getUserFromSecurityContext;
@@ -110,6 +112,7 @@ public class CoffeeService {
     public void deleteCoffee(Long id) {
         coffeeRepository.findById(id)
                 .map(coffee -> {
+                    deleteRelated(coffee);
                     coffeeRepository.deleteById(id);
                     return true;
                 })
@@ -124,5 +127,14 @@ public class CoffeeService {
                 .stream()
                 .map(coffeeMapper::dtoForCoffeeList)
                 .collect(Collectors.toList());
+    }
+
+    private void deleteRelated(Coffee coffee) {
+        Optional.ofNullable(coffee.getCoffeeBaseFile())
+                .ifPresent(file -> coffeeBaseFileService.delete(file.getName()));
+        coffee.getTags().stream()
+                .filter(tag -> tag.getCoffees().size() == 1)
+                .filter(tag -> Objects.equals(tag.getCoffees().get(0).getId(), coffee.getId()))
+                .forEach(tagRepository::delete);
     }
 }

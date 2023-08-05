@@ -61,7 +61,7 @@ public class Coffee extends BaseEntity<Long> {
     )
     private List<Tag> tags;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "file_id")
     private CoffeeBaseFile coffeeBaseFile;
 }

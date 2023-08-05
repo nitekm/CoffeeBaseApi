@@ -1,6 +1,6 @@
 package coffeebase.api.domain.file;
 
-import coffeebase.api.exceptions.exception.FileLoadException;
+import coffeebase.api.exceptions.exception.FileException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -60,10 +60,20 @@ public class LocalCoffeeBaseFileService implements CoffeeBaseFileService {
             if (urlResource.exists() && urlResource.isReadable()) {
                 return urlResource;
             } else {
-                throw new FileLoadException("Could not load file " + filename + " because it does not exists or is not readable");
+                throw new FileException("Could not load file " + filename + " because it does not exists or is not readable");
             }
         } catch (IOException e) {
-            throw new FileLoadException("Unable to load file " + filename + " with cause " + e.getMessage());
+            throw new FileException("Unable to load file " + filename + " with cause " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void delete(String fileName) {
+        Path path = this.root.resolve(fileName);
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            throw new FileException("Unable to delete file " + fileName + " with cause " + e.getMessage());
         }
     }
 }
