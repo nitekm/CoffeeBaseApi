@@ -50,19 +50,11 @@ class CoffeeServiceFileTest {
     @BeforeEach
     void setup() throws IOException, NoSuchFieldException, IllegalAccessException {
         setAuthenticationTestUser();
-        var root = LocalCoffeeBaseFileService.class.getDeclaredField("root");
-        root.setAccessible(true);
-        root.set(coffeeBaseFileService, Paths.get("test-dir").toAbsolutePath().normalize());
-        Files.createDirectories(Paths.get("test-dir").toAbsolutePath().normalize());
-        var file = CoffeeBaseFile.builder()
-                .name("fileName")
-                .path("path")
-                .build();
     }
 
     @AfterEach
     void finish() throws IOException {
-        var testDir = Paths.get("test-dir").toAbsolutePath().normalize();
+        var testDir = Paths.get("storage").toAbsolutePath().normalize();
         Files.walk(testDir)
                 .sorted(java.util.Comparator.reverseOrder())
                 .map(Path::toFile)
