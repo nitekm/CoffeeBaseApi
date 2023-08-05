@@ -2,17 +2,22 @@ package coffeebase.api.domain.coffee.service;
 
 import coffeebase.api.domain.coffee.CoffeeRepository;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
+import coffeebase.api.domain.file.CoffeeBaseFile;
 import coffeebase.api.domain.file.CoffeeBaseFileService;
+import coffeebase.api.domain.file.LocalCoffeeBaseFileService;
 import coffeebase.api.domain.tag.TagRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static coffeebase.api.authentication.AuthenticationHelper.setAuthenticationTestUser;
 import static coffeebase.api.utils.TestCoffeeUtils.*;
@@ -43,8 +48,25 @@ class CoffeeServiceFileTest {
 
 
     @BeforeEach
-    void setup() {
+    void setup() throws IOException, NoSuchFieldException, IllegalAccessException {
         setAuthenticationTestUser();
+        var root = LocalCoffeeBaseFileService.class.getDeclaredField("root");
+        root.setAccessible(true);
+        root.set(coffeeBaseFileService, Paths.get("test-dir").toAbsolutePath().normalize());
+        Files.createDirectories(Paths.get("test-dir").toAbsolutePath().normalize());
+        var file = CoffeeBaseFile.builder()
+                .name("fileName")
+                .path("path")
+                .build();
+    }
+
+    @AfterEach
+    void finish() throws IOException {
+        var testDir = Paths.get("test-dir").toAbsolutePath().normalize();
+        Files.walk(testDir)
+                .sorted(java.util.Comparator.reverseOrder())
+                .map(Path::toFile)
+                .forEach(File::delete);
     }
 
     @Test
