@@ -46,7 +46,7 @@ public class Brew extends BaseEntity<Long> {
     @Enumerated(EnumType.ORDINAL)
     private BrewStatus status;
 
-    @OneToMany(mappedBy = "brew", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "brew", cascade = CascadeType.ALL)
     private Set<PourOver> pourOvers = new HashSet<>();
 }
 
