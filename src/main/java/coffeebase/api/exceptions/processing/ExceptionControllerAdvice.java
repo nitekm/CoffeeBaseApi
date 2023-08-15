@@ -1,5 +1,6 @@
 package coffeebase.api.exceptions.processing;
 
+import coffeebase.api.exceptions.exception.BrewUpdateInterrupted;
 import coffeebase.api.exceptions.exception.FileException;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
@@ -13,9 +14,9 @@ import javax.naming.SizeLimitExceededException;
 
 
 @RestControllerAdvice(annotations = IllegalExceptionProcessing.class)
-public class IllegalExceptionControllerAdvice {
+public class ExceptionControllerAdvice {
 
-    private final Logger logger = LoggerFactory.getLogger(IllegalExceptionControllerAdvice.class);
+    private final Logger logger = LoggerFactory.getLogger(ExceptionControllerAdvice.class);
 
     @ExceptionHandler(IllegalArgumentException.class)
     ResponseEntity<?> handleIllegalArgument(IllegalArgumentException e) {
@@ -51,5 +52,11 @@ public class IllegalExceptionControllerAdvice {
     ResponseEntity<String> handleIllegalAccess(IllegalArgumentException e) {
         logger.error(e.getMessage());
         return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(BrewUpdateInterrupted.class)
+    ResponseEntity<String> handleBrewUpdateInterrupted(BrewUpdateInterrupted e) {
+        logger.error(e.getMessage());
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
