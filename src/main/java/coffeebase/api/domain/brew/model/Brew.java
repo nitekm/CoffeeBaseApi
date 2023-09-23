@@ -43,6 +43,10 @@ public class Brew extends BaseEntity<Long> {
 
     private String filter;
 
+    @Min(0)
+    @Max(100)
+    private Integer totalTime;
+
     @Enumerated(EnumType.ORDINAL)
     private BrewStatus status;
 
