@@ -1,11 +1,14 @@
 package coffeebase.api.domain.coffee.model;
 
+import coffeebase.api.domain.brew.model.Brew;
+import coffeebase.api.domain.brew.model.BrewDTO;
 import coffeebase.api.domain.tag.model.TagDTO;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
+import java.util.Set;
 
 public record CoffeeDTO(
         Long id,
@@ -23,5 +26,6 @@ public record CoffeeDTO(
         String farm,
         @Min(value = 0) @Max(value = 8849) Integer cropHeight,
         @Min(value = 0) @Max(value = 100) Integer scaRating,
-        List<TagDTO> tags
+        List<TagDTO> tags,
+        List<BrewDTO> brews
 ) {}

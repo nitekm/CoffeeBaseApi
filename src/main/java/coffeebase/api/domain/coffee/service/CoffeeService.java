@@ -1,6 +1,7 @@
 package coffeebase.api.domain.coffee.service;
 
 import coffeebase.api.aspect.accesscheck.AccessCheck;
+import coffeebase.api.domain.brew.BrewRepository;
 import coffeebase.api.domain.coffee.CoffeeRepository;
 import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,6 +31,7 @@ public class CoffeeService {
     private final CoffeeBaseFileService coffeeBaseFileService;
     private final TagRepository tagRepository;
     private final CoffeeMapper coffeeMapper;
+    private final BrewRepository brewRepository;
 
     public List<CoffeeDTO> getAllCoffees() {
         var user = getUserFromSecurityContext();
@@ -136,5 +139,21 @@ public class CoffeeService {
                 .filter(tag -> tag.getCoffees().size() == 1)
                 .filter(tag -> Objects.equals(tag.getCoffees().get(0).getId(), coffee.getId()))
                 .forEach(tagRepository::delete);
+    }
+
+    @AccessCheck
+    public CoffeeDTO addBrewToCoffee(CoffeeDTO coffeeDTO, Long brewId) {
+        return coffeeRepository.findById(coffeeDTO.id())
+                .map(coffee -> addBrewToCoffee(coffee, brewId))
+                .map(coffeeMapper::coffeeToDTO)
+                .orElseThrow(() -> new IllegalArgumentException("Provided brew or coffee does not exist"));
+
+    }
+
+    private Coffee addBrewToCoffee(Coffee coffee, Long brewId) {
+        brewRepository.findById(brewId)
+                .ifPresent(brew -> coffee.getBrews().add(brew));
+
+        return coffee;
     }
 }

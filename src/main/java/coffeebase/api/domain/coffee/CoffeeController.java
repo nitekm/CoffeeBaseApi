@@ -51,6 +51,12 @@ public class CoffeeController {
         return ResponseEntity.ok(coffeeService.updateCoffee(id, toUpdate, file));
     }
 
+    @PutMapping("/add-brew/{brewId}")
+    public ResponseEntity<CoffeeDTO> addBrewToCoffee(@PathVariable Long brewId, @RequestBody CoffeeDTO coffeeDTO) {
+        return ResponseEntity.ok(coffeeService.addBrewToCoffee(coffeeDTO, brewId));
+    }
+
+
     @PatchMapping("/{id}")
     public ResponseEntity<CoffeeDTO> switchFavourite(@PathVariable Long id) {
         return ResponseEntity.ok(coffeeService.switchFavourite(id));

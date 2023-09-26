@@ -5,6 +5,7 @@ import coffeebase.api.domain.brew.model.BrewMethod;
 import coffeebase.api.domain.brew.model.PourOver;
 import coffeebase.api.domain.brew.model.PourOverDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -20,7 +21,9 @@ public class TestBrewUtils {
                 null,
                 null,
                 null,
-                null
+                null,
+                new ArrayList<>(),
+                new ArrayList<>()
         );
     }
 
@@ -34,7 +37,9 @@ public class TestBrewUtils {
                 null,
                 null,
                 null,
-                null
+                null,
+                new ArrayList<>(),
+                new ArrayList<>()
         );
     }
 
@@ -48,7 +53,9 @@ public class TestBrewUtils {
                 null,
                 null,
                 null,
-                null
+                null,
+                new ArrayList<>(),
+                new ArrayList<>()
         );
     }
 
@@ -62,12 +69,14 @@ public class TestBrewUtils {
                 18,
                 27,
                 "v60 filter",
-                null
+                null,
+                new ArrayList<>(),
+                new ArrayList<>()
         );
     }
 
     public static BrewDTO createBrewDTOWithPourOvers(Long id) {
-        Set<PourOverDTO> pourOvers = Set.of(
+        List<PourOverDTO> pourOvers = List.of(
                 createPourOver("comment1"),
                 createPourOver("comment2"),
                 createPourOver("comment3")
@@ -81,7 +90,9 @@ public class TestBrewUtils {
                 null,
                 null,
                 null,
-                pourOvers
+                null,
+                pourOvers,
+                new ArrayList<>()
         );
     }
 

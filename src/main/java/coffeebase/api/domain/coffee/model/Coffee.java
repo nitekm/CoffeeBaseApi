@@ -1,24 +1,26 @@
 package coffeebase.api.domain.coffee.model;
 
 import coffeebase.api.domain.base.model.BaseEntity;
+import coffeebase.api.domain.brew.model.Brew;
 import coffeebase.api.domain.file.CoffeeBaseFile;
 import coffeebase.api.domain.tag.model.Tag;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "coffees")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
@@ -61,9 +63,17 @@ public class Coffee extends BaseEntity<Long> {
             joinColumns = @JoinColumn(name = "coffee_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private List<Tag> tags;
+    private List<Tag> tags = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "file_id")
     private CoffeeBaseFile coffeeBaseFile;
+
+    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "coffee_brew",
+            joinColumns = @JoinColumn(name = "coffee_id"),
+            inverseJoinColumns = @JoinColumn(name = "brew_id")
+    )
+    private List<Brew> brews = new ArrayList<>();
 }

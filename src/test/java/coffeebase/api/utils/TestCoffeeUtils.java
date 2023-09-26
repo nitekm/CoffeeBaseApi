@@ -37,6 +37,7 @@ public class TestCoffeeUtils {
                 null,
                 null,
                 null,
+                new ArrayList<>(),
                 new ArrayList<>());
     }
 
@@ -61,7 +62,8 @@ public class TestCoffeeUtils {
                 null,
                 null,
                 null,
-                tags);
+                tags,
+                new ArrayList<>());
     }
 
     public static CoffeeDTO createCoffeeDTOWithTags(String name, List<TagDTO> tags) {
@@ -81,6 +83,7 @@ public class TestCoffeeUtils {
                 null,
                 null,
                 null,
-                tags);
+                tags,
+                new ArrayList<>());
     }
 }

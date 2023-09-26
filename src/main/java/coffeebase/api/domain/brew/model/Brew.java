@@ -1,20 +1,20 @@
 package coffeebase.api.domain.brew.model;
 
 import coffeebase.api.domain.base.model.BaseEntity;
+import coffeebase.api.domain.coffee.model.Coffee;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -26,7 +26,7 @@ public class Brew extends BaseEntity<Long> {
     private BrewMethod method;
 
     @Min(0)
-    @Max(1500)
+    @Max(5000)
     private Integer waterAmountInMl;
 
     @Min(0)
@@ -51,7 +51,10 @@ public class Brew extends BaseEntity<Long> {
     private BrewStatus status;
 
     @OneToMany(mappedBy = "brew", cascade = CascadeType.ALL)
-    private Set<PourOver> pourOvers = new HashSet<>();
+    private List<PourOver> pourOvers = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "brews")
+    private List<Coffee> coffees;
 }
 
 
