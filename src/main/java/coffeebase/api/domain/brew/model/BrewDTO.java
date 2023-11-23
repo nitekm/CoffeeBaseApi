@@ -13,17 +13,18 @@ public record BrewDTO(
         Long id,
         String name,
         BrewMethod method,
-        @Min(0) @Max(5000)
+        @Min(1) @Max(5000)
         Integer waterAmountInMl,
-        @Min(0) @Max(100)
+        @Min(1) @Max(100)
         Integer waterTemp,
-        @Min(0) @Max(250)
+        @Min(1) @Max(250)
         Integer coffeeWeightInGrams,
-        @Min(0) @Max(100)
+        @Min(1) @Max(100)
         Integer grinderSetting,
         String filter,
-        @Min(0) @Max(100)
+        @Min(1) @Max(100)
         Integer totalTime,
+        BrewStatus status,
         List<PourOverDTO> pourOvers,
         List<CoffeeDTO> coffees
 )

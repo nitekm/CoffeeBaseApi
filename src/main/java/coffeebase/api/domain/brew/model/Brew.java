@@ -5,6 +5,7 @@ import coffeebase.api.domain.coffee.model.Coffee;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -22,32 +23,32 @@ public class Brew extends BaseEntity<Long> {
 
     private String name;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private BrewMethod method;
 
-    @Min(0)
+    @Min(1)
     @Max(5000)
     private Integer waterAmountInMl;
 
-    @Min(0)
+    @Min(1)
     @Max(100)
     private Integer waterTemp;
 
-    @Min(0)
+    @Min(1)
     @Max(250)
     private Integer coffeeWeightInGrams;
 
-    @Min(0)
+    @Min(1)
     @Max(100)
     private Integer grinderSetting;
 
     private String filter;
 
-    @Min(0)
+    @Min(1)
     @Max(100)
     private Integer totalTime;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private BrewStatus status;
 
     @OneToMany(mappedBy = "brew", cascade = CascadeType.ALL)

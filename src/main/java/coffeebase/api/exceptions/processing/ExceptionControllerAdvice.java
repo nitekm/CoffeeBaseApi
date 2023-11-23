@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.naming.SizeLimitExceededException;
 
 
-@RestControllerAdvice(annotations = IllegalExceptionProcessing.class)
+@RestControllerAdvice(annotations = ExceptionProcessing.class)
 public class ExceptionControllerAdvice {
 
     private final Logger logger = LoggerFactory.getLogger(ExceptionControllerAdvice.class);

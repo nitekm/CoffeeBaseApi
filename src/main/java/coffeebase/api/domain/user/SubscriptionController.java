@@ -2,7 +2,7 @@ package coffeebase.api.domain.user;
 
 import coffeebase.api.domain.user.model.SubscriptionDTO;
 import coffeebase.api.domain.user.service.UserService;
-import coffeebase.api.exceptions.processing.IllegalExceptionProcessing;
+import coffeebase.api.exceptions.processing.ExceptionProcessing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@IllegalExceptionProcessing
+@ExceptionProcessing
 @RequestMapping("/subscription")
 public class SubscriptionController {
 

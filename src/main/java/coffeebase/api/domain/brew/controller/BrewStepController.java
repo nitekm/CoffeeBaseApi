@@ -2,7 +2,7 @@ package coffeebase.api.domain.brew.controller;
 
 import coffeebase.api.domain.brew.model.BrewDTO;
 import coffeebase.api.domain.brew.service.BrewStepService;
-import coffeebase.api.exceptions.processing.IllegalExceptionProcessing;
+import coffeebase.api.exceptions.processing.ExceptionProcessing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@IllegalExceptionProcessing
+@ExceptionProcessing
 @RequestMapping("/brews/step/")
 @RequiredArgsConstructor
 public class BrewStepController {
