@@ -17,11 +17,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PourOver extends BaseEntity<Long> {
 
-    @Min(0)
-    @Max(60)
+    @Min(1)
+    @Max(600)
     private Integer time;
 
-    @Min(0)
+    @Min(1)
     @Max(1500)
     private Integer waterAmountInMl;
 

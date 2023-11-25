@@ -1,20 +1,20 @@
 package coffeebase.api.domain.brew.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum BrewMethod {
-    V60("V60"),
-    AEROPRESS("aeropress"),
-    COFFEE_MACHINE("espresso machine"),
-    FRENCHPRESS("french press"),
-    CAFETIERE("mokka pot"),
-    TURKISH_CAFE("tuklf");
-
-    BrewMethod(String value) {
-        this.value = value;
-    }
-
-    private String value;
-
-    private String getValue() {
-        return value;
-    }
+    @JsonProperty("aeropress")
+    AEROPRESS,
+    @JsonProperty("pour-over machine")
+    POUR_OVER_MACHINE,
+    @JsonProperty("chemex")
+    CHEMEX,
+    @JsonProperty("espresso machine")
+    ESPRESSO_MACHINE,
+    @JsonProperty("french press")
+    FRENCHPRESS,
+    @JsonProperty("mokka pot")
+    MOKKA_POT,
+    @JsonProperty("V60")
+    V60
 }
