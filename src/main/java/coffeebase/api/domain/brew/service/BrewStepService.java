@@ -4,11 +4,13 @@ import coffeebase.api.domain.brew.BrewRepository;
 import coffeebase.api.domain.brew.model.Brew;
 import coffeebase.api.domain.brew.model.BrewDTO;
 import coffeebase.api.domain.brew.model.BrewStatus;
+import coffeebase.api.domain.brew.model.PourOver;
 import coffeebase.api.exceptions.exception.BrewUpdateInterrupted;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -44,7 +46,19 @@ public class BrewStepService {
     private Brew updateBrew(Brew brew, BrewDTO update) {
         Brew updatedBrew = brewMapper.toEntityOmitId(update);
         updatedBrew.setId(brew.getId());
+        updatedBrew = calculateTotalTimeOnFinish(updatedBrew);
         return brewRepository.save(updatedBrew);
     }
 
+    private Brew calculateTotalTimeOnFinish(Brew updatedBrew) {
+        if (updatedBrew.getStatus() != BrewStatus.COMPLETED) {
+            return updatedBrew;
+        }
+        Integer totalTime = updatedBrew.getPourOvers().stream()
+                .map(PourOver::getTime)
+                .mapToInt(Integer::intValue)
+                .sum();
+        updatedBrew.setTotalTime(totalTime);
+        return updatedBrew;
+    }
 }

@@ -40,14 +40,4 @@ public class BrewService {
 
         return brew;
     }
-
-    public BrewDTO saveBrew(BrewDTO source) {
-        var brew = brewMapper.toEntity(source);
-
-        var savedBrew = brewRepository.save(brew);
-        log.info("Saved new brew");
-
-        return brewMapper.toDTO(savedBrew);
-    }
-
 }
