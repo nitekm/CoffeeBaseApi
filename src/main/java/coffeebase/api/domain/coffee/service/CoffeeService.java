@@ -90,6 +90,7 @@ public class CoffeeService {
     private CoffeeDTO updateCoffee(Coffee coffee, CoffeeDTO updated, MultipartFile image) {
         var updatedCoffee = coffeeMapper.dtoToCoffee(updated);
         updatedCoffee.setId(coffee.getId());
+        updatedCoffee.setBrews(coffee.getBrews());
 
         tagRepository.saveAll(updatedCoffee.getTags());
         saveImage(updatedCoffee, image);
@@ -139,21 +140,5 @@ public class CoffeeService {
                 .filter(tag -> tag.getCoffees().size() == 1)
                 .filter(tag -> Objects.equals(tag.getCoffees().get(0).getId(), coffee.getId()))
                 .forEach(tagRepository::delete);
-    }
-
-    @AccessCheck
-    public CoffeeDTO addBrewToCoffee(CoffeeDTO coffeeDTO, Long brewId) {
-        return coffeeRepository.findById(coffeeDTO.id())
-                .map(coffee -> addBrewToCoffee(coffee, brewId))
-                .map(coffeeMapper::coffeeToDTO)
-                .orElseThrow(() -> new IllegalArgumentException("Provided brew or coffee does not exist"));
-
-    }
-
-    private Coffee addBrewToCoffee(Coffee coffee, Long brewId) {
-        brewRepository.findById(brewId)
-                .ifPresent(brew -> coffee.getBrews().add(brew));
-
-        return coffee;
     }
 }

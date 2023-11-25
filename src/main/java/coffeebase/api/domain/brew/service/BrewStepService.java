@@ -39,12 +39,12 @@ public class BrewStepService {
     private BrewDTO createNewBrew() {
         final var brew = new Brew();
         brew.setStatus(BrewStatus.STARTED);
-        Brew newBrew = brewRepository.save(brew);
+        var newBrew = brewRepository.save(brew);
         return brewMapper.toDTO(newBrew);
     }
 
     private Brew updateBrew(Brew brew, BrewDTO update) {
-        Brew updatedBrew = brewMapper.toEntityOmitId(update);
+        var updatedBrew = brewMapper.toEntityOmitId(update);
         updatedBrew.setId(brew.getId());
         updatedBrew = calculateTotalTimeOnFinish(updatedBrew);
         return brewRepository.save(updatedBrew);
@@ -54,7 +54,7 @@ public class BrewStepService {
         if (updatedBrew.getStatus() != BrewStatus.COMPLETED) {
             return updatedBrew;
         }
-        Integer totalTime = updatedBrew.getPourOvers().stream()
+        var totalTime = updatedBrew.getPourOvers().stream()
                 .map(PourOver::getTime)
                 .mapToInt(Integer::intValue)
                 .sum();
