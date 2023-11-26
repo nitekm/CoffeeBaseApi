@@ -1,9 +1,6 @@
 package coffeebase.api.utils;
 
-import coffeebase.api.domain.brew.model.BrewDTO;
-import coffeebase.api.domain.brew.model.BrewMethod;
-import coffeebase.api.domain.brew.model.PourOver;
-import coffeebase.api.domain.brew.model.PourOverDTO;
+import coffeebase.api.domain.brew.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +10,7 @@ public class TestBrewUtils {
 
     public static BrewDTO createEmptyBrewDTO() {
         return new BrewDTO(
+                null,
                 null,
                 null,
                 null,
@@ -38,6 +36,7 @@ public class TestBrewUtils {
                 null,
                 null,
                 null,
+                null,
                 new ArrayList<>(),
                 new ArrayList<>()
         );
@@ -54,6 +53,7 @@ public class TestBrewUtils {
                 null,
                 null,
                 null,
+                BrewStatus.STARTED,
                 new ArrayList<>(),
                 new ArrayList<>()
         );
@@ -70,6 +70,7 @@ public class TestBrewUtils {
                 27,
                 "v60 filter",
                 null,
+                BrewStatus.IN_PROGRESS,
                 new ArrayList<>(),
                 new ArrayList<>()
         );
@@ -91,6 +92,7 @@ public class TestBrewUtils {
                 null,
                 null,
                 null,
+                BrewStatus.COMPLETED,
                 pourOvers,
                 new ArrayList<>()
         );
