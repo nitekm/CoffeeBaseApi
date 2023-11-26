@@ -2,7 +2,7 @@ package coffeebase.api.domain.coffee;
 
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
 import coffeebase.api.domain.coffee.service.CoffeeService;
-import coffeebase.api.exceptions.processing.IllegalExceptionProcessing;
+import coffeebase.api.exceptions.processing.ExceptionProcessing;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@IllegalExceptionProcessing
+@ExceptionProcessing
 @RequestMapping("/coffees")
 @Transactional
 @RequiredArgsConstructor

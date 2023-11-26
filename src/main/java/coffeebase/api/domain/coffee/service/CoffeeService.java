@@ -1,6 +1,7 @@
 package coffeebase.api.domain.coffee.service;
 
 import coffeebase.api.aspect.accesscheck.AccessCheck;
+import coffeebase.api.domain.brew.BrewRepository;
 import coffeebase.api.domain.coffee.CoffeeRepository;
 import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,6 +31,7 @@ public class CoffeeService {
     private final CoffeeBaseFileService coffeeBaseFileService;
     private final TagRepository tagRepository;
     private final CoffeeMapper coffeeMapper;
+    private final BrewRepository brewRepository;
 
     public List<CoffeeDTO> getAllCoffees() {
         var user = getUserFromSecurityContext();
@@ -87,6 +90,7 @@ public class CoffeeService {
     private CoffeeDTO updateCoffee(Coffee coffee, CoffeeDTO updated, MultipartFile image) {
         var updatedCoffee = coffeeMapper.dtoToCoffee(updated);
         updatedCoffee.setId(coffee.getId());
+        updatedCoffee.setBrews(coffee.getBrews());
 
         tagRepository.saveAll(updatedCoffee.getTags());
         saveImage(updatedCoffee, image);
