@@ -1,7 +1,6 @@
 package coffeebase.api.domain.brew.controller;
 
 import coffeebase.api.domain.brew.service.BrewAction;
-import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
 import coffeebase.api.domain.coffee.service.CoffeeMapper;
 import coffeebase.api.exceptions.processing.ExceptionProcessing;
@@ -24,7 +23,7 @@ public class BrewActionController {
     private final CoffeeMapper coffeeMapper;
 
     @PatchMapping
-    public CoffeeDTO linkCoffeeWithBrew(@RequestBody BrewActionDTO brewActionDTO) {
+    public CoffeeDTO executeBrewAction(@RequestBody BrewActionDTO brewActionDTO) {
             return brewActions.stream()
                     .filter(brewAction -> brewAction.actionTypeMatch(brewActionDTO))
                     .findFirst()

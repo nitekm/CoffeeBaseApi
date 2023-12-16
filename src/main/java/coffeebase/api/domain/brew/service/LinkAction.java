@@ -18,7 +18,7 @@ public class LinkAction extends BrewAction {
     }
 
     @Override
-    public Coffee prepareAction(Coffee coffee, Brew brew) {
+    public Coffee doAction(Coffee coffee, Brew brew) {
         coffee.getBrews().add(brew);
         return coffee;
     }
