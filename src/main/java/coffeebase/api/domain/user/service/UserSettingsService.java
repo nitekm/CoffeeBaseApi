@@ -38,7 +38,7 @@ public class UserSettingsService {
     private void deleteTags(String userId) {
         try {
             tagRepository.deleteAllByCreatedByUserId(userId);
-//            log.info("Tags for user %s deleted", userId);
+            log.info("Tags for user {} deleted", userId);
         } catch (Exception e) {
             throw new DeleteUnsuccessful();
         }
@@ -49,6 +49,7 @@ public class UserSettingsService {
                         .forEach(coffeeBaseFileService::delete);
         try {
             coffeeBaseFileRepository.deleteAllByCreatedByUserId(userId);
+            log.info("Files for user {} deleted", userId);
         } catch (Exception e) {
             throw new DeleteUnsuccessful();
         }
@@ -57,6 +58,7 @@ public class UserSettingsService {
     private void deleteCoffees(String userId) {
         try {
             coffeeRepository.deleteAllByCreatedByUserId(userId);
+            log.info("Coffees for user {} deleted", userId);
         } catch (Exception e) {
             throw new DeleteUnsuccessful();
         }
@@ -65,6 +67,7 @@ public class UserSettingsService {
     private void deleteBrews(String userId) {
         try {
             brewRepository.deleteAllByCreatedByUserId(userId);
+            log.info("Brews for user {} deleted", userId);
         } catch (Exception e) {
             throw new DeleteUnsuccessful();
         }
@@ -73,6 +76,7 @@ public class UserSettingsService {
     private void deleteUser(String userId) {
         try {
             userRepository.deleteByUserId(userId);
+            log.info("User {} deleted", userId);
         } catch (Exception e) {
             throw new DeleteUnsuccessful();
         }
