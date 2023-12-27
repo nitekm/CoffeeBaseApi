@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface BrewRepository extends JpaRepository<Brew, Long> {
     List<Brew> findAllByCreatedByUserIdAndStatus(String userId, BrewStatus status);
+
+    void deleteAllByCreatedByUserId(String userId);
 }
