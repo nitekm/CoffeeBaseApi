@@ -16,7 +16,7 @@ public class UserSettingsController {
 
     private final UserSettingsService userSettingsService;
 
-    @DeleteMapping
+    @DeleteMapping("delete-account")
     public ResponseEntity<Void> deleteUserAccount() {
         userSettingsService.deleteUserAccount();
         return ResponseEntity.noContent().build();
