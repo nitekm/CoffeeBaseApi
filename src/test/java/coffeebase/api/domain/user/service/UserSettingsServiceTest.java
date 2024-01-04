@@ -88,7 +88,7 @@ class UserSettingsServiceTest {
         user.setUserId(getUserId());
         user.setUsername("test");
         var subscription = new Subscription();
-        subscription.setActive(true);
+//        subscription.setActive(true);
         user.setSubscription(subscription);
 
         return userRepository.save(user);

@@ -9,6 +9,6 @@ public class Subscription {
 
     private String productId;
     private String purchaseToken;
-    private boolean active;
+//    private Boolean active;
     private String purchasedDate;
 }
