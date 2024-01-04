@@ -18,6 +18,8 @@ services:
       - .env
     depends_on:
       - mysql
+    networks:
+      - custom
 
   mysql:
     image: mysql:latest
@@ -26,11 +28,17 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: coffeebase_db
     ports:
-      - "3307:3307"
-    expose:
-      - "3007"
+      - "3307:3306"
     volumes:
       - mysql_coffeebase_data:/var/lib/mysql
+    networks:
+      - custom
 
 volumes:
   mysql_coffeebase_data:
+    
+networks:
+  custom:
+    name: dupa
+    external: false
+    driver: bridge
