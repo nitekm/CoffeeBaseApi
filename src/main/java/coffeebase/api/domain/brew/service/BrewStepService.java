@@ -9,9 +9,6 @@ import coffeebase.api.exceptions.exception.BrewUpdateInterrupted;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 @Service
 @AllArgsConstructor
 public class BrewStepService {
@@ -55,7 +52,7 @@ public class BrewStepService {
             return updatedBrew;
         }
         var totalTime = updatedBrew.getPourOvers().stream()
-                .map(PourOver::getTime)
+                .map(PourOver::getTimeInSeconds)
                 .mapToInt(Integer::intValue)
                 .sum();
         updatedBrew.setTotalTime(totalTime);

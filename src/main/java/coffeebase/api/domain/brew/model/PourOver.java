@@ -10,6 +10,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.Duration;
+
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
@@ -19,7 +21,7 @@ public class PourOver extends BaseEntity<Long> {
 
     @Min(1)
     @Max(600)
-    private Integer time;
+    private Duration timeInSeconds;
 
     @Min(1)
     @Max(1500)

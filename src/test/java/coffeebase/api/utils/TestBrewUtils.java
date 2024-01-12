@@ -98,6 +98,12 @@ public class TestBrewUtils {
         );
     }
 
+    public static Brew createExampleBrewWithRequiredFields() {
+        return Brew.builder()
+                .name("TEST BREW")
+                .build();
+    }
+
     private static PourOverDTO createPourOver(String comment) {
         return new PourOverDTO(30, 100, comment, null);
     }
