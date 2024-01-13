@@ -18,4 +18,6 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
                     "where t.created_by_user_id = :userId " +
                     "and upper(t.name) like upper(concat('%',:name,'%'))")
     List<Tag> findByName(@Param("name") String name, @Param("userId") String userId);
+
+    void deleteAllByCreatedByUserId(String userId);
 }
