@@ -19,7 +19,7 @@ public class PourOver extends BaseEntity<Long> {
 
     @Min(1)
     @Max(600)
-    private Integer time;
+    private Long timeInSeconds;
 
     @Min(1)
     @Max(1500)

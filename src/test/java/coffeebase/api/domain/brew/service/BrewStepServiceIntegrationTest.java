@@ -2,8 +2,6 @@ package coffeebase.api.domain.brew.service;
 
 import coffeebase.api.domain.brew.BrewRepository;
 import coffeebase.api.domain.brew.model.BrewDTO;
-import coffeebase.api.utils.TestBrewUtils;
-import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class BrewStepServiceTest {
+class BrewStepServiceIntegrationTest {
 
     @Autowired
     private BrewStepService brewStepService;

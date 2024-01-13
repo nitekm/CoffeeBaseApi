@@ -5,7 +5,7 @@ spring:
       hibernate.format_sql: true
   datasource:
     url: 'jdbc:mysql://localhost:3307/coffeebase_db'
-    username: ${sm://dbUser}
+    username: 'root'
     password: 'password'
 
 clientId: ${clientId}

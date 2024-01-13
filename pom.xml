@@ -75,6 +75,11 @@
             <version>0.9.1</version>
         </dependency>
         <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
@@ -157,7 +162,11 @@
                     <artifactId>spring-cloud-gcp-starter-sql-mysql</artifactId>
                     <version>${cloud.gcp.version}</version>
                 </dependency>
-
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-gcp-starter-secretmanager</artifactId>
+                    <version>${cloud.gcp.version}</version>
+                </dependency>
             </dependencies>
             <build>
                 <plugins>
