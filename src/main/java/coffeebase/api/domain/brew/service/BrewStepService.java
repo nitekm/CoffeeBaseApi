@@ -1,13 +1,12 @@
 package coffeebase.api.domain.brew.service;
 
 import coffeebase.api.domain.brew.BrewRepository;
-import coffeebase.api.domain.brew.model.Brew;
-import coffeebase.api.domain.brew.model.BrewDTO;
-import coffeebase.api.domain.brew.model.BrewStatus;
-import coffeebase.api.domain.brew.model.PourOver;
+import coffeebase.api.domain.brew.model.*;
 import coffeebase.api.exceptions.exception.BrewUpdateInterrupted;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.Duration;
 
 @Service
 @AllArgsConstructor
@@ -53,9 +52,12 @@ public class BrewStepService {
         }
         var totalTime = updatedBrew.getPourOvers().stream()
                 .map(PourOver::getTimeInSeconds)
-                .mapToInt(Integer::intValue)
+                .mapToLong(Long::longValue)
                 .sum();
-        updatedBrew.setTotalTime(totalTime);
+        Duration duration = Duration.ofSeconds(totalTime);
+        long minutes = duration.toMinutes();
+        long seconds = duration.minusMinutes(minutes).getSeconds();
+        updatedBrew.setTotalTime(minutes + ":" + seconds);
         return updatedBrew;
     }
 }
