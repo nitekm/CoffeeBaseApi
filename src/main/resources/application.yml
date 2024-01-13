@@ -1,4 +1,6 @@
 spring:
+  config:
+    import:
   main:
     banner-mode: off
   profiles:
