@@ -12,7 +12,6 @@
 
     <groupId>coffeebase</groupId>
     <artifactId>coffeebaseapi</artifactId>
-<!--    <version>1.7.0</version>-->
     <name>CoffeeBaseApi</name>
     <description>REST API for CoffeeBase Application</description>
 
