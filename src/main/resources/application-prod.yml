@@ -3,8 +3,8 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
   datasource:
-    username: ${sm://dbUser}
-    password: ${sm://dbPassword}
+    username: ${dbUser}
+    password: ${dbPassword}
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://google/coffeebase_db?socketFactory=com.google.cloud.sql.mysql.SocketFactory&cloudSqlInstance=coffeebase-379621:europe-central2:coffeebase-db
   cloud:
@@ -16,7 +16,7 @@ spring:
         instance-connection-name: coffeebase-379621:europe-central2:coffeebase-db
         database-name: coffeebase_db
 
-clientId: ${sm://clientId}
+clientId: ${clientId}
 fileService: gcp
 gcp:
   bucket:

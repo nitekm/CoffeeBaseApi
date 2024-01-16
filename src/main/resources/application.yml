@@ -1,4 +1,6 @@
 spring:
+  config:
+    import:
   main:
     banner-mode: off
   profiles:
@@ -10,3 +12,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    prometheus:
+      enabled: true

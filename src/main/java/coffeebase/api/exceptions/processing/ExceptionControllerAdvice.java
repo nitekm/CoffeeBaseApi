@@ -1,6 +1,7 @@
 package coffeebase.api.exceptions.processing;
 
 import coffeebase.api.exceptions.exception.BrewUpdateInterrupted;
+import coffeebase.api.exceptions.exception.DeleteUnsuccessful;
 import coffeebase.api.exceptions.exception.FileException;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
@@ -59,5 +60,11 @@ public class ExceptionControllerAdvice {
     ResponseEntity<String> handleBrewUpdateInterrupted(BrewUpdateInterrupted e) {
         logger.error(e.toString());
         return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(DeleteUnsuccessful.class)
+    ResponseEntity<String> handleDeleteUnsuccessful(DeleteUnsuccessful e) {
+        logger.error(e.toString());
+        return ResponseEntity.internalServerError().body(e.getMessage());
     }
 }
