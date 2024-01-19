@@ -5,11 +5,15 @@ import coffeebase.api.domain.brew.BrewRepository;
 import coffeebase.api.domain.coffee.CoffeeRepository;
 import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
+import coffeebase.api.domain.coffee.model.PageCoffeeRequest;
 import coffeebase.api.domain.file.CoffeeBaseFileService;
 import coffeebase.api.domain.tag.TagRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,8 +35,18 @@ public class CoffeeService {
     private final CoffeeBaseFileService coffeeBaseFileService;
     private final TagRepository tagRepository;
     private final CoffeeMapper coffeeMapper;
-    private final BrewRepository brewRepository;
 
+    public Page<CoffeeDTO> getAllCoffees(PageCoffeeRequest request) {
+        var user = getUserFromSecurityContext();
+        var pageRequest = PageRequest.of(
+                request.pageNumber(),
+                request.pageSize(),
+                Sort.by(Sort.Direction.valueOf(request.sortDirection()),request.sortProperty()));
+        return coffeeRepository.findAllByCreatedByUserId(user.getUserId(), pageRequest)
+                .map(coffeeMapper::coffeeToDTO);
+
+
+    }
     public List<CoffeeDTO> getAllCoffees() {
         var user = getUserFromSecurityContext();
         log.debug("Getting all coffees for user" + user.getUserId() + " CALLED!");

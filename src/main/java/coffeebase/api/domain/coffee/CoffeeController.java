@@ -1,10 +1,12 @@
 package coffeebase.api.domain.coffee;
 
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
+import coffeebase.api.domain.coffee.model.PageCoffeeRequest;
 import coffeebase.api.domain.coffee.service.CoffeeService;
 import coffeebase.api.exceptions.processing.ExceptionProcessing;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,11 @@ import java.util.List;
 public class CoffeeController {
 
     private final CoffeeService coffeeService;
+
+    @GetMapping
+    public ResponseEntity<Page<CoffeeDTO>> getAllCoffees(PageCoffeeRequest request) {
+        return ResponseEntity.ok(coffeeService.getAllCoffees(request));
+    }
 
     @GetMapping
     public ResponseEntity<List<CoffeeDTO>> getAllCoffees() {
