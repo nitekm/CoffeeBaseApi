@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
@@ -45,8 +46,8 @@ public class CoffeeService {
         return coffeeRepository.findAllByCreatedByUserId(user.getUserId(), pageRequest)
                 .map(coffeeMapper::coffeeToDTO);
 
-
     }
+
     public List<CoffeeDTO> getAllCoffees() {
         var user = getUserFromSecurityContext();
         log.debug("Getting all coffees for user" + user.getUserId() + " CALLED!");

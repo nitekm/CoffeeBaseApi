@@ -24,14 +24,9 @@ public class CoffeeController {
 
     private final CoffeeService coffeeService;
 
-    @GetMapping
-    public ResponseEntity<Page<CoffeeDTO>> getAllCoffees(PageCoffeeRequest request) {
+    @PostMapping("/find")
+    public ResponseEntity<Page<CoffeeDTO>> getAllCoffees(@RequestBody PageCoffeeRequest request) {
         return ResponseEntity.ok(coffeeService.getAllCoffees(request));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<CoffeeDTO>> getAllCoffees() {
-        return ResponseEntity.ok(coffeeService.getAllCoffees());
     }
 
     @GetMapping("/{id}")
