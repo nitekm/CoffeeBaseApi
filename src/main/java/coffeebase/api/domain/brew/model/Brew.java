@@ -5,13 +5,11 @@ import coffeebase.api.domain.coffee.model.Coffee;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -19,6 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 public class Brew extends BaseEntity<Long> {
 
     private String name;
@@ -44,9 +43,7 @@ public class Brew extends BaseEntity<Long> {
 
     private String filter;
 
-    @Min(1)
-    @Max(100)
-    private Integer totalTime;
+    private String totalTime;
 
     @Enumerated(EnumType.STRING)
     private BrewStatus status;

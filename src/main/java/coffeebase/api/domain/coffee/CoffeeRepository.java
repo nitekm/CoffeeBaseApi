@@ -64,4 +64,6 @@ public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
                     """
     )
     List<Coffee> findByFields(@Param("content") String content, @Param("userId") String userId);
+
+    void deleteAllByCreatedByUserId(String userId);
 }

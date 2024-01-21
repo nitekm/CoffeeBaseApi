@@ -30,8 +30,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         final String requestTokenHeader = request.getHeader("Authorization");
 
+
         if (requestTokenHeader == null || !requestTokenHeader.startsWith("Bearer ")) {
-            logger.warn("JWT Token does not begin with Bearer String");
+            logger.warn("JWT Token empty or does not begin with Bearer string, passing down filter chain");
+            chain.doFilter(request, response);
+            return;
         }
 
         try {
@@ -57,4 +60,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return request.getServletPath().startsWith("/actuator");
+    }
 }

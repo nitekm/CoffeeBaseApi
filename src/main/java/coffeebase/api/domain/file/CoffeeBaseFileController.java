@@ -27,7 +27,7 @@ public class CoffeeBaseFileController {
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
         } catch (IOException e) {
-            log.error("Unable to determine content type");
+            log.error("Unable to determine content type.Cause: " + e);
         }
 
         if (contentType == null) {

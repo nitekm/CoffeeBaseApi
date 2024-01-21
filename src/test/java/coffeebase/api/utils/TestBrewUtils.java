@@ -4,7 +4,6 @@ import coffeebase.api.domain.brew.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class TestBrewUtils {
 
@@ -78,9 +77,9 @@ public class TestBrewUtils {
 
     public static BrewDTO createBrewDTOWithPourOvers(Long id) {
         List<PourOverDTO> pourOvers = List.of(
-                createPourOver("comment1"),
-                createPourOver("comment2"),
-                createPourOver("comment3")
+                createPourOver30Sec100MlWithComment("comment1"),
+                createPourOver30Sec100MlWithComment("comment2"),
+                createPourOver30Sec100MlWithComment("comment3")
         );
         return new BrewDTO(
                 id,
@@ -98,7 +97,7 @@ public class TestBrewUtils {
         );
     }
 
-    private static PourOverDTO createPourOver(String comment) {
-        return new PourOverDTO(30, 100, comment, null);
+    private static PourOverDTO createPourOver30Sec100MlWithComment(String comment) {
+        return new PourOverDTO(30L, 100, comment, null);
     }
 }

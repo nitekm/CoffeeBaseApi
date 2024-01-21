@@ -14,12 +14,12 @@ public abstract class BrewAction {
     private final CoffeeRepository coffeeRepository;
 
     public Coffee executeAction(BrewActionDTO brewActionDTO) {
-           Brew brew = findBrew(brewActionDTO);
-           Coffee coffee = findCofffee(brewActionDTO);
-           Coffee preparedCoffee = prepareAction(coffee, brew);
+           var brew = findBrew(brewActionDTO);
+           var coffee = findCoffee(brewActionDTO);
+           var preparedCoffee = doAction(coffee, brew);
            return coffeeRepository.save(preparedCoffee);
     }
-    abstract Coffee prepareAction(Coffee coffee, Brew brew);
+    abstract Coffee doAction(Coffee coffee, Brew brew);
     abstract public boolean actionTypeMatch(BrewActionDTO brewActionDTO);
 
     private Brew findBrew(BrewActionDTO brewActionDTO) {
@@ -27,7 +27,7 @@ public abstract class BrewAction {
                 .orElseThrow(() -> new IllegalArgumentException("Brew with id " + brewActionDTO.brewId() + "not found"));
     }
 
-    private Coffee findCofffee(BrewActionDTO brewActionDTO) {
+    private Coffee findCoffee(BrewActionDTO brewActionDTO) {
         return coffeeRepository.findById(brewActionDTO.coffeeId())
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with id " + brewActionDTO.coffeeId() + "not found"));
     }
