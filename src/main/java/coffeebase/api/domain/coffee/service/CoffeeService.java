@@ -1,7 +1,6 @@
 package coffeebase.api.domain.coffee.service;
 
 import coffeebase.api.aspect.accesscheck.AccessCheck;
-import coffeebase.api.domain.brew.BrewRepository;
 import coffeebase.api.domain.coffee.CoffeeRepository;
 import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
@@ -15,13 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static coffeebase.api.utils.SecurityContextHelper.getUserFromSecurityContext;
@@ -43,6 +38,11 @@ public class CoffeeService {
                 request.pageNumber(),
                 request.pageSize(),
                 Sort.by(Sort.Direction.valueOf(request.sortDirection()),request.sortProperty()));
+        if (shouldApplyFilters(request)) {
+            return coffeeRepository.filterByParamsAndCreatedByUserId(user.getUserId(), request.favourite(),
+                            request.continent(), request.roastProfile(), pageRequest)
+                    .map(coffeeMapper::coffeeToDTO);
+        }
         return coffeeRepository.findAllByCreatedByUserId(user.getUserId(), pageRequest)
                 .map(coffeeMapper::coffeeToDTO);
 
@@ -155,5 +155,11 @@ public class CoffeeService {
                 .filter(tag -> tag.getCoffees().size() == 1)
                 .filter(tag -> Objects.equals(tag.getCoffees().get(0).getId(), coffee.getId()))
                 .forEach(tagRepository::delete);
+    }
+
+    private boolean shouldApplyFilters(PageCoffeeRequest request) {
+        return request.favourite() != null ||
+                request.continent() != null ||
+                request.roastProfile() != null;
     }
 }

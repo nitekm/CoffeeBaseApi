@@ -3,13 +3,13 @@ package coffeebase.api.domain.coffee;
 import coffeebase.api.domain.coffee.model.Coffee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -18,6 +18,38 @@ public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
     List<Coffee> findAllByCreatedByUserId(String userId);
 
     Page<Coffee> findAllByCreatedByUserId(String userId, Pageable pageable);
+
+    @Query(nativeQuery = true,
+            value = """
+                    SELECT c.id,
+                           c.created_at,
+                           c.created_by_user_id,
+                           c.updated_at,
+                           c.continent,
+                           c.crop_height,
+                           c.farm,               
+                           c.favourite,          
+                           c.name,              
+                           c.origin,            
+                           c.processing,        
+                           c.rating,             
+                           c.region,             
+                           c.roast_profile,      
+                           c.roaster,            
+                           c.sca_rating,          
+                           c.file_id           
+                    FROM coffees c 
+                    WHERE c.created_by_user_id = :userId
+                    AND (:favourite IS NULL OR c.favourite = :favourite)
+                    AND (:continent IS NULL OR upper(c.continent) = upper(:continent))
+                    AND (:roastProfile IS NULL OR upper(c.roast_profile) = upper(:roastProfile))
+                    """
+    )
+    Page<Coffee> filterByParamsAndCreatedByUserId(@Param("userId") String userId,
+                                                  @Param("favourite") Boolean favourite,
+                                                  @Param("continent") String continent,
+                                                  @Param("roastProfile") String roastProfile,
+                                                  Pageable pageable);
 
     @Query(nativeQuery = true,
             value = """
