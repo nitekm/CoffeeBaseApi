@@ -27,7 +27,7 @@ public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
                            c.updated_at,
                            c.continent,
                            c.crop_height,
-                           c.farm,               
+                           c.farm,                
                            c.favourite,          
                            c.name,              
                            c.origin,            
@@ -37,18 +37,18 @@ public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
                            c.roast_profile,      
                            c.roaster,            
                            c.sca_rating,          
-                           c.file_id           
+                           c.file_id     
                     FROM coffees c 
                     WHERE c.created_by_user_id = :userId
-                    AND (:favourite IS NULL OR c.favourite = :favourite)
-                    AND (:continent IS NULL OR upper(c.continent) = upper(:continent))
-                    AND (:roastProfile IS NULL OR upper(c.roast_profile) = upper(:roastProfile))
+                    AND (c.favourite IN :favourites)
+                    AND (c.continent IN :continents)
+                    AND (c.roast_profile IN :roastProfiles)
                     """
     )
     Page<Coffee> filterByParamsAndCreatedByUserId(@Param("userId") String userId,
-                                                  @Param("favourite") Boolean favourite,
-                                                  @Param("continent") String continent,
-                                                  @Param("roastProfile") String roastProfile,
+                                                  @Param("favourites") List<Boolean> favourites,
+                                                  @Param("continents") List<String> continents,
+                                                  @Param("roastProfiles") List<String> roastProfiles,
                                                   Pageable pageable);
 
     @Query(nativeQuery = true,

@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static coffeebase.api.domain.coffee.service.CoffeeRequestFilterProcessor.*;
 import static coffeebase.api.utils.SecurityContextHelper.getUserFromSecurityContext;
 
 @Service
@@ -38,15 +39,19 @@ public class CoffeeService {
                 request.pageNumber(),
                 request.pageSize(),
                 Sort.by(Sort.Direction.valueOf(request.sortDirection()),request.sortProperty()));
-        if (shouldApplyFilters(request)) {
-            return coffeeRepository.filterByParamsAndCreatedByUserId(user.getUserId(), request.favourite(),
-                            request.continent(), request.roastProfile(), pageRequest)
+        if (shouldApplyFilters(request.filters())) {
+            return coffeeRepository.filterByParamsAndCreatedByUserId(
+                    user.getUserId(),
+                            processFavourite(request.filters().get("favourite")),
+                            processFilters("continent", request.filters().get("continent")),
+                            processFilters("roastProfile", request.filters().get("roastProfile")),
+                             pageRequest)
                     .map(coffeeMapper::coffeeToDTO);
         }
         return coffeeRepository.findAllByCreatedByUserId(user.getUserId(), pageRequest)
                 .map(coffeeMapper::coffeeToDTO);
-
     }
+
 
     public List<CoffeeDTO> getAllCoffees() {
         var user = getUserFromSecurityContext();
@@ -155,11 +160,5 @@ public class CoffeeService {
                 .filter(tag -> tag.getCoffees().size() == 1)
                 .filter(tag -> Objects.equals(tag.getCoffees().get(0).getId(), coffee.getId()))
                 .forEach(tagRepository::delete);
-    }
-
-    private boolean shouldApplyFilters(PageCoffeeRequest request) {
-        return request.favourite() != null ||
-                request.continent() != null ||
-                request.roastProfile() != null;
     }
 }
