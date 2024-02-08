@@ -1,18 +1,17 @@
 package coffeebase.api.domain.coffee.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CoffeeRequestFilterProcessor {
 
-    public static boolean shouldApplyFilters(Map<String, List<String>> filters) {
+    public static boolean shouldApplyFilters(Map<String, Set<String>> filters) {
         return filters != null && filters.values().stream().anyMatch(list -> !list.isEmpty());
     }
-    public static List<Boolean> processFavourite(List<String> favouriteFilters) {
+    public static List<Boolean> processFavourite(Set<String> favouriteFilters) {
         if (favouriteFilters == null || favouriteFilters.isEmpty()) {
-            return Collections.singletonList(false);
+            return List.of(true, false);
         }
         List<Boolean> processedFilters = new ArrayList<>();
         favouriteFilters.forEach(filter -> {
@@ -25,11 +24,13 @@ public class CoffeeRequestFilterProcessor {
         return processedFilters;
     }
 
-    public static List<String> processFilters(String key, List<String> filters) {
+    public static Set<String> processFilters(String key, Set<String> filters) {
        if (filters == null || filters.isEmpty()) {
            return switch (key) {
-               case "continent" -> Collections.singletonList("Continent");
-               case "roastProfile" -> Collections.singletonList("Roast Profile");
+               case "continent" -> Stream.of("Continent", "Asia", "Africa", "South America")
+                       .collect(Collectors.toSet());
+               case "roastProfile" -> Stream.of("Roast Profile", "Light", "Dark", "Omniroast")
+                       .collect(Collectors.toSet());
                default -> filters;
            };
        }

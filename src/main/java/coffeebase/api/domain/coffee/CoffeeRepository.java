@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
@@ -50,6 +51,21 @@ public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
                                                   @Param("continents") List<String> continents,
                                                   @Param("roastProfiles") List<String> roastProfiles,
                                                   Pageable pageable);
+
+    @Query("""
+       SELECT c
+       FROM Coffee c 
+       WHERE c.createdByUserId = :userId
+       AND (c.favourite IN :favourites)
+       AND (c.continent IN :continents)
+       AND (c.roastProfile IN :roastProfiles)
+""")
+    Page<Coffee> filterByParamsAndCreatedByUserIdJPQL(
+            @Param("userId") String userId,
+            @Param("favourites") List<Boolean> favourites,
+            @Param("continents") Set<String> continents,
+            @Param("roastProfiles") Set<String> roastProfiles,
+            Pageable pageable);
 
     @Query(nativeQuery = true,
             value = """

@@ -35,13 +35,10 @@ public class CoffeeService {
 
     public Page<CoffeeDTO> getAllCoffees(PageCoffeeRequest request) {
         var user = getUserFromSecurityContext();
-        var pageRequest = PageRequest.of(
-                request.pageNumber(),
-                request.pageSize(),
-                Sort.by(Sort.Direction.valueOf(request.sortDirection()),request.sortProperty()));
+        var pageRequest = PageRequest.of(request.pageNumber(), request.pageSize(),
+                Sort.by(Sort.Direction.valueOf(request.sortDirection()), request.sortProperty()));
         if (shouldApplyFilters(request.filters())) {
-            return coffeeRepository.filterByParamsAndCreatedByUserId(
-                    user.getUserId(),
+            return coffeeRepository.filterByParamsAndCreatedByUserIdJPQL(user.getUserId(),
                             processFavourite(request.filters().get("favourite")),
                             processFilters("continent", request.filters().get("continent")),
                             processFilters("roastProfile", request.filters().get("roastProfile")),
