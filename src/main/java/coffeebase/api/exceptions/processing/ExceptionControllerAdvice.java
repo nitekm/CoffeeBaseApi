@@ -1,5 +1,6 @@
 package coffeebase.api.exceptions.processing;
 
+import coffeebase.api.domain.base.model.error.ErrorResponse;
 import coffeebase.api.exceptions.exception.BrewUpdateInterrupted;
 import coffeebase.api.exceptions.exception.DeleteUnsuccessful;
 import coffeebase.api.exceptions.exception.FileException;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.naming.SizeLimitExceededException;
+import java.time.LocalDateTime;
 
 
 @RestControllerAdvice(annotations = ExceptionProcessing.class)
@@ -20,51 +22,51 @@ public class ExceptionControllerAdvice {
     private final Logger logger = LoggerFactory.getLogger(ExceptionControllerAdvice.class);
 
     @ExceptionHandler(IllegalArgumentException.class)
-    ResponseEntity<?> handleIllegalArgument(IllegalArgumentException e) {
-        logger.error(e.toString());
-        e.printStackTrace();
-        return ResponseEntity.badRequest().body(e.getMessage());
+    ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException e) {
+        return logExceptionAndRespond(e, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    ResponseEntity<String> handleIllegalState(IllegalStateException e) {
-        logger.error(e.toString());
-        return ResponseEntity.badRequest().body(e.getMessage());
+    ResponseEntity<ErrorResponse> handleIllegalState(IllegalStateException e) {
+        return logExceptionAndRespond(e, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    ResponseEntity<String> handleConstraintViolation(ConstraintViolationException e) {
-        logger.error(e.toString());
-        return ResponseEntity.badRequest().body(e.getMessage());
+    ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException e) {
+        return logExceptionAndRespond(e, HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(SizeLimitExceededException.class)
-    ResponseEntity<String> handleSizeLimitExceededException(SizeLimitExceededException e) {
-        logger.error(e.toString());
-        return ResponseEntity.badRequest().body(e.getMessage());
+    ResponseEntity<ErrorResponse> handleSizeLimitExceededException(SizeLimitExceededException e) {
+        return logExceptionAndRespond(e, HttpStatus.PAYLOAD_TOO_LARGE);
     }
 
     @ExceptionHandler(FileException.class)
-    ResponseEntity<String> handleFileLoadException(FileException e) {
-        logger.error(e.toString());
-        return ResponseEntity.badRequest().body(e.getMessage());
+    ResponseEntity<ErrorResponse> handleFileLoadException(FileException e) {
+        return logExceptionAndRespond(e, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(IllegalAccessException.class)
-    ResponseEntity<String> handleIllegalAccess(IllegalArgumentException e) {
-        logger.error(e.toString());
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+    ResponseEntity<ErrorResponse> handleIllegalAccess(IllegalAccessException e) {
+        return logExceptionAndRespond(e, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(BrewUpdateInterrupted.class)
-    ResponseEntity<String> handleBrewUpdateInterrupted(BrewUpdateInterrupted e) {
-        logger.error(e.toString());
-        return ResponseEntity.badRequest().body(e.getMessage());
+    ResponseEntity<ErrorResponse> handleBrewUpdateInterrupted(BrewUpdateInterrupted e) {
+        return logExceptionAndRespond(e, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(DeleteUnsuccessful.class)
-    ResponseEntity<String> handleDeleteUnsuccessful(DeleteUnsuccessful e) {
-        logger.error(e.toString());
-        return ResponseEntity.internalServerError().body(e.getMessage());
+    ResponseEntity<ErrorResponse> handleDeleteUnsuccessful(DeleteUnsuccessful e) {
+        return logExceptionAndRespond(e, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private ResponseEntity<ErrorResponse> logExceptionAndRespond(Exception e, HttpStatus httpStatus) {
+        logger.error("An error has occurred", e);
+        var errorResponse = new ErrorResponse(LocalDateTime.now(),
+                httpStatus.value(),
+                httpStatus.getReasonPhrase(),
+                e.getMessage());
+        return new ResponseEntity<>(errorResponse, httpStatus);
     }
 }

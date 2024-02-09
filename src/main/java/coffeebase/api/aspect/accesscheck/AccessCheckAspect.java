@@ -7,6 +7,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
+import static coffeebase.api.domain.base.model.error.ErrorMessage.COFFEE_NOT_FOUND;
+import static coffeebase.api.domain.base.model.error.ErrorMessage.NOT_PERMITTED_TO_MODIFY;
 import static coffeebase.api.utils.SecurityContextHelper.getUserFromSecurityContext;
 
 @Aspect
@@ -20,10 +22,10 @@ public class AccessCheckAspect {
     public void checkAccess(JoinPoint joinPoint, Long id) throws IllegalAccessException {
         final var requestingUserId = getUserFromSecurityContext().getUserId();
         final var coffeeOwner = coffeeRepository.findCreatedByUserIdById(id)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException(COFFEE_NOT_FOUND.getMessage()));
 
         if (!coffeeOwner.equalsIgnoreCase(requestingUserId)) {
-            throw new IllegalAccessException();
+            throw new IllegalAccessException(NOT_PERMITTED_TO_MODIFY.getMessage());
         }
     }
 }

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static coffeebase.api.domain.base.model.error.ErrorMessage.USER_NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -28,7 +30,7 @@ public class UserService {
                 .map(user -> setSubscription(user, subscriptionDTO))
                 .map(User::getSubscription)
                 .map(subscriptionMapper::toDTO)
-                .orElseThrow(() -> new IllegalStateException("No user found by userId from context"));
+                .orElseThrow(() -> new IllegalStateException(USER_NOT_FOUND.getMessage()));
     }
 
     private User setSubscription(User user, SubscriptionDTO subscriptionDTO) {

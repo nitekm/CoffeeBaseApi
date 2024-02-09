@@ -11,6 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+import static coffeebase.api.domain.base.model.error.ErrorMessage.COULD_NOT_DELETE_FILE;
+import static coffeebase.api.domain.base.model.error.ErrorMessage.COULD_NOT_LOAD_FILE;
+
 @Slf4j
 @RequiredArgsConstructor
 public class GCPCoffeeBaseFileService implements CoffeeBaseFileService {
@@ -58,7 +61,7 @@ public class GCPCoffeeBaseFileService implements CoffeeBaseFileService {
             Blob gcpFile = storage.get(gcpFileId);
             return new ByteArrayResource(gcpFile.getContent());
         } catch (RuntimeException e) {
-            throw new FileException("Unable to load file " + fileName + " with cause " + e.getMessage());
+            throw new FileException(COULD_NOT_LOAD_FILE.getMessage());
         }
     }
 
@@ -67,7 +70,7 @@ public class GCPCoffeeBaseFileService implements CoffeeBaseFileService {
         try {
             storage.delete(BlobId.of(BUCKET_NAME, fileName));
         } catch (RuntimeException e) {
-            throw new FileException("Unable to delete file " + fileName + " with cause " + e.getMessage());
+            throw new FileException(COULD_NOT_DELETE_FILE.getMessage());
         }
     }
 }

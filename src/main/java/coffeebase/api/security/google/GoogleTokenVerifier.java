@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 
+import static coffeebase.api.domain.base.model.error.ErrorMessage.INVALID_TOKEN;
+
 @Component
 @RequiredArgsConstructor
 public class GoogleTokenVerifier {
@@ -34,7 +36,7 @@ public class GoogleTokenVerifier {
         //verify token from request
         GoogleIdToken idToken = verifier.verify(idTokenString);
         if (idToken == null) {
-            throw new IllegalAccessException("Invalid token");
+            throw new IllegalAccessException(INVALID_TOKEN.getMessage());
         }
 
         GoogleIdToken.Payload payload = idToken.getPayload();

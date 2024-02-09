@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static coffeebase.api.domain.base.model.error.ErrorMessage.NO_MATCHING_STRATEGY_FOR_BREW_ACTION;
+
 @RestController
 @ExceptionProcessing
 @RequestMapping("brews/execute-action")
@@ -29,6 +31,6 @@ public class BrewActionController {
                     .findFirst()
                     .map(brewAction -> brewAction.executeAction(brewActionDTO))
                     .map(coffeeMapper::coffeeToDTO)
-                    .orElseThrow(() -> new IllegalStateException("No matching startegy found to handle action" + brewActionDTO.brewActionType().name()));
+                    .orElseThrow(() -> new IllegalStateException(NO_MATCHING_STRATEGY_FOR_BREW_ACTION.getMessage()));
     }
 }

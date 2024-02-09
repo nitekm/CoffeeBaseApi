@@ -13,12 +13,28 @@ public class LoggerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
-        logger.info("[preHandle: " + request.getMethod() + " for " + request.getRequestURI() + "]");
+        logger.info("[ENDPOINT CALLED: {} @{}]", request.getMethod(), request.getMethod());
+        Long startTime = System.currentTimeMillis();
+        request.setAttribute("startTime", startTime);
         return true;
     }
 
     @Override
     public void afterCompletion(final HttpServletRequest request, final HttpServletResponse response, final Object handler, final Exception ex){
-        logger.info("[Completed: " + request.getMethod() + " for " + request.getRequestURI() + "]");
+        if (response.getStatus() >= 200 && response.getStatus() <= 300 && ex == null) {
+            logger.info("[SUCCESS: {} @{}, Http status: {}]", request.getMethod(), request.getRequestURI(), response.getStatus());
+        } else {
+            if (ex != null) {
+                logger.error("[ERROR: {} @{}, Http status: {}, Error Message: {}]",
+                        request.getMethod(), request.getRequestURI(), response.getStatus(), ex.getMessage());
+            } else {
+                logger.error("[ERROR: {} @{}, Http status: {}]",
+                        request.getMethod(), request.getRequestURI(), response.getStatus());
+            }
+        }
+        Long endTime = System.currentTimeMillis();
+        Long startTime = (Long) request.getAttribute("startTime");
+        Long executionTime = endTime - startTime;
+        logger.info("[EXECUTION TIME: {} ms]", executionTime);
     }
 }

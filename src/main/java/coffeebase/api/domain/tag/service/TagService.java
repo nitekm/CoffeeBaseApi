@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static coffeebase.api.domain.base.model.error.ErrorMessage.TAG_NOT_FOUND;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -39,7 +41,7 @@ public class TagService {
                     tagRepository.deleteById(id);
                     return true;
                 })
-                .orElseThrow(() -> new IllegalArgumentException("Tag with given id not found"));
+                .orElseThrow(() -> new IllegalArgumentException(TAG_NOT_FOUND.getMessage()));
         log.info("Delete tag with id: " + id + "CALLED!");
     }
 

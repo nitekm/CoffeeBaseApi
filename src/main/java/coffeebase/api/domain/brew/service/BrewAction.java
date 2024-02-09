@@ -7,6 +7,9 @@ import coffeebase.api.domain.coffee.CoffeeRepository;
 import coffeebase.api.domain.coffee.model.Coffee;
 import lombok.AllArgsConstructor;
 
+import static coffeebase.api.domain.base.model.error.ErrorMessage.BREW_NOT_FOUND;
+import static coffeebase.api.domain.base.model.error.ErrorMessage.COFFEE_NOT_FOUND;
+
 @AllArgsConstructor
 public abstract class BrewAction {
 
@@ -24,11 +27,11 @@ public abstract class BrewAction {
 
     private Brew findBrew(BrewActionDTO brewActionDTO) {
         return brewRepository.findById(brewActionDTO.brewId())
-                .orElseThrow(() -> new IllegalArgumentException("Brew with id " + brewActionDTO.brewId() + "not found"));
+                .orElseThrow(() -> new IllegalArgumentException(BREW_NOT_FOUND.getMessage()));
     }
 
     private Coffee findCoffee(BrewActionDTO brewActionDTO) {
         return coffeeRepository.findById(brewActionDTO.coffeeId())
-                .orElseThrow(() -> new IllegalArgumentException("Coffee with id " + brewActionDTO.coffeeId() + "not found"));
+                .orElseThrow(() -> new IllegalArgumentException(COFFEE_NOT_FOUND.getMessage()));
     }
 }

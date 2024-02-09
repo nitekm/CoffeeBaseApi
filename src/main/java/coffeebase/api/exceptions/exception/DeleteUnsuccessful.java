@@ -1,7 +1,9 @@
 package coffeebase.api.exceptions.exception;
 
+import static coffeebase.api.domain.base.model.error.ErrorMessage.DELETE_FAILED;
+
 public class DeleteUnsuccessful extends RuntimeException {
     public DeleteUnsuccessful() {
-        super("Delete operation failed");
+        super(DELETE_FAILED.getMessage());
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 
+import static coffeebase.api.domain.base.model.error.ErrorMessage.BREW_NOT_FOUND;
+
 @Service
 @AllArgsConstructor
 public class BrewStepService {
@@ -22,7 +24,7 @@ public class BrewStepService {
 
         return brewRepository.findById(brewDTO.id())
                 .map(brewMapper::toDTO)
-                .orElseThrow(() -> new IllegalArgumentException("Brew with given id not found"));
+                .orElseThrow(() -> new IllegalArgumentException(BREW_NOT_FOUND.getMessage()));
     }
 
     public BrewDTO finish(BrewDTO update) {

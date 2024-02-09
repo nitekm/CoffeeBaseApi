@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static coffeebase.api.domain.base.model.error.ErrorMessage.*;
+
 @Slf4j
 @RequiredArgsConstructor
 public class LocalCoffeeBaseFileService implements CoffeeBaseFileService {
@@ -60,10 +62,10 @@ public class LocalCoffeeBaseFileService implements CoffeeBaseFileService {
             if (urlResource.exists() && urlResource.isReadable()) {
                 return urlResource;
             } else {
-                throw new FileException("Could not load file " + filename + " because it does not exists or is not readable");
+                throw new FileException(FILE_UNREADABLE.getMessage());
             }
         } catch (IOException e) {
-            throw new FileException("Unable to load file " + filename + " with cause " + e.getMessage());
+            throw new FileException(COULD_NOT_LOAD_FILE.getMessage());
         }
     }
 
@@ -73,7 +75,7 @@ public class LocalCoffeeBaseFileService implements CoffeeBaseFileService {
         try {
             Files.deleteIfExists(path);
         } catch (IOException e) {
-            throw new FileException("Unable to delete file " + fileName + " with cause " + e.getMessage());
+            throw new FileException(COULD_NOT_DELETE_FILE.getMessage());
         }
     }
 }

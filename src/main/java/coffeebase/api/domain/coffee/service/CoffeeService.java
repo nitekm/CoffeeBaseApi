@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static coffeebase.api.domain.base.model.error.ErrorMessage.COFFEE_NOT_FOUND;
 import static coffeebase.api.domain.coffee.service.CoffeeRequestFilterProcessor.*;
 import static coffeebase.api.utils.SecurityContextHelper.getUserFromSecurityContext;
 
@@ -72,7 +73,7 @@ public class CoffeeService {
         log.debug("Getting coffee with id: " + id + " CALLED!");
         var coffee = coffeeRepository.findById(id)
                 .map(coffeeMapper::coffeeToDTO)
-                .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
+                .orElseThrow(() -> new IllegalArgumentException(COFFEE_NOT_FOUND.getMessage()));
 
         return coffee;
     }
@@ -101,7 +102,7 @@ public class CoffeeService {
         log.info("Updating coffee with id: " + id + " CALLED!");
         return coffeeRepository.findById(id)
                 .map(coffee -> updateCoffee(coffee, update, image))
-                .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
+                .orElseThrow(() -> new IllegalArgumentException(COFFEE_NOT_FOUND.getMessage()));
     }
 
     private CoffeeDTO updateCoffee(Coffee coffee, CoffeeDTO updated, MultipartFile image) {
@@ -120,7 +121,7 @@ public class CoffeeService {
         log.info("Switching favourites for coffee id: " + id + " CALLED!");
         return coffeeRepository.findById(id)
                 .map(this::switchFavouriteSaveAndMap)
-                .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
+                .orElseThrow(() -> new IllegalArgumentException(COFFEE_NOT_FOUND.getMessage()));
     }
 
     private CoffeeDTO switchFavouriteSaveAndMap(Coffee coffee) {

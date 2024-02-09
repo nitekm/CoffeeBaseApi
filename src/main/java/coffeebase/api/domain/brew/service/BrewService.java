@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static coffeebase.api.domain.base.model.error.ErrorMessage.BREW_NOT_FOUND;
+import static coffeebase.api.domain.base.model.error.ErrorMessage.COFFEE_NOT_FOUND;
 import static coffeebase.api.utils.SecurityContextHelper.getUserFromSecurityContext;
 
 @Service
@@ -37,7 +39,7 @@ public class BrewService {
         log.debug("Getting brew with id: " + id + " CALLED!");
         var brew = brewRepository.findById(id)
                 .map(brewMapper::toDTO)
-                .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
+                .orElseThrow(() -> new IllegalArgumentException(BREW_NOT_FOUND.getMessage()));
 
         return brew;
     }
