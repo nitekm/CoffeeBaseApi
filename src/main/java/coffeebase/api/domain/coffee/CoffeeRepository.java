@@ -67,7 +67,8 @@ public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
                     left join coffee_tag ct on c.id = ct.coffee_id
                     left join tags t on ct.tag_id = t.id
                     where c.created_by_user_id = :userId
-                    and upper(c.name) like upper(concat('%',:content,'%'))
+                    and (
+                    upper(c.name) like upper(concat('%',:content,'%'))
                     or upper(c.rating) like upper(concat('%',:content,'%'))
                     or upper(c.origin) like upper(concat('%',:content,'%'))
                     or upper(c.roaster) like upper(concat('%',:content,'%'))
@@ -78,6 +79,7 @@ public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
                     or upper(c.farm) like upper(concat('%',:content,'%'))
                     or upper(c.crop_height) like upper(concat('%',:content,'%'))
                     or upper(t.name) like upper(concat('%',:content,'%'))
+                    )
                     """
     )
     List<Coffee> findByFields(@Param("content") String content, @Param("userId") String userId);
