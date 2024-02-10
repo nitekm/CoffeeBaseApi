@@ -39,7 +39,7 @@ public class CoffeeService {
         var pageRequest = PageRequest.of(request.pageNumber(), request.pageSize(),
                 Sort.by(Sort.Direction.valueOf(request.sortDirection()), request.sortProperty()));
         if (shouldApplyFilters(request.filters())) {
-            return coffeeRepository.filterByParamsAndCreatedByUserIdJPQL(user.getUserId(),
+            return coffeeRepository.filterByParamsAndCreatedByUserId(user.getUserId(),
                             processFavourite(request.filters().get("favourite")),
                             processFilters("continent", request.filters().get("continent")),
                             processFilters("roastProfile", request.filters().get("roastProfile")),

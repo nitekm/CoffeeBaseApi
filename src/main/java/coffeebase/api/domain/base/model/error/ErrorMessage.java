@@ -1,5 +1,8 @@
 package coffeebase.api.domain.base.model.error;
 
+import lombok.Getter;
+
+@Getter
 public enum ErrorMessage {
     NOT_PERMITTED_TO_MODIFY("User is not permitted to modify given item"),
     BREW_NOT_FOUND("Brew with given ID not found"),
@@ -18,9 +21,5 @@ public enum ErrorMessage {
     private final String message;
     ErrorMessage(String message) {
         this.message = message;
-    }
-
-    public String getMessage() {
-        return this.message;
     }
 }

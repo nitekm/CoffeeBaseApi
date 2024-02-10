@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -20,47 +19,16 @@ public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
 
     Page<Coffee> findAllByCreatedByUserId(String userId, Pageable pageable);
 
-    @Query(nativeQuery = true,
-            value = """
-                    SELECT c.id,
-                           c.created_at,
-                           c.created_by_user_id,
-                           c.updated_at,
-                           c.continent,
-                           c.crop_height,
-                           c.farm,                
-                           c.favourite,          
-                           c.name,              
-                           c.origin,            
-                           c.processing,        
-                           c.rating,             
-                           c.region,             
-                           c.roast_profile,      
-                           c.roaster,            
-                           c.sca_rating,          
-                           c.file_id     
-                    FROM coffees c 
-                    WHERE c.created_by_user_id = :userId
-                    AND (c.favourite IN :favourites)
-                    AND (c.continent IN :continents)
-                    AND (c.roast_profile IN :roastProfiles)
-                    """
-    )
-    Page<Coffee> filterByParamsAndCreatedByUserId(@Param("userId") String userId,
-                                                  @Param("favourites") List<Boolean> favourites,
-                                                  @Param("continents") List<String> continents,
-                                                  @Param("roastProfiles") List<String> roastProfiles,
-                                                  Pageable pageable);
-
-    @Query("""
+    @Query(
+       """
        SELECT c
        FROM Coffee c 
        WHERE c.createdByUserId = :userId
        AND (c.favourite IN :favourites)
        AND (c.continent IN :continents)
        AND (c.roastProfile IN :roastProfiles)
-""")
-    Page<Coffee> filterByParamsAndCreatedByUserIdJPQL(
+       """)
+    Page<Coffee> filterByParamsAndCreatedByUserId(
             @Param("userId") String userId,
             @Param("favourites") List<Boolean> favourites,
             @Param("continents") Set<String> continents,
@@ -77,23 +45,24 @@ public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
 
     @Query(nativeQuery = true,
             value = """
-                    select c.id,
-                           c.created_at,
-                           c.created_by_user_id,
-                           c.updated_at,
-                           c.continent,
-                           c.crop_height,
-                           c.farm,                
-                           c.favourite,          
-                           c.name,              
-                           c.origin,            
-                           c.processing,        
-                           c.rating,             
-                           c.region,             
-                           c.roast_profile,      
-                           c.roaster,            
-                           c.sca_rating,          
-                           c.file_id           
+                    select distinct 
+                        c.id,
+                        c.created_at,
+                        c.created_by_user_id,
+                        c.updated_at,
+                        c.continent,
+                        c.crop_height,
+                        c.farm,                
+                        c.favourite,          
+                        c.name,              
+                        c.origin,            
+                        c.processing,        
+                        c.rating,             
+                        c.region,             
+                        c.roast_profile,      
+                        c.roaster,            
+                        c.sca_rating,          
+                        c.file_id           
                     from coffees c
                     left join coffee_tag ct on c.id = ct.coffee_id
                     left join tags t on ct.tag_id = t.id
