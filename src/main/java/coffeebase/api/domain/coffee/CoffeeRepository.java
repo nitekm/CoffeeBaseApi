@@ -15,8 +15,6 @@ import java.util.Set;
 @Repository
 public interface CoffeeRepository extends JpaRepository<Coffee, Long> {
 
-    List<Coffee> findAllByCreatedByUserId(String userId);
-
     Page<Coffee> findAllByCreatedByUserId(String userId, Pageable pageable);
 
     @Query(

@@ -50,22 +50,13 @@ public class CoffeeService {
                 .map(coffeeMapper::coffeeToDTO);
     }
 
-
-    public List<CoffeeDTO> getAllCoffees() {
+    public List<CoffeeDTO> search(String content) {
         var user = getUserFromSecurityContext();
-        log.debug("Getting all coffees for user" + user.getUserId() + " CALLED!");
-
-        return coffeeRepository.findAllByCreatedByUserId(user.getUserId())
+        log.debug("Searching by" + content + " CALLED!");
+        return coffeeRepository.findByFields(content, user.getUserId())
                 .stream()
                 .map(coffeeMapper::dtoForCoffeeList)
                 .collect(Collectors.toList());
-    }
-
-    public List<CoffeeDTO> search(String content) {
-        if (content.isBlank()) {
-            return getAllCoffees();
-        }
-        return searchByContent(content);
     }
 
     @AccessCheck
@@ -140,15 +131,6 @@ public class CoffeeService {
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Coffee with given id not found"));
         log.info("Delete coffee with id: " + id + "CALLED!");
-    }
-
-    private List<CoffeeDTO> searchByContent(String content) {
-        var user = getUserFromSecurityContext();
-        log.debug("Searching by" + content + " CALLED!");
-        return coffeeRepository.findByFields(content, user.getUserId())
-                .stream()
-                .map(coffeeMapper::dtoForCoffeeList)
-                .collect(Collectors.toList());
     }
 
     private void deleteRelated(Coffee coffee) {
