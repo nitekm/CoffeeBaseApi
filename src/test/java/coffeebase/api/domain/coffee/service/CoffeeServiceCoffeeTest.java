@@ -137,7 +137,7 @@ class CoffeeServiceCoffeeTest {
         //then
         assertEquals(coffees.size()-1, coffeeService.getAllCoffees(
                 new PageCoffeeRequest(20, 0,
-                        "id", "asc",
+                        "id", "ASC",
                         new HashMap<>())
         ).toList().size());
     }
