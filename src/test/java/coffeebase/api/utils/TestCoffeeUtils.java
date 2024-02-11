@@ -4,6 +4,8 @@ import coffeebase.api.domain.coffee.model.Coffee;
 import coffeebase.api.domain.coffee.model.CoffeeDTO;
 import coffeebase.api.domain.tag.model.Tag;
 import coffeebase.api.domain.tag.model.TagDTO;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +20,26 @@ public class TestCoffeeUtils {
                 .name(name)
                 .createdByUserId(getUserId())
                 .build();
+    }
+
+    public static Coffee createCoffeeWithProperties(String name, Double rating, Boolean favourite, String origin,
+                                                    String roaster, String processing, String roastProfile, String region,
+                                                    String continent, String farm, Integer cropHeight, Integer scaRating) {
+        var coffee = new Coffee();
+        coffee.setName(name);
+        coffee.setRating(rating);
+        coffee.setFavourite(favourite);
+        coffee.setOrigin(origin);
+        coffee.setRoaster(roaster);
+        coffee.setProcessing(processing);
+        coffee.setRoastProfile(roastProfile);
+        coffee.setRegion(region);
+        coffee.setContinent(continent);
+        coffee.setFarm(farm);
+        coffee.setCropHeight(cropHeight);
+        coffee.setScaRating(scaRating);
+
+        return coffee;
     }
 
     public static CoffeeDTO createCoffeeDTO(String name) {
