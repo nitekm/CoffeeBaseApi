@@ -1,5 +1,6 @@
 runtime: java17
 env: standard
+instance_class: F4
 runtime_config:
   operating_system: "ubuntu22"
   runtime_version: "17"
