@@ -39,6 +39,8 @@ For client side of this project please see: <a href="https://github.com/nitekm/C
  * H2 Database
 #### Development:
  * Docker
+#### Production:
+ * Glorious Google Cloud Platform with all of its' features and costs...
 
 ## Details
 ### Data Layer
