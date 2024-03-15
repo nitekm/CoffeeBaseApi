@@ -5,7 +5,7 @@ CoffeeBaseAPI is a REST API for Android app CoffeeBase.
 It is responsible for all the application logic.
 The app's main functionalities include saving all possible information and coffees with a photo, tagging them, creating custom brewing methods, etc.
 
-## Application Preview
+## Application Overview
 The app's main functionalities include saving all possible information and coffees with a photo, tagging them, creating custom brewing methods, etc.
 The user can also add coffees to favorites and their browsing is facilitated by searching, appropriate sorting and filters. 
 The application also has clear error handling and is secured with OAuth2, using Google tokens for authentication. 
