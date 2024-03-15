@@ -1,87 +1,76 @@
 # CoffeeBaseAPI
 
 ## Project info
-CoffeeBaseAPI is a REST API for Android app CoffeeBase, it uses CRUD operations to serve as backend of the app.
-It enables to store coffee information in database and handles user requests made from the Android app such as:
-* Create new coffee
-* Retrieve all coffees and information about them
-* Add coffee to favourites
-* Delete coffee
-* Edit coffee
-* Assign coffees to certain groups
+CoffeeBaseAPI is a REST API for Android app CoffeeBase.
+It is responsible for all the application logic.
+The app's main functionalities include saving all possible information and coffees with a photo, tagging them, creating custom brewing methods, etc.
 
 ## Application Preview
-User can create coffee with information like name, origin, roaster, rate coffee and provide imageUrl for pretty display 
-in Android app. There is also option to mark coffee as favourite.
-User can create various coffee groups and assign coffees to them to keep it all organised.
-Coffee can belong to many groups (but only one of given type) and every group can have multiple coffees.
+The app's main functionalities include saving all possible information and coffees with a photo, tagging them, creating custom brewing methods, etc.
+The user can also add coffees to favorites and their browsing is facilitated by searching, appropriate sorting and filters. 
+The application also has clear error handling and is secured with OAuth2, using Google tokens for authentication. 
+The whole thing has the ability to be built from a docker image, with its own data volume. For easy deployment in production, it uses the Maven plugin for Google Cloud Platform, which automatically tests, builds and exposes a new version of the application in one command with the appropriate Maven profile.
 
-For client side of this project please see: <a href="https://github.com/nitekm/CoffeeBase">CoffeeBase Android App</a>
+For client side of this project please see: <a href="https://github.com/nitekm/CoffeeBase">CoffeeBase Android App</a> OR <a href="https://github.com/nitekm/CoffeeBaseNew">New Android App written in Kotlin with Compose!</a>
 
 ## Application Overview
-### Main Technology Stack:
-* Java 11
-* Spring Boot 2.4.3
-* MySql 8.0
+### Technology Stack:
+#### General:
+ * Java 17
+ * Spring Boot 3.0.0
+ * AOP
+ * Lombok
+ * Mapstruct
+#### Data layer:
+ * Hibernate
+ * MySql 8.0
+ * Jakarta Validation
+#### Security:
+ * Spring Security
+ * OAuth2
+ * JWT
+#### Monitoring:
+ * Actuator
+ * Prometheus
+ * Grafana
+#### Testing:
+ * Junit5
+ * Mockito
+ * H2 Database
+#### Development:
+ * Docker
 
-### Dependencies
-* Spring Web
-* Validation
-* Spring Data JPA
-* H2 Database
-* MySql Driver
-* Flyway Migration
+## Details
+### Data Layer
+The data layer is based on MySQL connected to the application using Hibernate. Used both by default and using native queries and JPQL/HQL queries to get a little better query optimization.
+Tables has appropriate constraints to not allow user to do nonsense.
+Also basic auditing is done by automatically saved information like who created/updated given record as well as time of creation or last update.
 
-### Data Persistence
-App uses MySql hosted on local PC in prod env and H2 database in local env 
-for tests and new feature development purposes. Connection between app and database achieved 
-by Hibernate and JPA which I find most convenient way to do it.
-On application start app updates database schema if needed.  
-Flyway does persist our database schemas in case of any emergency and help us keep consistency in both local and prod
-environments.
+### Monitoring
+App has setup actuator with prometheus. It's configured to be able to display metrics via tool like Grafana.
 
-#### Database
-Many-to-Many relationship with 2 main tables: coffees and coffee_groups, also 3rd table (coffee_coffee_group) to provide 
-connection between 2 main ones.
+### Testing
+App has test coverage both unit and integration for business logic and service layer to data layer communication.
+For testing purposes H2 database is used.
 
-### Auditing
-I've made an audit class marked as @Embeddable to allow JPA include audits in database to track when data has been
-created and updated. These fields have been marked with @PrePersist(createdOn) and @PreUpdate(updatedOn).
+### Security
+Security is handled via Google API for authentication Google users. When user first login app checks with Google if this is valid person with Google Account. 
+After that app generates JWT token with all informations needed which is then used in every request to authenticate author who is making given call.
 
-### Logging
-Logging done via interceptors. LoggerInterceptor intercepts every call to API and logs it, and it's status on console
-before execution (preHandle) and after completion (completed)
+### AOP
+AOP is used for things like:
+Logging - performs log outputs on every Controller call with result and time of execution
+Security - app checks specified calls to make sure no someone else's data will be exposed to unauthorized user.
+Auditing - adding auditing fields like createdBy.
 
-### Tests
-Methods in CoffeeService have been tested using JUnit5 and Mockito.  
-Integration tests in safe environment tested various api calls and data persistence. 
+### Dev environment
+Dev environment is setup by using only one docker command. Dockerfile is declared to build application and create image.
+Docker compose is configured to launch both app image and database image with it's own volume in single container.
 
-## API Requests
-Below are all requests that API handles. API returns JSON and different HTTP codes with adequate messages depending on request success
+### Prod environment
+For production environment Google Cloud Platform is used. Thanks to maven profile and gcp plugin app can be tested, built and deployed in single command.
+It uses GCPs: App Engine, Cloud SQL, Logging, Monitoring (with allerts) and cost control.
 
-#### Coffee:
-* GET: /coffees - returns all coffees
-* GET: /coffees/{id} - returns single coffee
-* POST: /coffees - adds coffee to database with following data:
-    - name (String, required)
-    - origin (String, optional)
-    - roaster (String, optional)
-    - rating (int, optional)
-    - imageUrl (String, optional)
-    
-* PUT: /coffees/{id} - updates existing coffee
-* DELETE: /coffees/{id} - deletes coffee based on id
-* PATCH : /coffees/{id} - changes "favourite" field value (true/false) on given id
-* PATCH: /coffees/{id}/{groupName} - adds coffee to group "groupName"
-
-#### Coffee Group:
-* GET: /groups - returns all groups
-* GET: /groups/{id} - returns single group
-* POST: /groups - adds new group with following data:
-    - name (String, required),
-    - groupType (enum: METHOD, ORIGIN, ROASTER; optional)
-    
-* DELETE: /groups/{id} - deletes group based on id
 
 
 
